@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace TengoDotNetCore.Common.MyController {
+namespace TengoDotNetCore.Controllers {
     public class BaseController : Controller {
 
         #region Session相关

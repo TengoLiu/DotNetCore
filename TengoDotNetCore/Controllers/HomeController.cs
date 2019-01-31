@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Text;
-using TengoDotNetCore.Common.MyController;
 using TengoDotNetCore.Models;
 
 namespace TengoDotNetCore.Controllers {

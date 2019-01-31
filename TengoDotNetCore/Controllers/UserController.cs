@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using TengoDotNetCore.BLL;
 
 namespace TengoDotNetCore.Controllers {
-    public class UserController : Controller {
+    public class UserController : BaseController {
 
         private UserBLL _bll;
 
@@ -18,7 +18,7 @@ namespace TengoDotNetCore.Controllers {
         }
 
         public IActionResult Index() {
-            
+
             return View();
         }
     }
