@@ -1,0 +1,5 @@
+/.vs
+/TengoDotNetCore/bin/
+/TengoDotNetCore/obj/
+/TengoDotNetCore/.vs/
+/TengoDotNetCore/Migrations
