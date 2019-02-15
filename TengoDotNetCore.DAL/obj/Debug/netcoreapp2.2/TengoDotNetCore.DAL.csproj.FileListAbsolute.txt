@@ -1,8 +1,0 @@
-D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.DAL\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Hosting.dll
-D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.DAL\bin\Debug\netcoreapp2.2\TengoDotNetCore.Common.dll
-D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.DAL\bin\Debug\netcoreapp2.2\TengoDotNetCore.Models.dll
-D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.DAL\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Hosting.xml
-D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.DAL\obj\Debug\netcoreapp2.2\TengoDotNetCore.DAL.csprojAssemblyReference.cache
-D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.DAL\obj\Debug\netcoreapp2.2\TengoDotNetCore.DAL.csproj.CoreCompileInputs.cache
-D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.DAL\obj\Debug\netcoreapp2.2\TengoDotNetCore.DAL.AssemblyInfoInputs.cache
-D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.DAL\obj\Debug\netcoreapp2.2\TengoDotNetCore.DAL.AssemblyInfo.cs
