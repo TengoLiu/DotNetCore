@@ -20,10 +20,18 @@ namespace TengoDotNetCore {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
+
+            //这个方法用于注入一个默认的Cookie策略配置，配置Cookie的共通属性
             services.Configure<CookiePolicyOptions>(options => {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                // 此lambda确定给定请求是否需要非必需cookie的用户同意。
-                options.CheckConsentNeeded = context => true;
+                /*
+                 * This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                 * 此lambda确定给定请求是否需要非必需cookie的用户同意。
+                 * 我的解释：ASP.NET CORE支持欧洲常规数据保护法规 (GDPR)，即在客户端存储Cookie需要经过用户的同意。
+                 * 万一用户不同意，我连SessionId都没法存了？
+                 * 当然，是有办法跳过的，我们可以设置下面这个lambda，指定存储Cookie是否一定要经过客户同意。
+                 * 如果是True的话，那么要经过用户同意才能存；false则不管你同意不同意，都存。
+                 */
+                options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
@@ -111,16 +119,18 @@ namespace TengoDotNetCore {
              *  Adds the Microsoft.AspNetCore.CookiePolicy.CookiePolicyMiddleware handler to
              *  the specified Microsoft.AspNetCore.Builder.IApplicationBuilder, which enables
              *  cookie policy capabilities.
+             *  
+             *  大意：指定并启用微软的Cookie策略中间件Microsoft.AspNetCore.CookiePolicy，用于处理一切Cookie的问题
              */
             app.UseCookiePolicy();
 
             /*
              * 启用Session，如果不配置这一句的话，在处理HTTP请求的时候，读写Session都会报错！
-             * 而且这一句必须在Cookie之后，因为没有Cookie就没有Session！
+             * 而且这一句必须在Cookie之后，因为没有Cookie就存不了SessionID,也就没有Session！
              */
             app.UseSession();
 
-            //因为web项目不一定说就只能是MVC！Web不只是MVC，因此这里要配置使用MVC路由
+            //因为web项目不仅仅是MVC！因此这里要配置使用MVC，并且添加一个默认的路由
             app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "default",
