@@ -1,14 +1,26 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Text;
 using TengoDotNetCore.Models;
 
 namespace TengoDotNetCore.Controllers {
     public class HomeController : BaseController {
+
+        public HomeController() {
+        }
+
         public IActionResult Index() {
-            HttpContext.Session.Set("hello", Encoding.Default.GetBytes("hello world"));
-            ViewBag.Hello = HttpContext.Session.GetString("hello");
+            //HttpContext.Session.Set("hello", Encoding.Default.GetBytes("hello world"));
+            //ViewBag.Hello = HttpContext.Session.GetString("hello");
+
+            return View();
+        }
+
+        public IActionResult About() {
+            return View();
+        }
+
+        public IActionResult Contract() {
             return View();
         }
 

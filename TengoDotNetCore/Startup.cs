@@ -6,9 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using TengoDotNetCore.DAL;
-using TengoDotNetCore.DAL.Impl;
-using TengoDotNetCore.DAL.Impl.MyDbContext;
+using TengoDotNetCore.MyDbContext;
+using TengoDotNetCore.Service.Impl;
 
 namespace TengoDotNetCore {
     public class Startup {
@@ -54,11 +53,17 @@ namespace TengoDotNetCore {
             //初始化数据库配置
             var connection = Configuration.GetConnectionString("DefaultConnectionString");
             //然后注册DbContext到容器中，后面如果哪个地方要使用的话，就能直接给其注入了
-            services.AddDbContext<TengoDbContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<TengoDbContext>(options => {
+                //官方说明：在查询中使用row_number（）而不是offset/fetch。此方法向后兼容到SQL Server 2005。
+                //第二个参数如果不写，那么如果是SQLSERVER2008的话，skip.take分页将无法使用，会有兼容问题
+                options.UseSqlServer(connection, a => a.UseRowNumberForPaging());
+            });
 
 
             #region 自己注册的依赖注入
-
+            //配置依赖注入的两种写法，后者代码简洁一些
+            //services.AddScoped(typeof(IUserService), typeof(UserService));
+            services.AddScoped<IUserService, UserService>();
             #endregion
         }
 
