@@ -11,7 +11,7 @@ namespace TengoDotNetCore.MyDbContext {
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Goods> Goods { get; set; }
 
         public DbSet<Address> Addresses { get; set; }
 

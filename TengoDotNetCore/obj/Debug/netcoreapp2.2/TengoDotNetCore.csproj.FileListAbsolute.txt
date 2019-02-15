@@ -98,6 +98,5 @@ C:\Users\Administrator\Source\Repos\TengoLiu\DotNetCore\TengoDotNetCore\obj\Debu
 C:\Users\Administrator\Source\Repos\TengoLiu\DotNetCore\TengoDotNetCore\obj\Debug\netcoreapp2.2\Razor\Views\Home\Contract.g.cshtml.cs
 C:\Users\Administrator\Source\Repos\TengoLiu\DotNetCore\TengoDotNetCore\obj\Debug\netcoreapp2.2\TengoDotNetCore.csprojAssemblyReference.cache
 C:\Users\Administrator\Source\Repos\TengoLiu\DotNetCore\TengoDotNetCore\obj\Debug\netcoreapp2.2\Razor\Views\Home\About.g.cshtml.cs
-D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore\obj\Debug\netcoreapp2.2\TengoDotNetCore.csprojAssemblyReference.cache
 D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore\obj\Debug\netcoreapp2.2\Razor\Views\Home\About.g.cshtml.cs
 D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore\obj\Debug\netcoreapp2.2\Razor\Views\Home\Contract.g.cshtml.cs

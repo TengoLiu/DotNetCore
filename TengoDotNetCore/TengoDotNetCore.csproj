@@ -12,6 +12,10 @@
     <None Remove="DAL\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Models\Product.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
