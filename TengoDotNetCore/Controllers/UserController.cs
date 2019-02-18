@@ -16,7 +16,7 @@ namespace TengoDotNetCore.Controllers {
         /// 当前控制器私有的service对象，在构造函数中传入
         /// 在IOC容器注册了之后，在执行请求的时候自动就会给我们生成一个并传进来
         /// </summary>
-        private IUserService service;
+        private readonly IUserService service;
 
         public UserController(IUserService service) {
             this.service = service;

@@ -12,7 +12,7 @@ namespace TengoDotNetCore.Service.Impl {
         /// 当前控制器私有的TengoDbContext对象，在构造函数中传入
         /// 在StartUp里面的IOC容器注册了之后，在执行请求的时候自动就会给我们生成一个并传进来
         /// </summary>
-        private TengoDbContext db;
+        private readonly TengoDbContext db;
 
         public UserService(TengoDbContext db) {
             this.db = db;
