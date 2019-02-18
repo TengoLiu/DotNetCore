@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace TengoDotNetCore.Service.Impl {
     public class UserService : IUserService {
@@ -23,11 +24,9 @@ namespace TengoDotNetCore.Service.Impl {
         /// </summary>
         /// <param name="pageInfo"></param>
         /// <returns></returns>
-        public PageList<User> List(PageInfo pageInfo) {
-            var result = new PageList<User>(pageInfo);
-            result.DataList = db.Users.OrderByDescending(p => p.Id).Skip((pageInfo.Page - 1) * pageInfo.PageSize).Take(pageInfo.PageSize).ToList();
-            result.Total = db.Users.LongCount();
-            return result;
+        public async Task<PageList<User>> List(PageInfo pageInfo) {
+            var query = db.Users.OrderByDescending(p => p.Id);
+            return await PageList<User>.CreateAsync(query, pageInfo);
         }
     }
 }

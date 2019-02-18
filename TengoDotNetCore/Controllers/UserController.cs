@@ -22,8 +22,8 @@ namespace TengoDotNetCore.Controllers {
             this.service = service;
         }
 
-        public IActionResult Index(PageInfo pageInfo) {
-            ViewData.Model = service.List(pageInfo);
+        public async Task<IActionResult> Index(PageInfo pageInfo) {
+            ViewData.Model = await service.List(pageInfo);
             return View();
         }
     }

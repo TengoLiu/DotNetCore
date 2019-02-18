@@ -8,6 +8,6 @@ using TengoDotNetCore.Models.Base;
 namespace TengoDotNetCore.Service.Impl {
     public interface IUserService {
 
-        PageList<User> List(PageInfo pageInfo);
+        Task<PageList<User>> List(PageInfo pageInfo);
     }
 }
