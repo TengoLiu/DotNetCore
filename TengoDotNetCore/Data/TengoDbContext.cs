@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using TengoDotNetCore.Models;
 
-namespace TengoDotNetCore.MyDbContext {
+namespace TengoDotNetCore.Data {
     public class TengoDbContext : DbContext {
 
         public TengoDbContext(DbContextOptions<TengoDbContext> options) : base(options) { }

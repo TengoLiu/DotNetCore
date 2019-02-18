@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using TengoDotNetCore.MyDbContext;
+using TengoDotNetCore.Data;
 using TengoDotNetCore.Service.Impl;
 
 namespace TengoDotNetCore {

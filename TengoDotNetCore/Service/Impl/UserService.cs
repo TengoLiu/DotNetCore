@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
-using TengoDotNetCore.MyDbContext;
+using TengoDotNetCore.Data;
 
 namespace TengoDotNetCore.Service.Impl {
     public class UserService : IUserService {
