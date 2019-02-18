@@ -134,6 +134,16 @@ namespace TengoDotNetCore {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                /*
+                 * 这里添加了区域的路由映射规则
+                 * 但是有个缺点就是，这里没法像老版本MVC一样指定路由规则对应的命名空间
+                 * 因此，需要在区域的所有控制器上都加上 [Area("areaName")] 注释，不然如果有跟主路由重名的路径的话，请求的时候就会报错
+                 */
+                routes.MapRoute(
+                    name: "areas",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
             });
         }
     }
