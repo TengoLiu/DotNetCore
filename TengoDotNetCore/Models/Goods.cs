@@ -26,5 +26,18 @@ namespace TengoDotNetCore.Models {
 
         public int Stock { get; set; }
 
+        /// <summary>
+        /// 状态
+        /// 1.正常显示并且可购买
+        /// 2.不显示但可正常购买
+        /// 3.已下架，即显示但不可购买
+        /// 4.待审核，即404错误，不能看也不能购买
+        /// </summary>
+        public int Status { get; set; }
+
+        /// <summary>
+        /// 排序，排序越大越靠前
+        /// </summary>
+        public int Sort { get; set; }
     }
 }

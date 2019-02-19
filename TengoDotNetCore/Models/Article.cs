@@ -16,6 +16,13 @@ namespace TengoDotNetCore.Models {
         public string Content { get; set; }
 
         public string MContent { get; set; }
-
+        /// <summary>
+        /// 状态，1正常显示，2不显示但可正常访问，3待审核
+        /// </summary>
+        public int Status { get; set; }
+        /// <summary>
+        /// 排序，排序越大越靠前
+        /// </summary>
+        public int Sort { get; set; }
     }
 }
