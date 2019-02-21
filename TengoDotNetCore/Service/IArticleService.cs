@@ -6,8 +6,9 @@ using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Service {
-    public interface IUserService {
+    public interface IArticleService {
+        Task<PageList<Article>> List(PageInfo pageInfo, string sortBy);
 
-        Task<PageList<User>> List(PageInfo pageInfo);
+        Task<Article> Detail(int? id);
     }
 }

@@ -8,14 +8,8 @@ using TengoDotNetCore.Controllers;
 namespace TengoDotNetCore.Areas.Admin.Controllers {
 
     [Area("Admin")]
-    public class HomeController : BaseController {
-       
-
+    public class GoodsController : BaseController {
         public IActionResult Index() {
-            return View();
-        }
-
-        public IActionResult Welcome() {
             return View();
         }
     }

@@ -7,9 +7,13 @@
 
   <ItemGroup>
     <Compile Remove="DAL\**" />
+    <Compile Remove="wwwroot\lib\H-ui\lib\ueditor\**" />
     <Content Remove="DAL\**" />
+    <Content Remove="wwwroot\lib\H-ui\lib\ueditor\**" />
     <EmbeddedResource Remove="DAL\**" />
+    <EmbeddedResource Remove="wwwroot\lib\H-ui\lib\ueditor\**" />
     <None Remove="DAL\**" />
+    <None Remove="wwwroot\lib\H-ui\lib\ueditor\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,8 +24,197 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="wwwroot\lib\kindeditor\attached\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="wwwroot\lib\datepicker\calendar.js" />
+    <None Include="wwwroot\lib\datepicker\lang\en.js" />
+    <None Include="wwwroot\lib\datepicker\lang\zh-cn.js" />
+    <None Include="wwwroot\lib\datepicker\lang\zh-tw.js" />
+    <None Include="wwwroot\lib\datepicker\WdatePicker.js" />
+    <None Include="wwwroot\lib\H-ui\lib\datatables\1.10.0\jquery.dataTables.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\DD_belatedPNG_0.0.8a-min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\echarts\3.4.0\echarts.common.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\expressInstall.swf" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\highcharts-3d.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\highcharts-more.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\highcharts.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\accessibility.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\accessibility.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\annotations.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\annotations.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\boost.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\boost.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\broken-axis.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\broken-axis.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\data.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\data.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\drilldown.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\drilldown.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\exporting.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\exporting.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\funnel.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\funnel.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\gantt.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\gantt.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\grid-axis.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\grid-axis.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\heatmap.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\heatmap.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\no-data-to-display.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\no-data-to-display.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\offline-exporting.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\offline-exporting.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\overlapping-datalabels.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\overlapping-datalabels.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\series-label.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\series-label.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\solid-gauge.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\solid-gauge.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\treemap.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\treemap.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\xrange-series.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\modules\xrange-series.src.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\themes\dark-blue.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\themes\dark-green.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\themes\dark-unica.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\themes\gray.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\themes\grid-light.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\themes\grid.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\themes\sand-signika.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\js\themes\skies.js" />
+    <None Include="wwwroot\lib\H-ui\lib\hcharts\Highcharts\5.0.6\license.pdf" />
+    <None Include="wwwroot\lib\H-ui\lib\html5shiv.js" />
+    <None Include="wwwroot\lib\H-ui\lib\Hui-iconfont\1.0.8\iconfont.svg" />
+    <None Include="wwwroot\lib\H-ui\lib\jquery.contextmenu\jquery.contextmenu.r2.js" />
+    <None Include="wwwroot\lib\H-ui\lib\jquery.SuperSlide\2.1.1\jquery.SuperSlide.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\jquery.validation\1.14.0\additional-methods.js" />
+    <None Include="wwwroot\lib\H-ui\lib\jquery.validation\1.14.0\jquery.validate.js" />
+    <None Include="wwwroot\lib\H-ui\lib\jquery.validation\1.14.0\messages_zh.js" />
+    <None Include="wwwroot\lib\H-ui\lib\jquery.validation\1.14.0\validate-methods.js" />
+    <None Include="wwwroot\lib\H-ui\lib\jquery\1.9.1\jquery.js" />
+    <None Include="wwwroot\lib\H-ui\lib\jquery\1.9.1\jquery.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\jselect-1.0.js" />
+    <None Include="wwwroot\lib\H-ui\lib\layer\2.4\layer.js" />
+    <None Include="wwwroot\lib\H-ui\lib\laypage\1.2\laypage.js" />
+    <None Include="wwwroot\lib\H-ui\lib\lightbox2\2.8.1\js\lightbox-plus-jquery.js" />
+    <None Include="wwwroot\lib\H-ui\lib\lightbox2\2.8.1\js\lightbox-plus-jquery.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\lightbox2\2.8.1\js\lightbox-plus-jquery.min.map" />
+    <None Include="wwwroot\lib\H-ui\lib\lightbox2\2.8.1\js\lightbox.js" />
+    <None Include="wwwroot\lib\H-ui\lib\lightbox2\2.8.1\js\lightbox.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\lightbox2\2.8.1\js\lightbox.min.map" />
+    <None Include="wwwroot\lib\H-ui\lib\My97DatePicker\4.8\calendar.js" />
+    <None Include="wwwroot\lib\H-ui\lib\My97DatePicker\4.8\lang\en.js" />
+    <None Include="wwwroot\lib\H-ui\lib\My97DatePicker\4.8\lang\zh-cn.js" />
+    <None Include="wwwroot\lib\H-ui\lib\My97DatePicker\4.8\lang\zh-tw.js" />
+    <None Include="wwwroot\lib\H-ui\lib\My97DatePicker\4.8\WdatePicker.js" />
+    <None Include="wwwroot\lib\H-ui\lib\nprogress\0.2.0\nprogress.js" />
+    <None Include="wwwroot\lib\H-ui\lib\nprogress\0.2.0\nprogress.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\respond.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\squid.js" />
+    <None Include="wwwroot\lib\H-ui\lib\swfobject.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\cropper\cropper.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\cropper\uploader.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\expressInstall.swf" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\image-upload\upload.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\images\icons.psd" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\images\progress.psd" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\images\Thumbs.db" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\md5-demo\script.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\README.md" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\requirejs\app.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\requirejs\require.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\server\fileupload.php" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\server\fileupload2.php" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\server\preview.php" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\Uploader.swf" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\webuploader.custom.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\webuploader.custom.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\webuploader.fis.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\webuploader.flashonly.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\webuploader.flashonly.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\webuploader.html5only.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\webuploader.html5only.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\webuploader.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\webuploader.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\webuploader.noimage.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\webuploader.noimage.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\webuploader.nolog.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\webuploader.nolog.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\webuploader.withoutimage.js" />
+    <None Include="wwwroot\lib\H-ui\lib\webuploader\0.1.5\webuploader.withoutimage.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\zTree\v3\api\apiCss\api.js" />
+    <None Include="wwwroot\lib\H-ui\lib\zTree\v3\api\apiCss\jquery-1.6.2.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\zTree\v3\api\apiCss\jquery.ztree.core-3.5.js" />
+    <None Include="wwwroot\lib\H-ui\lib\zTree\v3\css\zTreeStyle\img\Thumbs.db" />
+    <None Include="wwwroot\lib\H-ui\lib\zTree\v3\js\jquery.ztree.all-3.5.js" />
+    <None Include="wwwroot\lib\H-ui\lib\zTree\v3\js\jquery.ztree.all-3.5.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\zTree\v3\js\jquery.ztree.core-3.5.js" />
+    <None Include="wwwroot\lib\H-ui\lib\zTree\v3\js\jquery.ztree.core-3.5.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\zTree\v3\js\jquery.ztree.excheck-3.5.js" />
+    <None Include="wwwroot\lib\H-ui\lib\zTree\v3\js\jquery.ztree.excheck-3.5.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\zTree\v3\js\jquery.ztree.exedit-3.5.js" />
+    <None Include="wwwroot\lib\H-ui\lib\zTree\v3\js\jquery.ztree.exedit-3.5.min.js" />
+    <None Include="wwwroot\lib\H-ui\lib\zTree\v3\js\jquery.ztree.exedit.js" />
+    <None Include="wwwroot\lib\H-ui\lib\zTree\v3\js\jquery.ztree.exhide-3.5.js" />
+    <None Include="wwwroot\lib\H-ui\lib\zTree\v3\js\jquery.ztree.exhide-3.5.min.js" />
+    <None Include="wwwroot\lib\H-ui\static\h-ui.admin\js\H-ui.admin.js" />
+    <None Include="wwwroot\lib\H-ui\static\h-ui.admin\skin\blue\Thumbs.db" />
+    <None Include="wwwroot\lib\H-ui\static\h-ui.admin\skin\default\Thumbs.db" />
+    <None Include="wwwroot\lib\H-ui\static\h-ui.admin\skin\green\Thumbs.db" />
+    <None Include="wwwroot\lib\H-ui\static\h-ui.admin\skin\orange\Thumbs.db" />
+    <None Include="wwwroot\lib\H-ui\static\h-ui.admin\skin\red\Thumbs.db" />
+    <None Include="wwwroot\lib\H-ui\static\h-ui.admin\skin\yellow\Thumbs.db" />
+    <None Include="wwwroot\lib\H-ui\static\h-ui\images\face\Thumbs.db" />
+    <None Include="wwwroot\lib\H-ui\static\h-ui\images\iCheck\Thumbs.db" />
+    <None Include="wwwroot\lib\H-ui\static\h-ui\images\ucnter\Thumbs.db" />
+    <None Include="wwwroot\lib\H-ui\static\h-ui\js\H-ui.js" />
+    <None Include="wwwroot\lib\H-ui\static\h-ui\js\H-ui.min.js" />
+    <None Include="wwwroot\lib\kindeditor\examples\jquery-ui\js\jquery-ui-1.9.2.custom.js" />
+    <None Include="wwwroot\lib\kindeditor\examples\jquery-ui\js\jquery-ui-1.9.2.custom.min.js" />
+    <None Include="wwwroot\lib\kindeditor\examples\jquery.js" />
+    <None Include="wwwroot\lib\kindeditor\kindeditor-all-min.js" />
+    <None Include="wwwroot\lib\kindeditor\kindeditor-all.js" />
+    <None Include="wwwroot\lib\kindeditor\kindeditor-min.js" />
+    <None Include="wwwroot\lib\kindeditor\kindeditor.js" />
+    <None Include="wwwroot\lib\kindeditor\lang\ar.js" />
+    <None Include="wwwroot\lib\kindeditor\lang\en.js" />
+    <None Include="wwwroot\lib\kindeditor\lang\ko.js" />
+    <None Include="wwwroot\lib\kindeditor\lang\zh_CN.js" />
+    <None Include="wwwroot\lib\kindeditor\lang\zh_TW.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\anchor\anchor.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\autoheight\autoheight.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\baidumap\baidumap.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\clearhtml\clearhtml.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\code\code.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\code\prettify.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\emoticons\emoticons.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\filemanager\filemanager.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\flash\flash.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\image\image.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\insertfile\insertfile.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\lineheight\lineheight.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\link\link.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\map\map.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\media\media.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\multiimage\images\swfupload.swf" />
+    <None Include="wwwroot\lib\kindeditor\plugins\multiimage\multiimage.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\pagebreak\pagebreak.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\plainpaste\plainpaste.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\preview\preview.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\quickformat\quickformat.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\table\table.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\template\template.js" />
+    <None Include="wwwroot\lib\kindeditor\plugins\wordpaste\wordpaste.js" />
   </ItemGroup>
 
 

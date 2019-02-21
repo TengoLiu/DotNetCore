@@ -12,7 +12,6 @@ namespace TengoDotNetCore.Controllers {
         public IActionResult Index() {
             //HttpContext.Session.Set("hello", Encoding.Default.GetBytes("hello world"));
             //ViewBag.Hello = HttpContext.Session.GetString("hello");
-
             return View();
         }
 

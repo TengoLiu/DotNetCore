@@ -7,7 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TengoDotNetCore.Models.Base;
-using TengoDotNetCore.Service.Impl;
+using TengoDotNetCore.Service;
 
 namespace TengoDotNetCore.Controllers {
     public class UserController : BaseController {
