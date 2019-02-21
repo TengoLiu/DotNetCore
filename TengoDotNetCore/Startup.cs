@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using TengoDotNetCore.Data;
+using TengoDotNetCore.Service;
 using TengoDotNetCore.Service.Impl;
 
 namespace TengoDotNetCore {
@@ -71,6 +72,7 @@ namespace TengoDotNetCore {
             //配置依赖注入的两种写法，后者代码简洁一些
             //services.AddScoped(typeof(IUserService), typeof(UserService));
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IArticleService, ArticleService>();
             #endregion
         }
 
@@ -136,9 +138,13 @@ namespace TengoDotNetCore {
                     template: "{controller=Home}/{action=Index}/{id?}");
 
                 /*
-                 * 这里添加了区域的路由映射规则
-                 * 但是有个缺点就是，这里没法像老版本MVC一样指定路由规则对应的命名空间
-                 * 因此，需要在区域的所有控制器上都加上 [Area("areaName")] 注释，不然如果有跟主路由重名的路径的话，请求的时候就会报错
+                 * 这里添加了区域Area的路由映射规则。
+                 * 但是有个缺点就是，这里没法像老版本MVC一样指定路由规则对应的命名空间。
+                 * 因此，需要在区域的所有控制器上都加上 [Area("areaName")] 注释。
+                 * 不然如果区域里面的控制器和方法跟最外层的控制器和方法重名的话，就会报错说请求的路径匹配到的路由不止一个，比如：
+                 * 原本有了 /home/index，然后加了个区域，里面也有一个Home控制器，并且有个index方法，原本想的是将区域里面的路由指定为
+                 * /admin/home/index。但是如果直接这样设置的话，框架是不知道的，因此当请求 /home/index的时候，会帮我们同时找到这两个控制器与方法
+                 * 然后报错说请求的资源映射到的方法不唯一。
                  */
                 routes.MapRoute(
                     name: "areas",
