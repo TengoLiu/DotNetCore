@@ -7,7 +7,6 @@ using TengoDotNetCore.Models.Base;
 namespace TengoDotNetCore.Models {
 
     public class Article : BaseModel {
-        public int Id { get; set; }
 
         public string Title { get; set; }
 

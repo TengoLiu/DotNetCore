@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Controllers {
     public class BaseController : Controller {
@@ -32,6 +33,26 @@ namespace TengoDotNetCore.Controllers {
             HttpContext.Session.SetString(key, JsonConvert.SerializeObject(value));
         }
         #endregion
+
+        protected IActionResult JsonResult(JsonResultObj jsonObj) {
+            return Json(jsonObj);
+        }
+
+        protected IActionResult JsonResultSuccess(string msg) {
+            return Json(new JsonResultObj {
+                status = 1000,
+                msg = msg,
+                data = null
+            });
+        }
+
+        protected IActionResult JsonResultSuccess(string msg, object obj) {
+            return Json(new JsonResultObj {
+                status = 1000,
+                msg = msg,
+                data = obj
+            });
+        }
 
     }
 }

@@ -8,10 +8,6 @@ namespace TengoDotNetCore.Models {
     public class User : BaseModel {
 
         /// <summary>
-        /// 主键id
-        /// </summary>
-        public int Id { get; set; }
-        /// <summary>
         /// 昵称
         /// </summary>
         public string NickName { get; set; }

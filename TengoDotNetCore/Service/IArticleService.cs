@@ -10,5 +10,7 @@ namespace TengoDotNetCore.Service {
         Task<PageList<Article>> List(PageInfo pageInfo, string sortBy);
 
         Task<Article> Detail(int? id);
+
+        Task<int> Edit(Article model);
     }
 }

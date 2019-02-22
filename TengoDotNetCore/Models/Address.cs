@@ -6,7 +6,6 @@ using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Models {
     public class Address : BaseModel {
-        public int Id { get; set; }
         public User User { get; set; }
         public string Phone { get; set; }
         public string Province { get; set; }

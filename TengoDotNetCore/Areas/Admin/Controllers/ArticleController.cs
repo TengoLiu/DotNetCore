@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TengoDotNetCore.Controllers;
+using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.Service;
 
@@ -20,12 +21,13 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
             this.service = service;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index(PageInfo pageInfo, string sortBy = "") {
-            pageInfo.PageSize = 100;
             ViewData.Model = await service.List(pageInfo, sortBy);
             return View();
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id) {
             var article = await service.Detail(id);
             ViewData.Model = article;
@@ -33,6 +35,15 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
                 return new NotFoundResult();
             }
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Article model) {
+            var res = await service.Edit(model);
+            if (res > 0) {
+                return JsonResultSuccess("修改成功！");
+            }
+            return JsonResultSuccess("修改失败，请检查信息是否有误！");
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,10 +25,10 @@ namespace TengoDotNetCore.Service.Impl {
             var query = db.Articles.AsQueryable();
             switch (sortBy) {
                 case "id":
-                    query = query.OrderBy(p => p.Id);
+                    query = query.OrderBy(p => p.ID);
                     break;
                 case "id_desc":
-                    query = query.OrderByDescending(p => p.Id);
+                    query = query.OrderByDescending(p => p.ID);
                     break;
                 case "sort":
                     query = query.OrderBy(p => p.Sort);
@@ -40,12 +42,20 @@ namespace TengoDotNetCore.Service.Impl {
             return await PageList<Article>.CreateAsync(query, pageInfo);
         }
 
-        public async Task<Article> Detail(int? id) {
-            if (id == null || id <= 0) {
+        public async Task<Article> Detail(int? ID) {
+            if (ID == null || ID <= 0) {
                 return null;
             }
-            var article= await db.Articles.ToAsyncEnumerable().FirstOrDefault(p => p.Id == id);
+            var article = await db.Articles.ToAsyncEnumerable().FirstOrDefault(p => p.ID == ID);
             return article;
+        }
+
+        public async Task<int> Edit(Article model) {
+            var articleToUpdate = await db.Articles.SingleOrDefaultAsync(s => s.ID == model.ID);
+            db.Entry(model).State = EntityState.Modified;
+            //db.Entry(model).Property(p => p.Title).IsModified = true;
+            //db.Entry(model).Property(p => p.Status).IsModified = true;
+            return db.SaveChanges();
         }
     }
 }

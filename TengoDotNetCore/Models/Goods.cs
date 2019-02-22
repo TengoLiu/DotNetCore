@@ -10,7 +10,6 @@ namespace TengoDotNetCore.Models {
     /// 商品的实体类
     /// </summary>
     public class Goods : BaseModel {
-        public int Id { get; set; }
 
         public string Name { get; set; }
 

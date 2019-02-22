@@ -6,7 +6,6 @@ using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Models {
     public class CartItem : BaseModel {
-        public int Id { get; set; }
         public User User { get; set; }
         public Goods Goods { get; set; }
         public int Qty { get; set; }
