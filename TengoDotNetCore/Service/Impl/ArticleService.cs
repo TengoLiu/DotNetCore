@@ -21,25 +21,29 @@ namespace TengoDotNetCore.Service.Impl {
         /// </summary>
         /// <param name="pageInfo"></param>
         /// <returns></returns>
-        public async Task<PageList<Article>> List(PageInfo pageInfo, string sortBy) {
+        public async Task<PageList<Article>> List(PageInfo pageInfo, string keyword, string sortBy) {
             var query = db.Articles.AsQueryable();
-            switch (sortBy) {
-                case "id":
-                    query = query.OrderBy(p => p.ID);
-                    break;
-                case "id_desc":
-                    query = query.OrderByDescending(p => p.ID);
-                    break;
-                case "sort":
-                    query = query.OrderBy(p => p.Sort);
-                    break;
-                case "sort_desc":
-                    query = query.OrderByDescending(p => p.Sort);
-                    break;
-                default:
-                    query = query.OrderByDescending(p => p.ID);
-                    break;
+            if (!string.IsNullOrWhiteSpace(keyword)) {
+                query = query.Where(p => p.Title.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase) || p.Author.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase));
             }
+            if (!string.IsNullOrWhiteSpace(sortBy))
+                switch (sortBy.Trim().ToLower()) {
+                    case "id":
+                        query = query.OrderBy(p => p.ID);
+                        break;
+                    case "id_desc":
+                        query = query.OrderByDescending(p => p.ID);
+                        break;
+                    case "sort":
+                        query = query.OrderBy(p => p.Sort);
+                        break;
+                    case "sort_desc":
+                        query = query.OrderByDescending(p => p.Sort);
+                        break;
+                    default:
+                        query = query.OrderByDescending(p => p.ID);
+                        break;
+                }
             return await PageList<Article>.CreateAsync(query, pageInfo);
         }
 

@@ -22,8 +22,9 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(PageInfo pageInfo, string sortBy = "") {
-            ViewData.Model = await service.List(pageInfo, sortBy);
+        public async Task<IActionResult> Index(PageInfo pageInfo, string keyword = null, string sortBy = null) {
+            ViewData["keyword"] = keyword;
+            ViewData.Model = await service.List(pageInfo, keyword, sortBy);
             return View();
         }
 

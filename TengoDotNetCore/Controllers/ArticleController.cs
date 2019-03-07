@@ -18,8 +18,8 @@ namespace TengoDotNetCore.Controllers {
             this.service = service;
         }
 
-        public async Task<IActionResult> Index(PageInfo pageInfo, string sortBy="") {
-            ViewData.Model = await service.List(pageInfo, sortBy);
+        public async Task<IActionResult> Index(PageInfo pageInfo, string keyword = null, string sortBy = null) {
+            ViewData.Model = await service.List(pageInfo, keyword, sortBy);
             return View();
         }
 

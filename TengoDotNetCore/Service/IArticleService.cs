@@ -7,7 +7,7 @@ using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Service {
     public interface IArticleService {
-        Task<PageList<Article>> List(PageInfo pageInfo, string sortBy);
+        Task<PageList<Article>> List(PageInfo pageInfo, string keyword, string sortBy);
 
         Task<Article> Detail(int? id);
 

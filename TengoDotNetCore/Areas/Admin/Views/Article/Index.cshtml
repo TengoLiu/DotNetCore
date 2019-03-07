@@ -13,14 +13,16 @@
     </a>
 </nav>
 <div class="page-container">
-    <div class="text-c">
-        日期范围：
-        <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
-        -
-        <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
-        <input type="text" class="input-text" style="width:250px" placeholder="输入关键字" id="" name="">
-        <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
-    </div>
+    <form>
+        <div class="text-c">
+            @*日期范围：
+            <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
+            -
+            <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">*@
+            <input type="text" class="input-text" style="width:250px" placeholder="输入关键字" name="keyword" value="@ViewData["keyword"]">
+            <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜 索</button>
+        </div>
+    </form>
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
             <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
@@ -68,7 +70,7 @@
         //    ]
         //});
 
-        $(".tengo-pager").append(GetPager(@Model.Total,@Model.PageSize,@Model.Page,"/admin/article?page=",""));
+        $(".tengo-pager").append(GetPager(@Model.Total,@Model.PageSize,@Model.Page,"/admin/article?page=","&keyword=@ViewData["keyword"]"));
 
         /*
             参数解释：
