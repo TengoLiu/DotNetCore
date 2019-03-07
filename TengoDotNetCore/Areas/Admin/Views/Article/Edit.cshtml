@@ -13,7 +13,13 @@
             </div>
         </div>
         <div class="row cl">
-            <label asp-for="Status" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>状态：</label>
+            <label asp-for="Author" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>作者：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input class="input-text" name="Author" type="text" maxlength="50" placeholder="50字内" value="" required>
+            </div>
+        </div>
+        <div class="row cl">
+            <label asp-for="Status" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>是否显示：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <span class="select-box">
                     <select asp-for="Status" class="select">
@@ -23,6 +29,32 @@
                         <option value="4">待审核</option>
                     </select>
                 </span>
+            </div>
+        </div>
+        <div class="row cl">
+            <label asp-for="Content" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>PC端详情：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea id="editor_id" name="Content" style="width:100%;height:400px;"></textarea>
+                <input id="Content" name="Content" type="hidden" />
+            </div>
+        </div>
+        <div class="row cl">
+            <label asp-for="MContent" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>无线端详情：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea id="editor_id" name="MContent" style="width:100%;height:400px;"></textarea>
+                <input id="MContent" name="MContent" type="hidden" />
+            </div>
+        </div>
+        <div class="row cl">
+            <label asp-for="Keywords" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>SEO关键字：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input asp-for="Keywords" class="input-text" maxlength="255" value="" />
+            </div>
+        </div>
+        <div class="row cl">
+            <label asp-for="Description" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>SEO描述：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input asp-for="Description" class="input-text" maxlength="255" value="" />
             </div>
         </div>
         <div class="row cl">
@@ -44,14 +76,6 @@
 </div>
 
 @section Scripts{
-    <script type="text/javascript" src="/lib/H-ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
-    <script type="text/javascript" src="/lib/H-ui/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-    <script type="text/javascript" src="/lib/H-ui/lib/jquery.validation/1.14.0/validate-methods.js"></script>
-    <script type="text/javascript" src="/lib/H-ui/lib/jquery.validation/1.14.0/messages_zh.js"></script>
-    <script type="text/javascript" src="/lib/H-ui/lib/webuploader/0.1.5/webuploader.min.js"></script>
-    <script type="text/javascript" src="/lib/H-ui/lib/ueditor/1.4.3/ueditor.config.js"></script>
-    <script type="text/javascript" src="/lib/H-ui/lib/ueditor/1.4.3/ueditor.all.min.js"></script>
-    <script type="text/javascript" src="/lib/H-ui/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
     <script>
         $(function () {
             $('.skin-minimal input').iCheck({

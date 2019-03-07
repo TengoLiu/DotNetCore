@@ -17,7 +17,7 @@ namespace TengoDotNetCore.Service.Impl {
         }
 
         /// <summary>
-        /// 分页获取用户列表
+        /// 分页获取文章列表
         /// </summary>
         /// <param name="pageInfo"></param>
         /// <returns></returns>
@@ -37,6 +37,7 @@ namespace TengoDotNetCore.Service.Impl {
                     query = query.OrderByDescending(p => p.Sort);
                     break;
                 default:
+                    query = query.OrderByDescending(p => p.ID);
                     break;
             }
             return await PageList<Article>.CreateAsync(query, pageInfo);
@@ -51,11 +52,15 @@ namespace TengoDotNetCore.Service.Impl {
         }
 
         public async Task<int> Edit(Article model) {
-            var articleToUpdate = await db.Articles.SingleOrDefaultAsync(s => s.ID == model.ID);
-            db.Entry(model).State = EntityState.Modified;
-            //db.Entry(model).Property(p => p.Title).IsModified = true;
-            //db.Entry(model).Property(p => p.Status).IsModified = true;
-            return db.SaveChanges();
+            db.Entry(model).Property(p => p.Title).IsModified = true;
+            db.Entry(model).Property(p => p.Author).IsModified = true;
+            db.Entry(model).Property(p => p.Status).IsModified = true;
+            return await db.SaveChangesAsync();
+        }
+
+        public Task<int> Add(Article model) {
+            db.Articles.Add(model);
+            return db.SaveChangesAsync();
         }
     }
 }

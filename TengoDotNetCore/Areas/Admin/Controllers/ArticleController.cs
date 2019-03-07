@@ -39,11 +39,31 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> Edit(Article model) {
-            var res = await service.Edit(model);
-            if (res > 0) {
-                return JsonResultSuccess("修改成功！");
+            if (ModelState.IsValid) {
+                var res = await service.Edit(model);
+                if (res > 0) {
+                    return JsonResultSuccess("修改成功！");
+                }
+                return JsonResultSuccess("修改失败，请检查信息是否有误！");
             }
-            return JsonResultSuccess("修改失败，请检查信息是否有误！");
+            return JsonResultParamInvalid();
+        }
+
+        [HttpGet]
+        public IActionResult Add(int? id) {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(Article model) {
+            if (ModelState.IsValid) {
+                var res = await service.Add(model);
+                if (res > 0) {
+                    return JsonResultSuccess("新增成功！");
+                }
+                return JsonResultSuccess("修改失败，请检查信息是否有误！");
+            }
+            return JsonResultParamInvalid();
         }
     }
 }
