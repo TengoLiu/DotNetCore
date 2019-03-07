@@ -51,8 +51,15 @@
     <script src="~/lib/kindeditor/lang/zh_CN.js"></script>
     <script src="~/lib/tengo-pager/tengo-pager.js"></script>
     <script>
+        //触发一条toast信息
         function toast(msg) {
             $.Huimodalalert(msg, 2000);
+        }
+
+        //移除当前框架
+        function removeIframe() {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
         }
     </script>
 
