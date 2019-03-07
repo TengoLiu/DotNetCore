@@ -188,18 +188,9 @@
             <li id="closeall">关闭全部 </li>
         </ul>
     </div>
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
-        </script>
-    </environment>
 
+    @*JQuery不能用最新版3.31的，不然Hui里面的某个方法会报错，虽然看上去好像没啥影响，但是总是很不舒服*@
+    <script type="text/javascript" src="/lib/H-ui/lib/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="/lib/H-ui/lib/layer/2.4/layer.js"></script>
     <script type="text/javascript" src="/lib/H-ui/static/h-ui/js/H-ui.min.js"></script>
     <script type="text/javascript" src="/lib/H-ui/static/h-ui.admin/js/H-ui.admin.js"></script>
