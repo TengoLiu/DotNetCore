@@ -16,6 +16,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         public IActionResult Welcome() {
+            ViewData["CurrentIP"] = HttpContext.Connection.RemoteIpAddress;
             return View();
         }
     }
