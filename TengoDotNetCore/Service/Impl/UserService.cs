@@ -25,7 +25,7 @@ namespace TengoDotNetCore.Service.Impl {
         /// <param name="pageInfo"></param>
         /// <returns></returns>
         public async Task<PageList<User>> List(PageInfo pageInfo) {
-            var query = db.Users.OrderByDescending(p => p.ID);
+            var query = db.User.OrderByDescending(p => p.ID);
             return await PageList<User>.CreateAsync(query, pageInfo);
         }
     }

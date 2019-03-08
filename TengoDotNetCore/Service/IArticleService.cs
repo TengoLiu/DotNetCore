@@ -15,5 +15,6 @@ namespace TengoDotNetCore.Service {
 
         Task<int> Add(Article model);
 
+        Task<int> Delete(int? id);
     }
 }

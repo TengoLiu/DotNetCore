@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TengoDotNetCore.Data;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
+using TengoDotNetCore.Service.Abs;
 
 namespace TengoDotNetCore.Service.Impl {
-    public class ArticleService : IArticleService {
+    public class ArticleService : AbsService, IArticleService {
         private readonly TengoDbContext db;
 
         public ArticleService(TengoDbContext db) {
@@ -22,7 +21,7 @@ namespace TengoDotNetCore.Service.Impl {
         /// <param name="pageInfo"></param>
         /// <returns></returns>
         public async Task<PageList<Article>> List(PageInfo pageInfo, string keyword, string sortBy) {
-            var query = db.Articles.AsQueryable();
+            var query = db.Article.AsQueryable();
             if (!string.IsNullOrWhiteSpace(keyword)) {
                 query = query.Where(p => p.Title.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase) || p.Author.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase));
             }
@@ -51,7 +50,7 @@ namespace TengoDotNetCore.Service.Impl {
             if (ID == null || ID <= 0) {
                 return null;
             }
-            var article = await db.Articles.ToAsyncEnumerable().FirstOrDefault(p => p.ID == ID);
+            var article = await db.Article.ToAsyncEnumerable().FirstOrDefault(p => p.ID == ID);
             return article;
         }
 
@@ -62,9 +61,21 @@ namespace TengoDotNetCore.Service.Impl {
             return await db.SaveChangesAsync();
         }
 
-        public Task<int> Add(Article model) {
-            db.Articles.Add(model);
-            return db.SaveChangesAsync();
+        public async Task<int> Add(Article model) {
+            db.Article.Add(model);
+            return await db.SaveChangesAsync();
+        }
+
+        public async Task<int> Delete(int? id) {
+            if (id == null) {
+                return 1;
+            }
+            var article = await db.Article.SingleOrDefaultAsync(p => p.ID == id);
+            if (article != null) {
+                db.Article.Remove(article);
+                return await db.SaveChangesAsync();
+            }
+            return 1;
         }
     }
 }
