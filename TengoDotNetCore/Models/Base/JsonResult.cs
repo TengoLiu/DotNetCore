@@ -12,7 +12,7 @@ namespace TengoDotNetCore.Models.Base {
         /// <summary>
         /// 响应状态，规定1000为成功
         /// </summary>
-        public int status = -999;
+        public int code = -999;
         /// <summary>
         /// 响应消息
         /// </summary>
@@ -26,8 +26,8 @@ namespace TengoDotNetCore.Models.Base {
 
         }
 
-        public JsonResultObj(int status, string msg = "", object data = null) {
-            this.status = status;
+        public JsonResultObj(int code, string msg = "", object data = null) {
+            this.code = code;
             this.msg = msg;
             this.data = data;
         }

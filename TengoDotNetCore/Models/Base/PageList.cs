@@ -94,6 +94,8 @@ namespace TengoDotNetCore.Models.Base {
                 pageSize = 10;
             }
             var data = new PageList<T>(page, pageSize);
+            data.Page = page;
+            data.PageSize = pageSize;
             data.Total = await query.CountAsync();
             data.DataList = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             return data;

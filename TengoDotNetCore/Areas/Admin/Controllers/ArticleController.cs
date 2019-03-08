@@ -66,5 +66,12 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
             }
             return JsonResultParamInvalid();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int? id) {
+            //对于删除来说，其实我只要执行就好了，不管它成不成功！
+            await service.Delete(id);
+            return JsonResultSuccess("删除成功！");
+        }
     }
 }

@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Models {
-
     public class Article : BaseModel {
-        [Required, MaxLength(50)]
+        [Required(ErrorMessage = "标题是必填的"), MaxLength(50)]
         public string Title { get; set; }
+
+        /// <summary>
+        /// 文章分类
+        /// </summary>
+        public ArticleCategory Category { get; set; }
+
         /// <summary>
         /// 封面图片
         /// </summary>
@@ -27,7 +28,7 @@ namespace TengoDotNetCore.Models {
         /// <summary>
         /// 作者
         /// </summary>
-        [Required, MaxLength(50)]
+        [Required(ErrorMessage = "作者是必填的"), MaxLength(50)]
         public string Author { get; set; }
         /// <summary>
         /// SEO关键词
@@ -40,14 +41,15 @@ namespace TengoDotNetCore.Models {
         [MaxLength(255)]
         public string Description { get; set; }
         /// <summary>
-        /// 状态，1正常显示，2不显示但可正常访问，3待审核
+        /// 状态
+        /// 0：待审核，也就是404错误
+        /// 1：正常显示
+        /// 2：不会在列表页出现，但是可以直接查看详情
         /// </summary>
-        [Required]
         public int Status { get; set; }
         /// <summary>
         /// 排序，排序越大越靠前
         /// </summary>
-        [Required]
         public int Sort { get; set; }
     }
 }
