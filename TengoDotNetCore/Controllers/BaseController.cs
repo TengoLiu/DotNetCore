@@ -19,7 +19,7 @@ namespace TengoDotNetCore.Controllers {
 
         protected IActionResult JsonResultSuccess(string msg) {
             return Json(new JsonResultObj {
-                status = 1000,
+                code = 1000,
                 msg = msg,
                 data = null
             });
@@ -27,7 +27,7 @@ namespace TengoDotNetCore.Controllers {
 
         protected IActionResult JsonResultSuccess(string msg, object obj) {
             return Json(new JsonResultObj {
-                status = 1000,
+                code = 1000,
                 msg = msg,
                 data = obj
             });
@@ -35,7 +35,7 @@ namespace TengoDotNetCore.Controllers {
 
         protected IActionResult JsonResultError(string msg, object obj) {
             return Json(new JsonResultObj {
-                status = 1000,
+                code = 1000,
                 msg = msg,
                 data = obj
             });
@@ -43,7 +43,7 @@ namespace TengoDotNetCore.Controllers {
 
         protected IActionResult JsonResultParamInvalid() {
             return Json(new JsonResultObj {
-                status = 1001,
+                code = 1001,
                 msg = "您提交的参数缺失或者有误，请检查输入的信息是否完整。",
             });
         }
