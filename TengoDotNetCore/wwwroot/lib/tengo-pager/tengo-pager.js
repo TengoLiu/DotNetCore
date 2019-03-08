@@ -9,7 +9,7 @@
 ///                         
 /// <param name="urlPostfix">需要拼接的地址后缀,这里放get的参数,例如：&key_word=电脑</param>
 /// <returns></returns>
-function GetPager(count, pageSize, page, urlPrefix, urlPostfix) {
+function getPager(count, pageSize, page, urlPrefix, urlPostfix) {
     if (!checkNumber(count))
         count = 0;
     if (!checkNumber(pageSize))
@@ -28,7 +28,8 @@ function GetPager(count, pageSize, page, urlPrefix, urlPostfix) {
     if (pageSize <= 0) {
         pageSize = 10;
     }
-
+    //拼接一个pageSize参数，避免参数丢失
+    urlPostfix = "&pageSize=" + pageSize + urlPostfix;
     var sb = "";
 
     sb += "<div class='pager'>";//最外层包裹一个div
@@ -41,11 +42,11 @@ function GetPager(count, pageSize, page, urlPrefix, urlPostfix) {
         sb += "<a href='" + urlPrefix + (page - 1) + urlPostfix + "'>上一页</a>";
     }
 
-    var page_count = count % pageSize == 0 ? parseInt(count / pageSize) : parseInt(count / pageSize + 1);//计算总页数
+    var pageCount = count % pageSize == 0 ? parseInt(count / pageSize) : parseInt(count / pageSize + 1);//计算总页数
 
-    if (page_count <= 8) {
+    if (pageCount <= 8) {
         //个数小于或等于8个的话，就不需要显示“...”了
-        for (var i = 1; i <= page_count; i++) {
+        for (var i = 1; i <= pageCount; i++) {
             if (page == i) {
                 sb += "<a class='p_selected'>" + i + "</a>";
             }
@@ -60,13 +61,13 @@ function GetPager(count, pageSize, page, urlPrefix, urlPostfix) {
          *  page<6 全打印
          *  1 2 3 4 5 6 7 8 ...  
          *  page>=6
-         *  1 2 ...4 5 6 7 8...  page<page_count-2 打印 6+-2   
-         *  1 2 ...8 9 10 11 12  page>=page_count-2
+         *  1 2 ...4 5 6 7 8...  page<pageCount-2 打印 6+-2   
+         *  1 2 ...8 9 10 11 12  page>=pageCount-2
         */
         if (page < 6) {
             for (var i = 1; i <= 7; i++) {
                 if (page == i) {
-                    sb += "<a class='p_selected''>" + i + "</a>";
+                    sb += "<a class='p_selected'>" + i + "</a>";
                 }
                 else {
                     sb += "<a href='" + urlPrefix + i + urlPostfix + "'>" + i + "</a>";
@@ -78,7 +79,7 @@ function GetPager(count, pageSize, page, urlPrefix, urlPostfix) {
             sb += "<a href='" + urlPrefix + 1 + urlPostfix + "'>1</a>";
             sb += "<a href='" + urlPrefix + 2 + urlPostfix + "'>2</a>";
             sb += "<span> ... </span>";
-            if (page + 2 < page_count) {
+            if (page + 2 < pageCount) {
                 /*1 2 ... 4 5 6 7 8 ...*/
                 sb += "<a href='" + urlPrefix + (page - 2) + urlPostfix + "'>" + (page - 2) + "</a>";
                 sb += "<a href='" + urlPrefix + (page - 1) + urlPostfix + "'>" + (page - 1) + "</a>";
@@ -88,7 +89,7 @@ function GetPager(count, pageSize, page, urlPrefix, urlPostfix) {
                 sb += "<span> ... </span>";
             }
             else {
-                for (var i = page_count - 5; i <= page_count; i++) {
+                for (var i = pageCount - 5; i <= pageCount; i++) {
                     if (i == page) {
                         sb += "<a class='p_selected'>" + i + "</a>";
                     }
@@ -101,17 +102,17 @@ function GetPager(count, pageSize, page, urlPrefix, urlPostfix) {
     }
 
     //拼接下一页按钮
-    if (page == page_count || count == 0) {
-        sb += "<span class=\"page_off\">下一页</span>";
+    if (page == pageCount || count == 0) {
+        sb += "<span class='page_off'>下一页</span>";
     }
     else {
-        sb += "<a href=\"" + urlPrefix + (page + 1) + urlPostfix + "\">下一页</a>";
+        sb += "<a href='" + urlPrefix + (page + 1) + urlPostfix + "'>下一页</a>";
     }
 
     // 拼接跳转到某一页表单
-    sb += "<form class=\"pager_form\">";
-    sb += "每页显示 <input type=\"text\" min=\"1\" value =\"" + pageSize + "\" name=\"pageSize\"/>条记录，";
-    sb += "跳转到：<input type=\"text\" min=\"1\" max =\"" + page_count + "\" name=\"page\"/>";
+    sb += "<form class='pager_form'>";
+    sb += "跳转到：<input type='text' min='1' max ='" + pageCount + "' name='page'/>";
+    sb += "每页显示 <input type='text' min='1' value ='" + pageSize + "' name='pageSize'/>条记录，";
     var params = urlPostfix.split('&');//从后缀里面取出参数
 
     if (params.length > 0) {
@@ -119,14 +120,14 @@ function GetPager(count, pageSize, page, urlPrefix, urlPostfix) {
             var index = params[i].indexOf("=");
             if (index < 0)
                 continue;
-            sb += "<input type=\"hidden\" name=\"" + params[i].substring(0, index) + "\" value=\"" + params[i].substring(index + 1) + "\"/>";
+            sb += "<input type='hidden' name='" + params[i].substring(0, index) + "' value='" + params[i].substring(index + 1) + "'/>";
         }
     }
-    sb += "<button class=\"page_to\">确定</button>";
+    sb += "<button class='page_to'>确定</button>";
 
     sb += "</form>";
 
-    sb += " <b>共" + count + "条记录，共" + page_count + "页</b>";
+    sb += " <b>共" + count + "条记录，共" + pageCount + "页</b>";
 
     sb += "</div>";
     return sb;
@@ -143,7 +144,7 @@ function GetPager(count, pageSize, page, urlPrefix, urlPostfix) {
 ///                         
 /// <param name="urlPostfix">需要拼接的地址后缀,这里放get的参数,例如：&key_word=电脑</param>
 /// <returns></returns>
-function GetPagerWithoutHref(count, pageSize, page, urlPrefix, urlPostfix) {
+function getPagerWithoutHref(count, pageSize, page, urlPrefix, urlPostfix) {
     if (!checkNumber(count))
         count = 0;
     if (!checkNumber(pageSize))
@@ -175,11 +176,11 @@ function GetPagerWithoutHref(count, pageSize, page, urlPrefix, urlPostfix) {
         sb += "<a " + urlPrefix + (page - 1) + urlPostfix + ">上一页</a>";
     }
 
-    var page_count = count % pageSize == 0 ? parseInt(count / pageSize) : parseInt(count / pageSize + 1);//计算总页数
+    var pageCount = count % pageSize == 0 ? parseInt(count / pageSize) : parseInt(count / pageSize + 1);//计算总页数
 
-    if (page_count <= 8) {
+    if (pageCount <= 8) {
         //个数小于或等于8个的话，就不需要显示“...”了
-        for (var i = 1; i <= page_count; i++) {
+        for (var i = 1; i <= pageCount; i++) {
             if (page == i) {
                 sb += "<a class='p_selected'>" + i + "</a>";
             }
@@ -194,8 +195,8 @@ function GetPagerWithoutHref(count, pageSize, page, urlPrefix, urlPostfix) {
          *  page<6 全打印
          *  1 2 3 4 5 6 7 8 ...  
          *  page>=6
-         *  1 2 ...4 5 6 7 8...  page<page_count-2 打印 6+-2   
-         *  1 2 ...8 9 10 11 12  page>=page_count-2
+         *  1 2 ...4 5 6 7 8...  page<pageCount-2 打印 6+-2   
+         *  1 2 ...8 9 10 11 12  page>=pageCount-2
         */
         if (page < 6) {
             for (var i = 1; i <= 7; i++) {
@@ -212,7 +213,7 @@ function GetPagerWithoutHref(count, pageSize, page, urlPrefix, urlPostfix) {
             sb += "<a " + urlPrefix + 1 + urlPostfix + ">1</a>";
             sb += "<a " + urlPrefix + 2 + urlPostfix + ">2</a>";
             sb += "<span> ... </span>";
-            if (page + 2 < page_count) {
+            if (page + 2 < pageCount) {
                 /*1 2 ... 4 5 6 7 8 ...*/
                 sb += "<a " + urlPrefix + (page - 2) + urlPostfix + ">" + (page - 2) + "</a>";
                 sb += "<a " + urlPrefix + (page - 1) + urlPostfix + ">" + (page - 1) + "</a>";
@@ -222,7 +223,7 @@ function GetPagerWithoutHref(count, pageSize, page, urlPrefix, urlPostfix) {
                 sb += "<span> ... </span>";
             }
             else {
-                for (var i = page_count - 5; i <= page_count; i++) {
+                for (var i = pageCount - 5; i <= pageCount; i++) {
                     if (i == page) {
                         sb += "<a class='p_selected'>" + i + "</a>";
                     }
@@ -235,13 +236,13 @@ function GetPagerWithoutHref(count, pageSize, page, urlPrefix, urlPostfix) {
     }
 
     //拼接下一页按钮
-    if (page == page_count || count == 0) {
-        sb += "<span class=\"page_off\">下一页</span>";
+    if (page == pageCount || count == 0) {
+        sb += "<span class='page_off'>下一页</span>";
     }
     else {
         sb += "<a " + urlPrefix + (page + 1) + urlPostfix + ">下一页</a>";
     }
-    sb += " <b>共" + count + "条记录，共" + page_count + "页</b>";
+    sb += " <b>共" + count + "条记录，共" + pageCount + "页</b>";
     sb += "</div>";
     return sb;
 }
