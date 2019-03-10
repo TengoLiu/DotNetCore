@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TengoDotNetCore.Controllers {
     public class TestController : Controller {
+
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public TestController(IHostingEnvironment hostingEnvironment) {
+            _hostingEnvironment = hostingEnvironment;
+        }
 
         public void TestCookie1() {
             HttpContext.Response.Cookies.Append("hello", "lkt");
@@ -18,5 +24,13 @@ namespace TengoDotNetCore.Controllers {
             });
         }
 
+        /// <summary>
+        /// 获取物理路径
+        /// 需要注入一股服务端环境对象IHostingEnvironment
+        /// </summary>
+        /// <returns></returns>
+        public string Path() {
+            return _hostingEnvironment.WebRootPath;
+        }
     }
 }
