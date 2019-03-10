@@ -32,14 +32,15 @@
     <table class="table table-border table-bordered table-bg table-hover table-sort">
         <thead>
             <tr>
-                <th scope="col" colspan="5">内容列表</th>
+                <th scope="col" colspan="6">内容列表</th>
             </tr>
             <tr class="text-c">
                 <th width="25"><input type="checkbox" name="" value=""></th>
-                <th width="40">ID</th>
-                <th width="150">标题</th>
-                <th width="90">排序</th>
-                <th width="150">操作</th>
+                <th width="30">ID</th>
+                <th width="120">标题</th>
+                <th width="60">封面图</th>
+                <th width="60">排序</th>
+                <th width="120">操作</th>
             </tr>
         </thead>
         <tbody>
@@ -48,6 +49,7 @@
                     <td><input type="checkbox" value="@item.ID" name="id"></td>
                     <td>@item.ID</td>
                     <td>@item.Title</td>
+                    <td><img class="picture-thumb" src="@item.CoverImg" style="width:100px;" /> </td>
                     <td>@item.Sort</td>
                     <td class="td-manage">
                         <a style="text-decoration:none" onClick="stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>

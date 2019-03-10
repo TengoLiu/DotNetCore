@@ -2,10 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TengoDotNetCore.Data;
 using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Service.Abs {
     public abstract class AbsService {
+
+        /// <summary>
+        /// dbcontext对象
+        /// </summary>
+        protected readonly TengoDbContext db;
+
+        public AbsService(TengoDbContext db) {
+            this.db = db;
+        }
 
         /// <summary>
         /// 响应成功

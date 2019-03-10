@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Admin\Controllers\KindEditorController.cs" />
     <Compile Remove="Models\Product.cs" />
   </ItemGroup>
 

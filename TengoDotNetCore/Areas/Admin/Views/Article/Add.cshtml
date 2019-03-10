@@ -1,6 +1,6 @@
 ﻿@model Article
 <div class="page-container">
-    <form class="form form-horizontal" id="form1">
+    <form class="form form-horizontal" id="form1" enctype="multipart/form-data">
         <div class="text-danger"></div>
         <div class="row cl">
             <label asp-for="Title" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>标题：</label>
@@ -28,10 +28,25 @@
             </div>
         </div>
         <div class="row cl">
-            <label asp-for="Description" class="form-label col-xs-4 col-sm-2">文章内容：</label>
+            <label asp-for="CoverImg" class="form-label col-xs-4 col-sm-2">封面图：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <textarea id="editor_id" name="content" style="width:100%;height:400px;"></textarea>
-                <input id="content" name="content" type="hidden" />
+                <input asp-for="CoverImg" class="input-text" type="hidden" />
+                <img id="CoverImgImg" src="" style="width:100px;height:100px;" />
+                <a class="btn btn-default radius ml-10" id="btn-upload">上传封面图片</a>
+            </div>
+        </div>
+        <div class="row cl">
+            <label for="EditorContent" class="form-label col-xs-4 col-sm-2">PC版详情：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea id="EditorContent" style="width:100%;height:400px;"></textarea>
+                <input asp-for="Content" type="hidden" />
+            </div>
+        </div>
+        <div class="row cl">
+            <label for="EditorMContent" class="form-label col-xs-4 col-sm-2">移动版详情：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea id="EditorMContent" style="width:100%;height:400px;"></textarea>
+                <input asp-for="MContent" type="hidden" />
             </div>
         </div>
         <div class="row cl">
@@ -75,29 +90,37 @@
                 increaseArea: '20%'
             });
 
-            //var editor;
-            ////初始化内容编辑器
-            //KindEditor.ready(function (K) {
-            //    editor = K.create('#editor_id', {
-            //        uploadJson: '/admin/kindEditor/upload_json',
-            //        fileManagerJson: '/admin/kindEditor/file_manager_json',
-            //        allowFileManager: true
-            //    });
-            //    //商品主图上传
-            //    K('#upload-button').click(function () {
-            //        editor.loadPlugin('image', function () {
-            //            editor.plugin.imageDialog({
-            //                showRemote: false,
-            //                imageUrl: K('#upload-url').val(),
-            //                clickFn: function (url, title, width, height, border, align) {
-            //                    K('#upload-url').val(url);
-            //                    $('#uploadImg').prop("src", url);
-            //                    editor.hideDialog();
-            //                }
-            //            });
-            //        });
-            //    });
-            //});
+            var editor;
+            var editor2;
+            //初始化内容编辑器
+            KindEditor.ready(function (K) {
+                //初始化PC版HTML编辑器
+                editor = K.create('#EditorContent', {
+                    uploadJson: '/admin/kindEditor/upload',
+                    fileManagerJson: '/admin/kindEditor/fileManager',
+                    allowFileManager: true
+                });
+                //初始化移动版HTML编辑器
+                editor2 = K.create('#EditorMContent', {
+                    uploadJson: '/admin/kindEditor/upload',
+                    fileManagerJson: '/admin/kindEditor/fileManager',
+                    allowFileManager: true
+                });
+                //封面图上传
+                K('#btn-upload').click(function () {
+                    editor.loadPlugin('image', function () {
+                        editor.plugin.imageDialog({
+                            showRemote: false,
+                            imageUrl: K('#CoverImg').val(),
+                            clickFn: function (url, title, width, height, border, align) {
+                                K('#CoverImg').val(url);
+                                $('#CoverImgImg').prop("src", url);
+                                editor.hideDialog();
+                            }
+                        });
+                    });
+                });
+            });
 
             $("#btn-submit").click(function () {
                 /*
@@ -109,15 +132,18 @@
                 if (!$("#form1").valid()) {
                     return;
                 }
-                //editor.sync();
-                //$("#Content").val($("#editor_id").val());
-                //$("#Keywords").val($("#ta_keywords").val());
-                //$("#Description").val($("#ta_description").val());
+                editor.sync();
+                editor2.sync();
+                $("#Content").val($("#EditorContent").val());
+                $("#MContent").val($("#EditorMContent").val());
                 $.ajax({
                     url: "/admin/article/add",
                     type: "POST",
                     data: $("#form1").serialize(),
                     dataType: "JSON",
+                    headers: {
+                        enctype: "multipart/form-data"
+                    },
                     success: function (data) {
                         if (data.code == 1000) {
                             layer.msg(data.msg, { icon: 1, time: 1000 });

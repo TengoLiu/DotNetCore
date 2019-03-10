@@ -1,27 +1,34 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
-using TengoDotNetCore.Common;
 using TengoDotNetCore.Controllers;
 
 namespace WinexHK.Areas.Admin.Controllers {
+    [Area("Admin")]
     public class KindEditorController : BaseController {
 
-        #region  upload_json 接收客户端上传文件的方法
-        public IActionResult upload_json() {
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public KindEditorController(IHostingEnvironment hostingEnvironment) {
+            _hostingEnvironment = hostingEnvironment;
+        }
+
+        #region  Upload 接收客户端上传文件的方法
+        public IActionResult Upload(string dir = "", IFormFile imgFile = null) {
             try {
-                if (EsistsSession(Constant.SESSION_MANAGER)) {
-                    return Content(Error("您的登录信息已过期，请刷新页面重新登录."), "application/json", System.Text.Encoding.UTF8);
-                }
+                //if (EsistsSession(Constant.SESSION_MANAGER)) {
+                //    return Error("您的登录信息已过期，请刷新页面重新登录.");
+                //}
                 //文件保存目录物理路径
                 string savePath = "/upload/";
 
                 #region 定义允许上传的文件扩展名,目前只能传图片
-                Hashtable extTable = new Hashtable();
+                var extTable = new Hashtable();
                 extTable.Add("image", "gif,jpg,jpeg,png,bmp");
                 //extTable.Add("flash", "swf,flv");
                 //extTable.Add("media", "swf,flv,mp3,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb");
@@ -31,19 +38,15 @@ namespace WinexHK.Areas.Admin.Controllers {
                 //最大文件大小，2M
                 int maxSize = 1024 * 1024 * 2;
 
-                HttpPostedFileBase imgFile = Request.Files["imgFile"];
                 if (imgFile == null) {
-                    return Content(Error("请选择文件。"), "application/json", System.Text.Encoding.UTF8);
+                    return Error("请选择文件。");
                 }
 
-                string dirPath = Server.MapPath(savePath);//获取文件保存url对应的物理路径
-
-                //if(!Directory.Exists(dirPath)) {
-                //    return Content(showError("上传目录不存在。"), "application/json", System.Text.Encoding.UTF8);
-                //}
+                //获取文件保存url对应的物理路径
+                string dirPath = _hostingEnvironment.WebRootPath + "\\" + savePath;
 
                 //获取上传文件要保存到的目录，本来来说是会区分img、flash、media等等的，但是我打算把所有文件都放到一起，所以这里的dir仅作为索引从extTable来判断上传类型是否合规
-                string dirName = Request.QueryString["dir"];
+                string dirName = dir;
 
                 //if(string.IsNullOrEmpty(dirName)) {
                 //    dirName = "image";
@@ -56,13 +59,13 @@ namespace WinexHK.Areas.Admin.Controllers {
                 string fileName = imgFile.FileName;
                 string fileExt = Path.GetExtension(fileName).ToLower();
 
-                if (imgFile.InputStream == null || imgFile.InputStream.Length > maxSize) {
-                    return Content(Error("上传文件大小超过限制。"), "application/json", System.Text.Encoding.UTF8);
+                if (imgFile == null || imgFile.Length > maxSize) {
+                    return Error("上传文件大小超过限制。");
                 }
 
                 //判断是否是允许上传的格式
                 if (string.IsNullOrEmpty(fileExt) || Array.IndexOf(((string)extTable[dirName]).Split(','), fileExt.Substring(1).ToLower()) == -1) {
-                    return Content(Error("上传文件扩展名是不允许的扩展名。\n只允许" + ((string)extTable[dirName]) + "格式。"), "application/json", System.Text.Encoding.UTF8);
+                    return Error("上传文件扩展名是不允许的扩展名。\n只允许" + ((string)extTable[dirName]) + "格式。");
                 }
 
                 //判断是否存在要保存的文件夹，这里是指 /upload
@@ -82,10 +85,13 @@ namespace WinexHK.Areas.Admin.Controllers {
                 //拼接文件保存的完整虚拟路径
                 savePath += ymd + "/";
 
+                //我要对文件名进行重新命名，用时间来做文件名
                 string newFileName = DateTime.Now.ToString("yyyyMMddHHmmss_ffff", DateTimeFormatInfo.InvariantInfo) + fileExt;
-                string filePath = dirPath + newFileName;
 
-                imgFile.SaveAs(filePath);
+                //采用流式方法保存文件
+                using (var fs = new FileStream(dirPath + newFileName, FileMode.Create)) {
+                    imgFile.CopyTo(fs);
+                }
 
                 string fileUrl = savePath + newFileName;
 
@@ -100,144 +106,8 @@ namespace WinexHK.Areas.Admin.Controllers {
         }
         #endregion
 
-        #region  goods_upload_json 接收客户端上传文件的方法
-        public ActionResult goods_upload_json(List<Size> sizes) {
-            try {
-                if (Session[ConstKeys.SESSION_MANAGER] == null) {
-                    return Content(Error("您的登录信息已过期，请刷新页面重新登录."), "application/json", System.Text.Encoding.UTF8);
-                }
-                //文件保存目录物理路径
-                string savePath = "/upload/";
-
-                #region 定义允许上传的文件扩展名,目前只能传图片
-                Hashtable extTable = new Hashtable();
-                extTable.Add("image", "gif,jpg,jpeg,png,bmp");
-                //extTable.Add("flash", "swf,flv");
-                //extTable.Add("media", "swf,flv,mp3,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb");
-                //extTable.Add("file", "doc,docx,xls,xlsx,ppt,htm,html,txt,zip,rar,gz,bz2");
-                #endregion
-
-                //最大文件大小，2M
-                int maxSize = 1024 * 1024 * 2;
-
-                HttpPostedFileBase imgFile = Request.Files["imgFile"];
-                if (imgFile == null) {
-                    return Content(Error("请选择文件。"), "application/json", System.Text.Encoding.UTF8);
-                }
-
-                //获取上传文件要保存到的目录，本来来说是会区分img、flash、media等等的，但是我打算把所有文件都放到一起，所以这里的dir仅作为索引从extTable来判断上传类型是否合规
-                string dirName = Request.QueryString["dir"];
-
-                //获取文件名和文件名后缀
-                string fileName = imgFile.FileName;
-                string fileExt = Path.GetExtension(fileName).ToLower();
-
-                if (imgFile.InputStream == null || imgFile.InputStream.Length > maxSize) {
-                    return Content(Error("上传文件大小超过限制。"), "application/json", System.Text.Encoding.UTF8);
-                }
-
-                //判断是否是允许上传的格式
-                if (string.IsNullOrEmpty(fileExt) || Array.IndexOf(((string)extTable[dirName]).Split(','), fileExt.Substring(1).ToLower()) == -1) {
-                    return Content(Error("上传文件扩展名是不允许的扩展名。\n只允许" + ((string)extTable[dirName]) + "格式。"), "application/json", System.Text.Encoding.UTF8);
-                }
-
-                var phyPath = Server.MapPath(savePath);
-                //判断是否存在要保存的文件夹     /upload/
-                if (!Directory.Exists(phyPath)) {
-                    Directory.CreateDirectory(phyPath);
-                }
-
-                //用日期来生成文件夹名称
-                string ymd = DateTime.Now.ToString("yyyyMMdd", DateTimeFormatInfo.InvariantInfo);
-
-                //判断是否存在要保存的文件夹     /upload/
-                if (!Directory.Exists(phyPath + ymd + "/")) {
-                    Directory.CreateDirectory(phyPath + ymd + "/");
-                }
-
-                string newFileName = DateTime.Now.ToString("yyyyMMddHHmmss_ffff", DateTimeFormatInfo.InvariantInfo) + fileExt;
-
-                //原图保存路径
-                string filePath = phyPath + ymd + "/" + newFileName;
-
-                //保存原图
-                imgFile.SaveAs(filePath);
-
-                //如果需要保存缩略图的话，按照各个尺寸保存缩略图
-                if (sizes != null && sizes.Count > 0) {
-                    foreach (var item in sizes) {
-                        CutAndSaveImg(imgFile
-                                    , newFileName
-                                    , string.Format("{0}/{1}/{2}/"
-                                                    , phyPath
-                                                    , "thumb_" + item.Width + "x" + item.Height
-                                                    , ymd)
-                                    , item.Width
-                                    , item.Height);
-                    }
-                }
-
-                Hashtable hash = new Hashtable();
-                hash["error"] = 0;
-                hash["url"] = savePath + ymd + "/" + newFileName;
-                return Content(JsonMapper.ToJson(hash), "application/json", System.Text.Encoding.UTF8);
-            }
-            catch (Exception exp) {
-                LogFactory.GetLogger().Error("upload_error", exp);
-                return Content(Error(exp.Message), "application/json", System.Text.Encoding.UTF8);
-            }
-        }
-        #endregion
-
-        #region CutAndSaveImg 缩小并保存图片
-        private void CutAndSaveImg(HttpPostedFileBase imgFile, string fileName, string DirName, int width, int height) {
-            // 创建图片数据流
-            var original_image = System.Drawing.Image.FromStream(imgFile.InputStream);
-            if (original_image.Width < width) {
-                height = (int)((float)width / height * original_image.Height);
-                width = original_image.Width;
-            }
-            System.Drawing.Graphics thum_graphic = null;
-            System.Drawing.Bitmap thum_image = new System.Drawing.Bitmap(width, height);//创建最终的图片对象
-            thum_graphic = System.Drawing.Graphics.FromImage(thum_image);
-            thum_graphic.FillRectangle(new System.Drawing.SolidBrush(System.Drawing.Color.Empty),
-                new System.Drawing.Rectangle(0, 0, width, height));
-            thum_graphic.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-            thum_graphic.DrawImage(original_image, 0, 0, width, height);
-
-            //定义图片最终保存的格式
-            System.Drawing.Imaging.ImageFormat ImgFormat;
-
-            //获取文件名后缀
-            string fileExt = Path.GetExtension(fileName).ToLower();
-
-            switch (fileExt.ToLower()) {
-                case ".gif":
-                    ImgFormat = System.Drawing.Imaging.ImageFormat.Gif;
-                    break;
-                case ".png":
-                    ImgFormat = System.Drawing.Imaging.ImageFormat.Png;
-                    break;
-                case ".bmp":
-                    ImgFormat = System.Drawing.Imaging.ImageFormat.Bmp;
-                    break;
-                case ".jpg":
-                case ".jpeg":
-                case ".jpe":
-                default:
-                    ImgFormat = System.Drawing.Imaging.ImageFormat.Jpeg;
-                    break;
-            }
-            //判断是否存在要保存的文件夹
-            if (!Directory.Exists(DirName)) {
-                Directory.CreateDirectory(DirName);
-            }
-            thum_image.Save(DirName + fileName, ImgFormat);
-        }
-        #endregion
-
-        #region file_manager_json 文件夹目录管理的方法
-        public ActionResult file_manager_json(string dir = "", string path = "", string order = "") {
+        #region FileManager 文件夹目录管理的方法
+        public ActionResult FileManager(string dir = "", string path = "", string order = "") {
 
             //根目录路径，相对路径
             string rootPath = "/upload/";
@@ -251,7 +121,7 @@ namespace WinexHK.Areas.Admin.Controllers {
             string currentDirPath = string.Empty;
             string moveupDirPath = string.Empty;
 
-            string dirPath = HttpContext.Server.MapPath(rootPath); //获取虚拟路径对应的在我们服务器上的物理路径（tengo），例如D：/
+            string dirPath = _hostingEnvironment.WebRootPath + rootPath; //获取虚拟路径对应的在我们服务器上的物理路径（tengo），例如D：/
 
             #region 上传文件到指定文件夹的一些设置 由于上传文件不再做类型文件夹区分，所以这段代码先弃用 2018年8月1日14:09:35
             //if(!string.IsNullOrEmpty(dirName)) {//如果指定的文件夹名字不为空的话
@@ -267,7 +137,8 @@ namespace WinexHK.Areas.Admin.Controllers {
             #endregion
 
             //根据path参数，设置各路径和URL
-            if (path == "") {
+            if (string.IsNullOrWhiteSpace(path)) {
+                path = string.Empty;
                 currentPath = dirPath;
                 currentUrl = rootUrl;
                 currentDirPath = string.Empty;
@@ -354,7 +225,7 @@ namespace WinexHK.Areas.Admin.Controllers {
         }
         #endregion
 
-        #region showError 辅助方法 上传文件提示错误信息
+        #region Error 辅助方法 上传文件提示错误信息
         private IActionResult Error(string message) {
             //设置返回的Model
             Hashtable hash = new Hashtable();
@@ -363,7 +234,6 @@ namespace WinexHK.Areas.Admin.Controllers {
             return Json(hash);
         }
         #endregion
-
     }
 
     #region 辅助类
