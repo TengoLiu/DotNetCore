@@ -17,14 +17,15 @@ namespace TengoDotNetCore.Models {
         public string CoverImg { get; set; }
 
         /// <summary>
-        /// PC端商品详情
+        /// PC端详情
         /// </summary>
         public string Content { get; set; }
 
         /// <summary>
-        /// 移动端的商品详情
+        /// 移动端的详情
         /// </summary>
         public string MContent { get; set; }
+
         /// <summary>
         /// 作者
         /// </summary>
