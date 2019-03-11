@@ -51,12 +51,12 @@ namespace TengoDotNetCore.Service.Impl {
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<Article> Detail(int? ID) {
+        public  async Task<Article> Detail(int? ID) {
             if (ID == null || ID <= 0) {
                 return null;
             }
-            var article = await db.Article.ToAsyncEnumerable().FirstOrDefault(p => p.ID == ID);
-            return article;
+            var model = await db.Article.ToAsyncEnumerable().FirstOrDefault(p => p.ID == ID);
+            return model;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace TengoDotNetCore.Service.Impl {
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<int> Edit(Article model) {
+        public  async Task<int> Edit(Article model) {
             if (string.IsNullOrWhiteSpace(model.Keywords)) {
                 model.Keywords = model.Title + "," + model.Author;
             }
@@ -90,7 +90,7 @@ namespace TengoDotNetCore.Service.Impl {
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<int> Add(Article model) {
+        public  async Task<int> Add(Article model) {
             db.Article.Add(model);
             return await db.SaveChangesAsync();
         }
@@ -100,13 +100,13 @@ namespace TengoDotNetCore.Service.Impl {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<int> Delete(int? id) {
+        public  async Task<int> Delete(int? id) {
             if (id == null) {
                 return 1;
             }
-            var article = await db.Article.SingleOrDefaultAsync(p => p.ID == id);
-            if (article != null) {
-                db.Article.Remove(article);
+            var model = await db.Article.SingleOrDefaultAsync(p => p.ID == id);
+            if (model != null) {
+                db.Article.Remove(model);
                 return await db.SaveChangesAsync();
             }
             return 1;
