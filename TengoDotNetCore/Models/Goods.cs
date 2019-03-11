@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Models {
@@ -11,16 +8,32 @@ namespace TengoDotNetCore.Models {
     /// </summary>
     public class Goods : BaseModel {
 
+        [Required(ErrorMessage = "名称是必填的"), MaxLength(50)]
         public string Name { get; set; }
 
         public string NameEn { get; set; }
+
+        /// <summary>
+        /// 封面图片
+        /// </summary>
+        public string CoverImg { get; set; }
+
+        /// <summary>
+        /// PC端商品详情
+        /// </summary>
+        public string Content { get; set; }
+
+        /// <summary>
+        /// 移动端的商品详情
+        /// </summary>
+        public string MContent { get; set; }
 
         /// <summary>
         /// 价格
         /// 由于如果不指定[Column(TypeName = "decimal(18, 2)")]的话
         /// 则默认是decimal(18, 2)，实际上可以根据需要来指定在数据库中的类型
         /// </summary>
-        [Column(TypeName = "decimal(18, 2)")]
+        [Column(TypeName = "decimal(18, 2)"),Required(ErrorMessage = "价格是必填的！")]
         public decimal Price { get; set; }
 
         public int Stock { get; set; }
@@ -35,8 +48,38 @@ namespace TengoDotNetCore.Models {
         public int Status { get; set; }
 
         /// <summary>
+        /// 获取商品状态的名称
+        /// </summary>
+        /// <returns></returns>
+        public string GetStatus() {
+            switch (Status) {
+                case 1:
+                    return "正常销售";
+                case 2:
+                    return "销售不展示";
+                case 3:
+                    return "已下架";
+                case 4:
+                    return "待审核";
+                default:
+                    return "待审核";
+            }
+        }
+
+        /// <summary>
         /// 排序，排序越大越靠前
         /// </summary>
         public int Sort { get; set; }
+
+        /// <summary>
+        /// SEO关键词
+        /// </summary>
+        [MaxLength(128)]
+        public string Keywords { get; set; }
+        /// <summary>
+        /// SEO描述
+        /// </summary>
+        [MaxLength(255)]
+        public string Description { get; set; }
     }
 }
