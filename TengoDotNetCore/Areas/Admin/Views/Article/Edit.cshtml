@@ -124,7 +124,7 @@
                 K('#btn-upload').click(function () {
                     editor.loadPlugin('image', function () {
                         editor.plugin.imageDialog({
-                            showRemote: false,
+                            showRemote: true,
                             imageUrl: K('#CoverImg').val(),
                             clickFn: function (url, title, width, height, border, align) {
                                 K('#CoverImg').val(url);
@@ -140,6 +140,10 @@
                 if (!$("#form1").valid()) {
                     return;
                 }
+                editor.sync();
+                editor2.sync();
+                $("#Content").val($("#EditorContent").val());
+                $("#MContent").val($("#EditorMContent").val());
                 $.ajax({
                     url: "/admin/article/edit",
                     type: "POST",

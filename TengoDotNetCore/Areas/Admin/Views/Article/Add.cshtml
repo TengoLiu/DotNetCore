@@ -119,7 +119,7 @@
                 K('#btn-upload').click(function () {
                     editor.loadPlugin('image', function () {
                         editor.plugin.imageDialog({
-                            showRemote: false,
+                            showRemote: true,
                             imageUrl: K('#CoverImg').val(),
                             clickFn: function (url, title, width, height, border, align) {
                                 K('#CoverImg').val(url);
