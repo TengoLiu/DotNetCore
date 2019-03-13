@@ -57,5 +57,16 @@ namespace TengoDotNetCore.Models {
         /// 排序，排序越大越靠前
         /// </summary>
         public int Sort { get; set; }
+
+        public static string GetStatus(Article model) {
+            switch (model.Status) {
+                case 1:
+                    return "正常显示";
+                case 2:
+                    return "能访问但列表不展示";
+                default:
+                    return "待审核";
+            }
+        }
     }
 }
