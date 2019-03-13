@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -13,9 +14,15 @@ namespace TengoDotNetCore.Common.Utils {
         /// <param name="url"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static string GET(string url, string encoding = "utf-8") {
+        public static string GET(string url, IDictionary<string, string> headers = null, string encoding = "utf-8") {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
+
+            if (headers != null && headers.Count > 0) {
+                foreach (var key in headers.Keys) {
+                    request.Headers.Add(key, headers[key]);
+                }
+            }
 
             //获取请求上传流
             var requestStream = request.GetRequestStream();
@@ -41,11 +48,16 @@ namespace TengoDotNetCore.Common.Utils {
         /// <param name="encoding">请求和响应的编码</param>
         /// <param name="contentType">内容类型</param>
         /// <returns></returns>
-        public static string Post(string url, NameValueCollection param, string encoding = "utf-8", string contentType = "application/x-www-form-urlencoded") {
+        public static string Post(string url, NameValueCollection param, IDictionary<string, string> headers = null, string encoding = "utf-8", string contentType = "application/x-www-form-urlencoded") {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
             request.ContentType = contentType;
 
+            if (headers != null && headers.Count > 0) {
+                foreach (var key in headers.Keys) {
+                    request.Headers.Add(key, headers[key]);
+                }
+            }
 
             var formData = new StringBuilder();
             if (param != null && param.Count > 0) {
@@ -90,10 +102,16 @@ namespace TengoDotNetCore.Common.Utils {
         /// <param name="encoding">请求和响应的编码</param>
         /// <param name="contentType">内容类型</param>
         /// <returns></returns>
-        public static string Post(string url, string body, string encoding = "utf-8", string contentType = "application/x-www-form-urlencoded") {
+        public static string Post(string url, string body, IDictionary<string, string> headers = null, string encoding = "utf-8", string contentType = "application/x-www-form-urlencoded") {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
             request.ContentType = contentType;
+
+            if (headers != null && headers.Count > 0) {
+                foreach (var key in headers.Keys) {
+                    request.Headers.Add(key, headers[key]);
+                }
+            }
 
             //将报文数据转化成二进制字节
             byte[] bytesRequestData = Encoding.GetEncoding(encoding).GetBytes(body);
