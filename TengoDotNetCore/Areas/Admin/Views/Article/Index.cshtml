@@ -26,7 +26,7 @@
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
             <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
-            <a href="javascript:;" onclick="add('添加内容','/admin/article/add','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加内容</a>
+            <a href="javascript:;" onclick="add('添加内容','/admin/article/add','1000','800')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加内容</a>
         </span> <span class="r">共有数据：<strong>@Model.Total</strong> 条</span>
     </div>
     <table class="table table-border table-bordered table-bg table-hover table-sort">
@@ -38,6 +38,7 @@
                 <th width="25"><input type="checkbox" name="" value=""></th>
                 <th width="30">ID</th>
                 <th width="120">标题</th>
+                <th width="60">所属分类</th>
                 <th width="60">封面图</th>
                 <th width="60">排序</th>
                 <th width="120">操作</th>
@@ -49,11 +50,12 @@
                     <td><input type="checkbox" value="@item.ID" name="id"></td>
                     <td>@item.ID</td>
                     <td>@item.Title</td>
+                    <td>@item.Category.Title</td>
                     <td><img class="picture-thumb" src="@item.CoverImg" style="width:100px;" /> </td>
                     <td>@item.Sort</td>
                     <td class="td-manage">
                         <a style="text-decoration:none" onClick="stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
-                        <a title="编辑" href="javascript:;" onclick="edit('内容编辑','/admin/article/edit?id=@item.ID','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                        <a title="编辑" href="javascript:;" onclick="edit('内容编辑','/admin/article/edit?id=@item.ID','1','1000','800')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
                         <a title="删除" href="javascript:;" onclick="del(this,'@item.ID')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                     </td>
                 </tr>

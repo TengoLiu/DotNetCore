@@ -73,7 +73,9 @@ namespace TengoDotNetCore {
             //services.AddScoped(typeof(IUserService), typeof(UserService));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IArticleService, ArticleService>();
+            services.AddScoped<IArticleCategoryService, ArticleCategoryService>();
             services.AddScoped<IGoodsService, GoodsService>();
+            services.AddScoped<IGoodsCategoryService, GoodsCategoryService>();
             #endregion
         }
 

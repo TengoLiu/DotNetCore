@@ -20,8 +20,11 @@ namespace TengoDotNetCore.Service.Impl {
         /// <param name="keyword">关键词</param>
         /// <param name="sortBy">排序条件</param>
         /// <returns></returns>
-        public async Task<PageList<Article>> List(PageInfo pageInfo, string keyword, string sortBy) {
+        public async Task<PageList<Article>> List(PageInfo pageInfo, string keyword, string sortBy, bool includeCategory) {
             var query = db.Article.AsQueryable();
+            if (includeCategory) {
+                query = query.Include("Category");
+            }
             if (!string.IsNullOrWhiteSpace(keyword)) {
                 query = query.Where(p => p.Title.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase) || p.Author.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase));
             }
@@ -51,7 +54,7 @@ namespace TengoDotNetCore.Service.Impl {
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public  async Task<Article> Detail(int? ID) {
+        public async Task<Article> Detail(int? ID) {
             if (ID == null || ID <= 0) {
                 return null;
             }
@@ -64,7 +67,7 @@ namespace TengoDotNetCore.Service.Impl {
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public  async Task<int> Edit(Article model) {
+        public async Task<int> Edit(Article model) {
             if (string.IsNullOrWhiteSpace(model.Keywords)) {
                 model.Keywords = model.Title + "," + model.Author;
             }
@@ -75,14 +78,15 @@ namespace TengoDotNetCore.Service.Impl {
             //标明哪些字段变动了
             db.Entry(model).Property(p => p.Title).IsModified = true;
             db.Entry(model).Property(p => p.Author).IsModified = true;
+            db.Entry(model).Property(p => p.CategoryID).IsModified = true;
             db.Entry(model).Property(p => p.CoverImg).IsModified = true;
             db.Entry(model).Property(p => p.Status).IsModified = true;
             db.Entry(model).Property(p => p.Keywords).IsModified = true;
             db.Entry(model).Property(p => p.Description).IsModified = true;
             db.Entry(model).Property(p => p.Content).IsModified = true;
             db.Entry(model).Property(p => p.MContent).IsModified = true;
-            db.Entry(model).Property(p => p.UpdateTime).IsModified = true;
             db.Entry(model).Property(p => p.Sort).IsModified = true;
+            db.Entry(model).Property(p => p.UpdateTime).IsModified = true;
             return await db.SaveChangesAsync();
         }
 
@@ -91,7 +95,15 @@ namespace TengoDotNetCore.Service.Impl {
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public  async Task<int> Add(Article model) {
+        public async Task<int> Add(Article model) {
+            if (string.IsNullOrWhiteSpace(model.Keywords)) {
+                model.Keywords = model.Title + "," + model.Author;
+            }
+            if (string.IsNullOrWhiteSpace(model.Description)) {
+                model.Description = model.Keywords;
+            }
+            model.AddTime = DateTime.Now;
+            model.UpdateTime = DateTime.Now;
             db.Article.Add(model);
             return await db.SaveChangesAsync();
         }
@@ -101,7 +113,7 @@ namespace TengoDotNetCore.Service.Impl {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public  async Task<int> Delete(int? id) {
+        public async Task<int> Delete(int? id) {
             if (id == null) {
                 return 1;
             }

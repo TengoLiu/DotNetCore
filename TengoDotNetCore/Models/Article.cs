@@ -9,7 +9,12 @@ namespace TengoDotNetCore.Models {
         /// <summary>
         /// 文章分类
         /// </summary>
-        public ArticleCategory Category { get; set; }
+        [Required(ErrorMessage = "文章分类是必选的")]
+        public int CategoryID { get; set; }
+        /// <summary>
+        /// 文章分类
+        /// </summary>
+        public virtual ArticleCategory Category { get; set; }
 
         /// <summary>
         /// 封面图片
