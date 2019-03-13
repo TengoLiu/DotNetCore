@@ -1,2 +1,3 @@
 # TengoDotNetCore
-一步步搞 .NET Core
+使用.NET Core一步步开发自己的电商网站。
+先从后台开始做吧。
