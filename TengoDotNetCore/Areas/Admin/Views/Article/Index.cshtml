@@ -41,6 +41,7 @@
                 <th width="60">所属分类</th>
                 <th width="60">封面图</th>
                 <th width="60">排序</th>
+                <th width="60">状态</th>
                 <th width="120">操作</th>
             </tr>
         </thead>
@@ -53,6 +54,23 @@
                     <td>@item.Category.Title</td>
                     <td><img class="picture-thumb" src="@item.CoverImg" style="width:100px;" /> </td>
                     <td>@item.Sort</td>
+                    <td class="td-status">
+                        @if (item.Status == 1) {
+                            <span class="label label-success radius">
+                                @Article.GetStatus(item)
+                            </span>
+                        }
+                        else if (item.Status == 2) {
+                            <span class="label label-warning radius">
+                                @Article.GetStatus(item)
+                            </span>
+                        }
+                        else {
+                            <span class="label label-danger radius">
+                                @Article.GetStatus(item)
+                            </span>
+                        }
+                    </td>
                     <td class="td-manage">
                         <a style="text-decoration:none" onClick="stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
                         <a title="编辑" href="javascript:;" onclick="edit('内容编辑','/admin/article/edit?id=@item.ID','1','1000','800')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
