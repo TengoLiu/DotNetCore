@@ -15,6 +15,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         public async Task<IActionResult> Index(PageInfo pageInfo, string keyword = null) {
+            ViewData["keyword"] = keyword;
             ViewData.Model = await service.PageList(pageInfo, keyword);
             return View();
         }
