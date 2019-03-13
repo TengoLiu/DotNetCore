@@ -20,8 +20,11 @@ namespace TengoDotNetCore.Service.Impl {
         /// <param name="keyword">关键词</param>
         /// <param name="sortBy">排序条件</param>
         /// <returns></returns>
-        public async Task<PageList<Article>> List(PageInfo pageInfo, string keyword, string sortBy, bool includeCategory) {
+        public async Task<PageList<Article>> List(PageInfo pageInfo, int categoryID, string keyword, string sortBy, bool includeCategory) {
             var query = db.Article.AsQueryable();
+            if (categoryID > 0) {
+                query = query.Where(p => p.CategoryID == categoryID);
+            }
             if (includeCategory) {
                 query = query.Include("Category");
             }

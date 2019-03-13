@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Models {
@@ -20,5 +21,7 @@ namespace TengoDotNetCore.Models {
         /// </summary>
         [Required]
         public int Sort { get; set; }
+
+        public virtual ICollection<Article> Articles { get; set; }
     }
 }

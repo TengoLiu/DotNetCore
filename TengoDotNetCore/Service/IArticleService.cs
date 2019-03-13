@@ -13,6 +13,6 @@ namespace TengoDotNetCore.Service {
         /// <param name="sortBy"></param>
         /// <param name="includeCategory">是否要读取关联属性-文章分类</param>
         /// <returns></returns>
-        Task<PageList<Article>> List(PageInfo pageInfo, string keyword, string sortBy,bool includeCategory);
+        Task<PageList<Article>> List(PageInfo pageInfo, int categoryID, string keyword, string sortBy,bool includeCategory);
     }
 }
