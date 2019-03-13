@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TengoDotNetCore.Data;
 using TengoDotNetCore.Models;
+using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.Service.Abs;
 
 namespace TengoDotNetCore.Service.Impl {
@@ -47,6 +48,14 @@ namespace TengoDotNetCore.Service.Impl {
             db.Entry(model).Property(p => p.CoverImg).IsModified = true;
             db.Entry(model).Property(p => p.Sort).IsModified = true;
             return await db.SaveChangesAsync();
+        }
+
+        public async Task<PageList<ArticleCategory>> PageList(PageInfo pageInfo, string keyword) {
+            var query = db.ArticleCategory.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(keyword)) {
+                query = query.Where(p => p.Title.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase));
+            }
+            return await PageList<ArticleCategory>.CreateAsync(query, pageInfo);
         }
     }
 }
