@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TengoDotNetCore.Data;
+using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Service.Abs {
@@ -61,5 +62,25 @@ namespace TengoDotNetCore.Service.Abs {
             return new JsonResultObj(status, msg, data);
 
         }
+
+
+        #region 公用方法 为了避免Service之间互相依赖，因此只能把一些公用的方法放到基础Service类里面了
+        /// <summary>
+        /// 通过一个父结点ID获取当前结点的所有祖先结点
+        /// </summary>
+        /// <param name="curParID"></param>
+        /// <returns></returns>
+        public async Task<List<Category>> GetParentCategorys(int curParID) {
+            var listPars = new List<Category>();
+            while (curParID > 0) {
+                var c = await db.Category.ToAsyncEnumerable().FirstOrDefault(p => p.ID == curParID);
+                if (c == null) { break; }//如果父类为null的话，则直接退出
+                listPars.Add(c);
+                //更新当前父ID，以备后面继续遍历
+                curParID = c.ParID;
+            }
+            return listPars;
+        }
+        #endregion
     }
 }
