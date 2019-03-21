@@ -2,30 +2,29 @@
 using System.Threading.Tasks;
 using TengoDotNetCore.Common.Service;
 using TengoDotNetCore.Models;
-using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Service {
-    public interface IArticleCategoryService  {
+    public interface ICategoryService {
         /// <summary>
         /// 通过ID获取详情
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<ArticleCategory> Detail(int? id);
+        Task<Category> Detail(int? id);
 
         /// <summary>
         /// 修改更新一个Model
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Task<int> Edit(ArticleCategory model);
+        Task<int> Edit(Category model);
 
         /// <summary>
         /// 添加一个Model
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Task<int> Add(ArticleCategory model);
+        Task<int> Add(Category model);
 
         /// <summary>
         /// 通过id删除一个Model
@@ -34,8 +33,6 @@ namespace TengoDotNetCore.Service {
         /// <returns></returns>
         Task<int> Delete(int? id);
 
-        Task<List<ArticleCategory>> List();
-
-        Task<PageList<ArticleCategory>> PageList(PageInfo pageInfo, string keyword);
+        Task<List<Category>> List();
     }
 }

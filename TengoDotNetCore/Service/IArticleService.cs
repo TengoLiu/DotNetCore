@@ -4,7 +4,35 @@ using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Service {
-    public interface IArticleService : IEntityService<Article> {
+    public interface IArticleService {
+        /// <summary>
+        /// 通过ID获取详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<Article> Detail(int? id);
+
+        /// <summary>
+        /// 修改更新一个Model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        Task<int> Edit(Article model);
+
+        /// <summary>
+        /// 添加一个Model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        Task<int> Add(Article model);
+
+        /// <summary>
+        /// 通过id删除一个Model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<int> Delete(int? id);
+
         /// <summary>
         /// 分页获取文章列表
         /// </summary>
