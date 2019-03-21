@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using TengoDotNetCore.Models.Base;
 
@@ -33,7 +34,7 @@ namespace TengoDotNetCore.Models {
         /// 由于如果不指定[Column(TypeName = "decimal(18, 2)")]的话
         /// 则默认是decimal(18, 2)，实际上可以根据需要来指定在数据库中的类型
         /// </summary>
-        [Column(TypeName = "decimal(18, 2)"),Required(ErrorMessage = "价格是必填的！")]
+        [Column(TypeName = "decimal(18, 2)"), Required(ErrorMessage = "价格是必填的！")]
         public decimal Price { get; set; }
 
         public int Stock { get; set; }
@@ -51,8 +52,8 @@ namespace TengoDotNetCore.Models {
         /// 获取商品状态的名称
         /// </summary>
         /// <returns></returns>
-        public string GetStatus() {
-            switch (Status) {
+        public static string GetStatus(Goods model) {
+            switch (model.Status) {
                 case 1:
                     return "正常销售";
                 case 2:
@@ -81,5 +82,10 @@ namespace TengoDotNetCore.Models {
         /// </summary>
         [MaxLength(255)]
         public string Description { get; set; }
+
+        /// <summary>
+        /// 商品所属分类
+        /// </summary>
+        public virtual ICollection<GoodsCategory> GoodsCategory { get; set; }
     }
 }
