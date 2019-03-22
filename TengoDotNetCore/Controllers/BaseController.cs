@@ -33,6 +33,13 @@ namespace TengoDotNetCore.Controllers {
             });
         }
 
+        protected IActionResult JsonResultError(string msg) {
+            return Json(new JsonResultObj {
+                code = 999,
+                msg = msg
+            });
+        }
+
         protected IActionResult JsonResultError(string msg, object obj) {
             return Json(new JsonResultObj {
                 code = 1000,

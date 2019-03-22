@@ -63,6 +63,14 @@ namespace TengoDotNetCore.Service.Abs {
 
         }
 
+        /// <summary>
+        /// 响应错误异常
+        /// </summary>
+        /// <param name="e">报错对象</param>
+        /// <returns></returns>
+        public JsonResultObj Error(Exception e) {
+            return new JsonResultObj(-999, e.Message, e.InnerException);
+        }
 
         #region 公用方法 为了避免Service之间互相依赖，因此只能把一些公用的方法放到基础Service类里面了
         /// <summary>
