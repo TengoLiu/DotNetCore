@@ -1,0 +1,72 @@
+﻿@model List<Category>
+@{
+    ViewData["Title"] = "Index";
+}
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 产品管理 <span class="c-gray en">&gt;</span> 产品分类 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+    <div class="text-c">
+        <input type="text" name="" id="" placeholder="栏目名称、id" style="width:250px" class="input-text">
+        <button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
+    </div>
+    <div class="cl pd-5 bg-1 bk-gray mt-20">
+        <span class="l">
+            <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+            <a class="btn btn-primary radius" onclick="category_add('添加栏目','/admin/category/add')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加栏目</a>
+        </span>
+        <span class="r">共有数据：<strong>@Model.Count()</strong> 条</span>
+    </div>
+    <div class="mt-20">
+        <table class="table table-border table-bordered table-hover table-bg table-sort">
+            <thead>
+                <tr class="text-c">
+                    <th width="25"><input type="checkbox" name="" value=""></th>
+                    <th width="80">ID</th>
+                    <th width="80">父类ID</th>
+                    <th width="80">级别</th>
+                    <th>分类名称</th>
+                    <th width="80">排序</th>
+                    <th width="120">操作</th>
+                </tr>
+            </thead>
+            <tbody id="tree"></tbody>
+        </table>
+        <br /><br /><br /><br />
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/tengo-tree.js"></script>
+    <script type="text/javascript">
+         var data = new Array();
+        @foreach (var item in Model) {
+            @Html.Raw("data.push({" +"ID:" +item.ID+","+"ParID:" + item.ParID + ","+"Name:'" + item.Name + "'," +"Level:" + item.Level + "," +"Sort:" + item.Sort + "," +"CoverImg:'" + item.CoverImg + "'" +"});")
+        }
+        //从父类ID为0开始，生成分类树
+        $("#tree").html(createTreeTr(data));
+
+        /*系统-栏目-添加*/
+        function category_add(title, url, w, h) {
+            layer_show(title, url, w, h);
+        }
+        /*系统-栏目-编辑*/
+        function category_edit(title, url, id, w, h) {
+            layer_show(title, url, w, h);
+        }
+        /*系统-栏目-删除*/
+        function category_del(obj, id) {
+            layer.confirm('确认要删除吗？', function (index) {
+                $.ajax({
+                    type: 'POST',
+                    url: '',
+                    dataType: 'json',
+                    success: function (data) {
+                        $(obj).parents("tr").remove();
+                        layer.msg('已删除!', { icon: 1, time: 1000 });
+                    },
+                    error: function (data) {
+                        console.log(data.msg);
+                    },
+                });
+            });
+        }
+    </script>
+}

@@ -45,6 +45,17 @@
             </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">所属分类：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <ul class="Huifold" id="Huifold">
+                    <li class="item">
+                        <h4>点击打开或折叠 <b>-</b></h4>
+                        <ul class="info" id="CategoryID"></ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row cl">
             <label for="EditorContent" class="form-label col-xs-4 col-sm-2">PC版详情：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <textarea id="EditorContent" style="width:100%;height:400px;"></textarea>
@@ -99,6 +110,9 @@
                 increaseArea: '20%'
             });
 
+            /*5个参数顺序不可打乱，分别是：相应区,隐藏显示的内容,速度,类型,事件*/
+            $.Huifold("#Huifold .item h4", "#Huifold .item .info", "fast", 1, "click");
+
             var editor;
             var editor2;
             //初始化内容编辑器
@@ -119,7 +133,7 @@
                 K('#btn-upload').click(function () {
                     editor.loadPlugin('image', function () {
                         editor.plugin.imageDialog({
-                            showRemote: false,
+                            showRemote: true,
                             imageUrl: K('#CoverImg').val(),
                             clickFn: function (url, title, width, height, border, align) {
                                 K('#CoverImg').val(url);
@@ -130,6 +144,41 @@
                     });
                 });
             });
+
+            //树状分类的html
+            var tree = '';
+
+            @foreach (var item in ViewData["Category"] as List<Category>) {
+                @Html.Raw("data.push({ID:" + item.ID + ",Name:'" + item.Name + "',Level:" + item.Level + ",ParID:" + item.ParID + ",Checked:false});")
+            }
+
+            //创建分类结点，供递归调用
+            function createNode(parID) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].ParID === parID) {
+                        //定义空格占位符,用来填补开始处偏移的位置
+                        var space = "";
+                        //如果不是一级结点的话,要弄一点偏移
+                        if (data[i].ParID > 0) {
+                            for (var j = 0; j < data[i].Level; j++) {
+                                space += "&ensp;&ensp;";
+                            }
+                            //如果不是一级结点的话，要加上一个 ├ 符号
+                            space += "├&nbsp;";
+                        }
+                        var li = '<li>' + space;
+                        li += '<input type="checkbox" name="categoryIds" id="cid_' + data[i].ID + '" value="' + data[i].ID + '" onclick="categoryClick(this)"/>';
+                        li += '<label for="cid_' + data[i].ID + '">' + data[i].Name + '</label>';
+                        li += '</li>';
+                        tree += li;
+                        createNode(data[i].ID);
+                    }
+                }
+            }
+            //从根节点开始生成checkbox
+            createNode(0);
+
+            $("#CategoryID").html(tree);
 
             $("#btn-submit").click(function () {
                 /*
@@ -175,5 +224,66 @@
                 });
             });
         });
+
+        //数据集合
+        var data = new Array();
+
+        ///将所有祖先设置为选中
+        function setCbParChecked(parID) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].ID === parID) {
+                    data[i].Checked = true;
+                    setCbParChecked(data[i].ParID);
+                }
+            }
+        }
+
+        //将所有后代设置为不选中
+        function serCbChildUnChecked(id) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].ParID === id) {
+                    data[i].Checked = false;
+                    serCbChildUnChecked(data[i].ID);
+                }
+            }
+        }
+
+        //分类的checkbox点击事件
+        function categoryClick(item) {
+            var checked = $(item).prop("checked");
+            var value = $(item).val();
+            if (checked) {
+                for (var i = 0; i < data.length; i++) {
+                    //对集合进行遍历，如果遇到自己或者自己的父结点则设置选中
+                    if (data[i].ID == value) {
+                        data[i].Checked = true;
+                        //设置父结点为选中
+                        setCbParChecked(data[i].ParID);
+                    }
+                }
+            }
+            else {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].ID == value) {
+                        data[i].Checked = false;
+                        //除了自己，还要把自己的所有后代设置为不选中
+                        serCbChildUnChecked(data[i].ID);
+                    }
+                }
+            }
+            checkCb();
+        }
+
+        //检查设置分类的选中属性
+        function checkCb() {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].Checked) {
+                    $("#cid_" + data[i].ID).prop("checked", "checked");
+                }
+                else {
+                    $("#cid_" + data[i].ID).removeProp("checked");
+                }
+            }
+        }
     </script>
 }}

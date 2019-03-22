@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using TengoDotNetCore.Controllers;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
@@ -18,11 +16,14 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         /// 在IOC容器注册了之后，在执行请求的时候自动就会给我们生成一个并传进来
         /// </summary>
         private readonly IGoodsService service;
+        private readonly ICategoryService gcservice;
 
-        public GoodsController(IGoodsService service) {
+        public GoodsController(IGoodsService service, ICategoryService gcservice) {
             this.service = service;
+            this.gcservice = gcservice;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index(PageInfo pageInfo, string keyword = null, string sortBy = null) {
             ViewData["keyword"] = keyword;
             ViewData.Model = await service.List(pageInfo, keyword, sortBy);
@@ -31,39 +32,52 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Edit(int? id) {
-            var article = await service.Detail(id);
-            ViewData.Model = article;
-            if (article == null) {
+            var model = await service.Detail(id, true);
+            ViewData["Category"] = await gcservice.List();
+            ViewData.Model = model;
+            if (model == null) {
                 return new NotFoundResult();
             }
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Goods model) {
+        public async Task<IActionResult> Edit(Goods model, List<int> categoryIds) {
             if (ModelState.IsValid) {
-                var res = await service.Edit(model);
-                if (res > 0) {
-                    return JsonResultSuccess("修改成功！");
+                //组装商品分类关系
+                model.GoodsCategory = new List<GoodsCategory>();
+                if (categoryIds != null) {
+                    categoryIds.ForEach(p => {
+                        model.GoodsCategory.Add(new GoodsCategory {
+                            GoodsID = model.ID,
+                            CategoryID = p
+                        });
+                    });
                 }
-                return JsonResultSuccess("修改失败，请检查信息是否有误！");
+                return JsonResult(await service.Edit(model));
             }
             return JsonResultParamInvalid();
         }
 
         [HttpGet]
-        public IActionResult Add(int? id) {
+        public async Task<IActionResult> Add() {
+            ViewData["Category"] = await gcservice.List();
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(Goods model) {
+        public async Task<IActionResult> Add(Goods model, List<int> categoryIds) {
             if (ModelState.IsValid) {
-                var res = await service.Add(model);
-                if (res > 0) {
-                    return JsonResultSuccess("新增成功！");
+                if (categoryIds != null) {
+                    model.GoodsCategory = new List<GoodsCategory>();
+                    categoryIds.ForEach(p => {
+                        model.GoodsCategory.Add(new GoodsCategory {
+                            Goods = model,
+                            CategoryID = p
+                        });
+                    });
                 }
-                return JsonResultSuccess("修改失败，请检查信息是否有误！");
+                return JsonResult(await service.Add(model));
             }
             return JsonResultParamInvalid();
         }
@@ -71,8 +85,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         [HttpPost]
         public async Task<IActionResult> Delete(int? id) {
             //对于删除来说，其实我只要执行就好了，不管它成不成功！
-            await service.Delete(id);
-            return JsonResultSuccess("删除成功！");
+            return JsonResult(await service.Delete(id));
         }
     }
 }

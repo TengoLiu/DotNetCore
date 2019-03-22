@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TengoDotNetCore.Data;
@@ -9,56 +10,135 @@ using TengoDotNetCore.Service.Abs;
 
 namespace TengoDotNetCore.Service.Impl {
     public class GoodsService : AbsService, IGoodsService {
+
         public GoodsService(TengoDbContext db) : base(db) {
         }
 
-        public async Task<int> Add(Goods model) {
-            db.Goods.Add(model);
-            return await db.SaveChangesAsync();
+        public async Task<JsonResultObj> Add(Goods model) {
+            try {
+                db.Goods.Add(model);
+                await db.SaveChangesAsync();
+                return Success("添加成功！");
+            }
+            catch (Exception e) {
+                return Error(e);
+            }
         }
 
-        public async Task<int> Delete(int? id) {
-            if (id == null) {
-                return 1;
+        public async Task<JsonResultObj> Delete(int? id) {
+            try {
+                if (id != null) {
+                    var model = await db.Goods.SingleOrDefaultAsync(p => p.ID == id);
+                    if (model != null) {
+                        db.Goods.Remove(model);
+                        await db.SaveChangesAsync();
+                    }
+                }
+                return Success("删除成功！");
             }
-            var model = await db.Goods.SingleOrDefaultAsync(p => p.ID == id);
-            if (model != null) {
-                db.Goods.Remove(model);
-                return await db.SaveChangesAsync();
+            catch (Exception e) {
+                return Error(e);
             }
-            return 1;
         }
 
-        public async Task<Goods> Detail(int? id) {
+        public async Task<Goods> Detail(int? id, bool includeCategorys = false) {
             if (id == null || id <= 0) {
                 return null;
             }
-            var goods = await db.Goods.ToAsyncEnumerable().FirstOrDefault(p => p.ID == id);
+            var query = db.Goods.AsQueryable();
+            if (includeCategorys) {
+                query = query.Include(p => p.GoodsCategory);
+            }
+            var goods = await query.ToAsyncEnumerable().FirstOrDefault(p => p.ID == id);
             return goods;
         }
 
-        public async Task<int> Edit(Goods model) {
-            if (string.IsNullOrWhiteSpace(model.Keywords)) {
-                model.Keywords = model.Name;
+        public async Task<JsonResultObj> Edit(Goods model) {
+            try {
+                if (string.IsNullOrWhiteSpace(model.Keywords)) {
+                    model.Keywords = model.Name;
+                }
+                if (string.IsNullOrWhiteSpace(model.Description)) {
+                    model.Description = model.Keywords;
+                }
+                model.UpdateTime = DateTime.Now;
+                //标明哪些字段变动了
+                db.Entry(model).Property(p => p.Name).IsModified = true;
+                db.Entry(model).Property(p => p.NameEn).IsModified = true;
+                db.Entry(model).Property(p => p.CoverImg).IsModified = true;
+                db.Entry(model).Property(p => p.Price).IsModified = true;
+                db.Entry(model).Property(p => p.Stock).IsModified = true;
+                db.Entry(model).Property(p => p.Status).IsModified = true;
+                db.Entry(model).Property(p => p.Keywords).IsModified = true;
+                db.Entry(model).Property(p => p.Description).IsModified = true;
+                db.Entry(model).Property(p => p.Content).IsModified = true;
+                db.Entry(model).Property(p => p.MContent).IsModified = true;
+                db.Entry(model).Property(p => p.Sort).IsModified = true;
+
+                //先获取商品分类关系
+                //var goodsCategory = db.GoodsCategory.Include(p => p.Category).FirstOrDefault(p => p.GoodsID == model.ID && p.CategoryID == 16);
+
+                //如果关系不存在的话，那么要新建
+                //if (goodsCategory == null) {
+                //    //先获取分类
+                //    var category = db.Category.FirstOrDefault(p => p.ID == 16);
+                //    //如果连分类都不存在，那么还谈什么商品与分类的关系？直接报错！
+                //    if (category == null) {
+                //        return Error("分类不存在！");
+                //    }
+
+                //    //新建一个分类关系
+                //    goodsCategory = new GoodsCategory {
+                //        GoodsID = model.ID,
+                //        CategoryID = category.ID
+                //    };
+                //}
+                //取出本商品就的分类关系集合
+                var oldGCs = db.GoodsCategory.Where(p => p.GoodsID == model.ID).ToList();
+                //定义一个集合，存放即将要写入的分类关系
+                //var newGCs = new List<GoodsCategory>();
+
+                //我想通过移除全部旧的然后再插入新的，这样不行，居然报错了，因此我只能写代码对比新旧集合了 - -！
+                //db.GoodsCategory.RemoveRange(oldGCs);
+
+                //然后添加新的分类关系
+                //newGCs.Add(goodsCategory);
+
+                //获取所有父类，并且把所有父类结点都加进去
+                //var parGC = await GetParentCategorys(goodsCategory.Category.ParID);
+                //if (parGC != null) {
+                //    foreach (var item in parGC) {
+                //        newGCs.Add(new GoodsCategory {
+                //            GoodsID = model.ID,
+                //            CategoryID = item.ID
+                //        });
+                //    }
+                //}
+
+                oldGCs.ForEach(p => {
+                    //找一找看看旧的集合里面有没有跟新的集合一样的值，如果有，那么就不用动
+                    var existItem = model.GoodsCategory.FirstOrDefault(q => q.CategoryID == p.CategoryID);
+
+                    //如果旧的集合里面有，但是新的没有的话，说明这个老东西要删了
+                    if (existItem == null) {
+                        db.GoodsCategory.Remove(p);
+                    }
+                    else {
+                        //不然就把新集合里面的移除掉，后面剩下的就是纯粹要插入的了
+                        model.GoodsCategory.Remove(existItem);
+                    }
+                });
+
+                //比对完之后,剩下的就是纯粹要插入的了，那么直接插入即可
+                if (model.GoodsCategory.Count > 0) {
+                    db.GoodsCategory.AddRange(model.GoodsCategory);
+                }
+                await db.SaveChangesAsync();
+                return Success("修改成功！");
             }
-            if (string.IsNullOrWhiteSpace(model.Description)) {
-                model.Description = model.Keywords;
+            catch (Exception e) {
+                return Error(e);
             }
-            model.UpdateTime = DateTime.Now;
-            //标明哪些字段变动了
-            db.Entry(model).Property(p => p.Name).IsModified = true;
-            db.Entry(model).Property(p => p.NameEn).IsModified = true;
-            db.Entry(model).Property(p => p.CoverImg).IsModified = true;
-            db.Entry(model).Property(p => p.Price).IsModified = true;
-            db.Entry(model).Property(p => p.Stock).IsModified = true;
-            db.Entry(model).Property(p => p.Status).IsModified = true;
-            db.Entry(model).Property(p => p.Keywords).IsModified = true;
-            db.Entry(model).Property(p => p.Description).IsModified = true;
-            db.Entry(model).Property(p => p.Content).IsModified = true;
-            db.Entry(model).Property(p => p.MContent).IsModified = true;
-            db.Entry(model).Property(p => p.UpdateTime).IsModified = true;
-            db.Entry(model).Property(p => p.Sort).IsModified = true;
-            return await db.SaveChangesAsync();
         }
 
         public async Task<PageList<Goods>> List(PageInfo pageInfo, string keyword, string sortBy) {
