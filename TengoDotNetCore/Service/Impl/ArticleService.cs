@@ -70,27 +70,33 @@ namespace TengoDotNetCore.Service.Impl {
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<int> Edit(Article model) {
-            if (string.IsNullOrWhiteSpace(model.Keywords)) {
-                model.Keywords = model.Title + "," + model.Author;
+        public async Task<JsonResultObj> Edit(Article model) {
+            try {
+                if (string.IsNullOrWhiteSpace(model.Keywords)) {
+                    model.Keywords = model.Title + "," + model.Author;
+                }
+                if (string.IsNullOrWhiteSpace(model.Description)) {
+                    model.Description = model.Keywords;
+                }
+                model.UpdateTime = DateTime.Now;
+                //标明哪些字段变动了
+                db.Entry(model).Property(p => p.Title).IsModified = true;
+                db.Entry(model).Property(p => p.Author).IsModified = true;
+                db.Entry(model).Property(p => p.CategoryID).IsModified = true;
+                db.Entry(model).Property(p => p.CoverImg).IsModified = true;
+                db.Entry(model).Property(p => p.Status).IsModified = true;
+                db.Entry(model).Property(p => p.Keywords).IsModified = true;
+                db.Entry(model).Property(p => p.Description).IsModified = true;
+                db.Entry(model).Property(p => p.Content).IsModified = true;
+                db.Entry(model).Property(p => p.MContent).IsModified = true;
+                db.Entry(model).Property(p => p.Sort).IsModified = true;
+                db.Entry(model).Property(p => p.UpdateTime).IsModified = true;
+                await db.SaveChangesAsync();
+                return Success("更新成功！");
             }
-            if (string.IsNullOrWhiteSpace(model.Description)) {
-                model.Description = model.Keywords;
+            catch (Exception e) {
+                return Error(e);
             }
-            model.UpdateTime = DateTime.Now;
-            //标明哪些字段变动了
-            db.Entry(model).Property(p => p.Title).IsModified = true;
-            db.Entry(model).Property(p => p.Author).IsModified = true;
-            db.Entry(model).Property(p => p.CategoryID).IsModified = true;
-            db.Entry(model).Property(p => p.CoverImg).IsModified = true;
-            db.Entry(model).Property(p => p.Status).IsModified = true;
-            db.Entry(model).Property(p => p.Keywords).IsModified = true;
-            db.Entry(model).Property(p => p.Description).IsModified = true;
-            db.Entry(model).Property(p => p.Content).IsModified = true;
-            db.Entry(model).Property(p => p.MContent).IsModified = true;
-            db.Entry(model).Property(p => p.Sort).IsModified = true;
-            db.Entry(model).Property(p => p.UpdateTime).IsModified = true;
-            return await db.SaveChangesAsync();
         }
 
         /// <summary>
@@ -98,17 +104,23 @@ namespace TengoDotNetCore.Service.Impl {
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<int> Add(Article model) {
-            if (string.IsNullOrWhiteSpace(model.Keywords)) {
-                model.Keywords = model.Title + "," + model.Author;
+        public async Task<JsonResultObj> Add(Article model) {
+            try {
+                if (string.IsNullOrWhiteSpace(model.Keywords)) {
+                    model.Keywords = model.Title + "," + model.Author;
+                }
+                if (string.IsNullOrWhiteSpace(model.Description)) {
+                    model.Description = model.Keywords;
+                }
+                model.AddTime = DateTime.Now;
+                model.UpdateTime = DateTime.Now;
+                db.Article.Add(model);
+                await db.SaveChangesAsync();
+                return Success("添加成功！");
             }
-            if (string.IsNullOrWhiteSpace(model.Description)) {
-                model.Description = model.Keywords;
+            catch (Exception e) {
+                return Error(e);
             }
-            model.AddTime = DateTime.Now;
-            model.UpdateTime = DateTime.Now;
-            db.Article.Add(model);
-            return await db.SaveChangesAsync();
         }
 
         /// <summary>
@@ -116,16 +128,16 @@ namespace TengoDotNetCore.Service.Impl {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<int> Delete(int? id) {
+        public async Task<JsonResultObj> Delete(int? id) {
             if (id == null) {
-                return 1;
+                return Success("删除成功！");
             }
             var model = await db.Article.SingleOrDefaultAsync(p => p.ID == id);
             if (model != null) {
                 db.Article.Remove(model);
-                return await db.SaveChangesAsync();
+                await db.SaveChangesAsync();
             }
-            return 1;
+            return Success("删除成功！");
         }
     }
 }

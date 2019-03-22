@@ -18,21 +18,32 @@ namespace TengoDotNetCore.Service.Impl {
             return await db.ArticleCategory.ToListAsync();
         }
 
-        public async Task<int> Add(ArticleCategory model) {
-            db.ArticleCategory.Add(model);
-            return await db.SaveChangesAsync();
+        public async Task<JsonResultObj> Add(ArticleCategory model) {
+            try {
+                db.ArticleCategory.Add(model);
+                await db.SaveChangesAsync();
+                return Success("添加成功！");
+            }
+            catch (Exception e) {
+                return Error(e);
+            }
         }
 
-        public async Task<int> Delete(int? id) {
-            if (id == null) {
-                return 1;
+        public async Task<JsonResultObj> Delete(int? id) {
+            try {
+                if (id == null) {
+                    return Success("删除成功！");
+                }
+                var model = await db.ArticleCategory.SingleOrDefaultAsync(p => p.ID == id);
+                if (model != null) {
+                    db.ArticleCategory.Remove(model);
+                    await db.SaveChangesAsync();
+                }
+                return Success("删除成功！");
             }
-            var model = await db.ArticleCategory.SingleOrDefaultAsync(p => p.ID == id);
-            if (model != null) {
-                db.ArticleCategory.Remove(model);
-                return await db.SaveChangesAsync();
+            catch (Exception e) {
+                return Error(e);
             }
-            return 1;
         }
 
         public async Task<ArticleCategory> Detail(int? ID) {
@@ -43,11 +54,17 @@ namespace TengoDotNetCore.Service.Impl {
             return model;
         }
 
-        public async Task<int> Edit(ArticleCategory model) {
-            db.Entry(model).Property(p => p.Title).IsModified = true;
-            db.Entry(model).Property(p => p.CoverImg).IsModified = true;
-            db.Entry(model).Property(p => p.Sort).IsModified = true;
-            return await db.SaveChangesAsync();
+        public async Task<JsonResultObj> Edit(ArticleCategory model) {
+            try {
+                db.Entry(model).Property(p => p.Title).IsModified = true;
+                db.Entry(model).Property(p => p.CoverImg).IsModified = true;
+                db.Entry(model).Property(p => p.Sort).IsModified = true;
+                await db.SaveChangesAsync();
+                return Success("更新成功！");
+            }
+            catch (Exception e) {
+                return Error(e);
+            }
         }
 
         public async Task<PageList<ArticleCategory>> PageList(PageInfo pageInfo, string keyword) {

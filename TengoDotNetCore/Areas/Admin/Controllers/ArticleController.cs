@@ -47,11 +47,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         [HttpPost]
         public async Task<IActionResult> Edit(Article model) {
             if (ModelState.IsValid) {
-                var res = await service.Edit(model);
-                if (res > 0) {
-                    return JsonResultSuccess("修改成功！");
-                }
-                return JsonResultSuccess("修改失败，请检查信息是否有误！");
+                return JsonResult(await service.Edit(model));
             }
             return JsonResultParamInvalid();
         }
@@ -65,11 +61,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         [HttpPost]
         public async Task<IActionResult> Add(Article model) {
             if (ModelState.IsValid) {
-                var res = await service.Add(model);
-                if (res > 0) {
-                    return JsonResultSuccess("新增成功！");
-                }
-                return JsonResultSuccess("修改失败，请检查信息是否有误！");
+                return JsonResult(await service.Add(model));
             }
             return JsonResultParamInvalid();
         }

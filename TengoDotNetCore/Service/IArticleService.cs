@@ -17,21 +17,21 @@ namespace TengoDotNetCore.Service {
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Task<int> Edit(Article model);
+        Task<JsonResultObj> Edit(Article model);
 
         /// <summary>
         /// 添加一个Model
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Task<int> Add(Article model);
+        Task<JsonResultObj> Add(Article model);
 
         /// <summary>
         /// 通过id删除一个Model
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<int> Delete(int? id);
+        Task<JsonResultObj> Delete(int? id);
 
         /// <summary>
         /// 分页获取文章列表
