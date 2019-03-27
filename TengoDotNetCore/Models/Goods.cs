@@ -86,6 +86,6 @@ namespace TengoDotNetCore.Models {
         /// <summary>
         /// 商品所属分类
         /// </summary>
-        public virtual ICollection<GoodsCategory> GoodsCategory { get; set; }
+        public virtual List<GoodsCategory> GoodsCategory { get; set; }
     }
 }
