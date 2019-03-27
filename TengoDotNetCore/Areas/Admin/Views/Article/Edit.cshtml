@@ -50,6 +50,13 @@
             </div>
         </div>
         <div class="row cl">
+            <label asp-for="LinkUrl" class="form-label col-xs-4 col-sm-2">关联链接：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input asp-for="LinkUrl" class="input-text" />
+                <span asp-validation-for="LinkUrl" class="c-danger"></span>
+            </div>
+        </div>
+        <div class="row cl">
             <label for="EditorContent" class="form-label col-xs-4 col-sm-2">PC版详情：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <textarea id="EditorContent" style="width:100%;height:400px;">@Model.Content</textarea>

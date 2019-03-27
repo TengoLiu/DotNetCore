@@ -12,7 +12,7 @@
         <div class="row cl">
             <label asp-for="Author" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>作者：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input asp-for="Author" class="input-text" />
+                <input asp-for="Author" class="input-text" value="暂无" />
                 <span asp-validation-for="Author" class="c-danger"></span>
             </div>
         </div>
@@ -43,6 +43,13 @@
                 <input asp-for="CoverImg" class="input-text" type="hidden" />
                 <img id="CoverImgImg" src="" style="width:100px;height:100px;" />
                 <a class="btn btn-default radius ml-10" id="btn-upload">上传封面图片</a>
+            </div>
+        </div>
+        <div class="row cl">
+            <label asp-for="LinkUrl" class="form-label col-xs-4 col-sm-2">关联链接：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input asp-for="LinkUrl" class="input-text"/>
+                <span asp-validation-for="LinkUrl" class="c-danger"></span>
             </div>
         </div>
         <div class="row cl">

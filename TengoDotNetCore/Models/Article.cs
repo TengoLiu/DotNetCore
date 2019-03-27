@@ -22,6 +22,11 @@ namespace TengoDotNetCore.Models {
         public string CoverImg { get; set; }
 
         /// <summary>
+        /// 关联链接地址
+        /// </summary>
+        public string LinkUrl { get; set; }
+
+        /// <summary>
         /// PC端详情
         /// </summary>
         public string Content { get; set; }

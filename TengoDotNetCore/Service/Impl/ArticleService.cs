@@ -88,6 +88,7 @@ namespace TengoDotNetCore.Service.Impl {
                 db.Entry(model).Property(p => p.Status).IsModified = true;
                 db.Entry(model).Property(p => p.Keywords).IsModified = true;
                 db.Entry(model).Property(p => p.Description).IsModified = true;
+                db.Entry(model).Property(p => p.LinkUrl).IsModified = true;
                 db.Entry(model).Property(p => p.Content).IsModified = true;
                 db.Entry(model).Property(p => p.MContent).IsModified = true;
                 db.Entry(model).Property(p => p.Sort).IsModified = true;
