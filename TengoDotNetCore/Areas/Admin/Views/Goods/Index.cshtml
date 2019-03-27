@@ -2,10 +2,7 @@
 @{
     ViewData["Title"] = "商品列表";
 }
-<div class="pos-a" style="width:200px;left:0;top:0; bottom:0; height:100%; border-right:1px solid #e5e5e5; background-color:#f5f5f5; overflow:auto;">
-    <ul id="treeDemo" class="ztree"></ul>
-</div>
-<div style="margin-left:200px;">
+<div class="page-container">
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 产品管理 <span class="c-gray en">&gt;</span> 产品列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
     <div class="page-container">
         <form>
@@ -14,7 +11,10 @@
                     <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
                     -
                     <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">*@
-                <input type="text" class="input-text" style="width:250px" placeholder="输入关键字" name="keyword" value="@ViewData["keyword"]">
+                <input type="text" class="input-text" style="width:250px" placeholder="输入关键字" name="keyword" value="@ViewData["Keyword"]">
+                <select id="categoryID" class="input-text" name="categoryID" style="width:200px;vertical-align:middle;">
+                    <option>--- 所有分类 ---</option>
+                </select>
                 <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜 索</button>
             </div>
         </form>
@@ -31,14 +31,13 @@
             <table class="table table-border table-bordered table-bg table-hover table-sort">
                 <thead>
                     <tr class="text-c">
-                        <th width="30"><input name="" type="checkbox" value=""></th>
-                        <th width="30">ID</th>
-                        <th width="60">缩略图</th>
-                        <th width="100">产品名称</th>
-                        <th width="100">外文名称</th>
+                        <th width="50"><input name="" type="checkbox" value=""></th>
+                        <th width="60">ID</th>
+                        <th width="100">缩略图</th>
+                        <th>产品名称</th>
                         <th width="80">单价</th>
-                        <th width="60">发布状态</th>
-                        <th width="80">操作</th>
+                        <th width="80">发布状态</th>
+                        <th width="120">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,19 +52,14 @@
                             </td>
                             <td class="text-l">
                                 <a style="text-decoration:none" onClick="product_show('@item.Name','/admin/goods/edit?id=@item.ID','@item.ID')" href="javascript:;">
-                                    @item.Name
+                                    @item.Name<br />@item.NameEn
                                 </a>
                             </td>
-                            <td class="text-l">
-                                <a style="text-decoration:none" onClick="product_show('@item.Name','/admin/goods/edit?id=@item.ID','@item.ID')" href="javascript:;">
-                                    @item.NameEn
-                                </a>
-                            </td>
-                            <td><span class="price">@item.Price</span> 元</td>
+                            <td><span class="price">￥ @item.Price</span> 元</td>
                             <td class="td-status">
                                 @if (item.Status == 1) {
                                     <span class="label label-success radius">
-                                        @Goods.GetStatus(item) 
+                                        @Goods.GetStatus(item)
                                     </span>
                                 }
                                 else {
@@ -90,58 +84,50 @@
 
 @section Scripts{
     <script type="text/javascript">
-        $(".tengo-pager").append(getPager(@Model.Total,@Model.PageSize,@Model.Page,"/admin/goods?page=","&keyword=@ViewData["keyword"]"));
+        $(".tengo-pager").append(getPager(@Model.Total,@Model.PageSize,@Model.Page,"/admin/goods?page=","&keyword=@ViewData["Keyword"]"));
 
-        var setting = {
-            view: {
-                dblClickExpand: false,
-                showLine: false,
-                selectedMulti: false
-            },
-            data: {
-                simpleData: {
-                    enable: true,
-                    idKey: "id",
-                    pIdKey: "pId",
-                    rootPId: ""
-                }
-            },
-            callback: {
-                beforeClick: function (treeId, treeNode) {
-                    var zTree = $.fn.zTree.getZTreeObj("tree");
-                    if (treeNode.isParent) {
-                        zTree.expandNode(treeNode);
-                        return false;
-                    } else {
-                        //demoIframe.attr("src",treeNode.file + ".html");
-                        return true;
+        $(function () {
+             //数据集合
+            var data = new Array();
+            var tree = '';
+            //当前结点的id
+            var curID = @ViewData["CategoryID"];
+
+            @foreach (var item in ViewData["Category"] as List<Category>) {
+                @Html.Raw("data.push({ID:" + item.ID + ",Name:'" + item.Name + "',Level:" + item.Level + ",ParID:" + item.ParID + "});")
+             }
+
+            //创建option结点的方法，用于递归调用生成树
+            function createOptionNode(parID) {
+                console.log(parID);
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].ParID === parID) {
+                        //定义空格占位符,用来填补开始处偏移的位置
+                        var space = "";
+                        //如果不是一级结点的话,要弄一点偏移
+                        if (data[i].ParID > 0) {
+                            for (var j = 0; j < data[i].Level; j++) {
+                                space += "&ensp;";
+                            }
+                            //如果不是一级结点的话，要加上一个 ├ 符号
+                            space += "├&nbsp;";
+                        }
+                        if (data[i].ID === curID) {
+                            var tr = '<option value="' + data[i].ID + '" selected="selected">' + space + data[i].Name + '</option>';
+                        }
+                        else {
+                            var tr = '<option value="' + data[i].ID + '">' + space + data[i].Name + '</option>';
+                        }
+                        tree += tr;
+                        createOptionNode(data[i].ID);
                     }
                 }
             }
-        };
 
-        var zNodes = [
-            { id: 1, pId: 0, name: "一级分类", open: true },
-            { id: 11, pId: 1, name: "二级分类" },
-            { id: 111, pId: 11, name: "三级分类" },
-            { id: 112, pId: 11, name: "三级分类" },
-            { id: 113, pId: 11, name: "三级分类" },
-            { id: 114, pId: 11, name: "三级分类" },
-            { id: 115, pId: 11, name: "三级分类" },
-            { id: 12, pId: 1, name: "二级分类 1-2" },
-            { id: 121, pId: 12, name: "三级分类 1-2-1" },
-            { id: 122, pId: 12, name: "三级分类 1-2-2" },
-        ];
+            createOptionNode(0);
 
-
-
-        $(document).ready(function () {
-            var t = $("#treeDemo");
-            t = $.fn.zTree.init(t, setting, zNodes);
-            //demoIframe = $("#testIframe");
-            //demoIframe.on("load", loadReady);
-            var zTree = $.fn.zTree.getZTreeObj("tree");
-            //zTree.selectNode(zTree.getNodeByParam("id",'11'));
+            //从父类ID为0开始，生成分类树
+            $("#categoryID").append(tree);
         });
 
         /*产品-添加*/
@@ -153,6 +139,7 @@
             });
             layer.full(index);
         }
+
         /*产品-查看*/
         function product_show(title, url, id) {
             var index = layer.open({
@@ -162,6 +149,7 @@
             });
             layer.full(index);
         }
+
         /*产品-审核*/
         function product_shenhe(obj, id) {
             layer.confirm('审核文章？', {
@@ -181,6 +169,7 @@
                     layer.msg('未通过', { icon: 5, time: 1000 });
                 });
         }
+
         /*产品-下架*/
         function product_stop(obj, id) {
             layer.confirm('确认要下架吗？', function (index) {

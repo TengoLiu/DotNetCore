@@ -21,7 +21,7 @@
                 <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">*@
             <input type="text" class="input-text" style="width:250px" placeholder="输入关键字" name="keyword" value="@ViewData["keyword"]">
 
-            <select class="input-text" asp-items="ViewBag.CategoryIDs" name="categoryID" style="width:160px">
+            <select id="CategoryID" class="input-text" asp-items="ViewBag.CategoryIDs" name="categoryID" style="width:160px;vertical-align:middle;">
                 <option value="">-- 所有分类 --</option>
             </select>
 
