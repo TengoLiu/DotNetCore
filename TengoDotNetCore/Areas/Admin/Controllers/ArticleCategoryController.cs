@@ -9,20 +9,20 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
 
     [Area("Admin")]
     public class ArticleCategoryController : BaseController {
-        private readonly IArticleCategoryService service;
-        public ArticleCategoryController(IArticleCategoryService service) {
+        private readonly IArticleService service;
+        public ArticleCategoryController(IArticleService service) {
             this.service = service;
         }
 
         public async Task<IActionResult> Index(PageInfo pageInfo, string keyword = null) {
             ViewData["keyword"] = keyword;
-            ViewData.Model = await service.PageList(pageInfo, keyword);
+            ViewData.Model = await service.CategoryPageList(pageInfo, keyword);
             return View();
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int? id) {
-            var model = await service.Detail(id);
+            var model = await service.CategoryDetail(id);
             ViewData.Model = model;
             if (model == null) {
                 return new NotFoundResult();
@@ -33,7 +33,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         [HttpPost]
         public async Task<IActionResult> Edit(ArticleCategory model) {
             if (ModelState.IsValid) {
-                return JsonResult(await service.Edit(model));
+                return JsonResult(await service.CategoryEdit(model));
             }
             return JsonResultParamInvalid();
         }
@@ -46,11 +46,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         [HttpPost]
         public async Task<IActionResult> Add(ArticleCategory model) {
             if (ModelState.IsValid) {
-                var res = await service.Add(model);
-                if (res > 0) {
-                    return JsonResultSuccess("新增成功！");
-                }
-                return JsonResultSuccess("修改失败，请检查信息是否有误！");
+                return JsonResult(await service.CategoryAdd(model));
             }
             return JsonResultParamInvalid();
         }
@@ -58,7 +54,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         [HttpPost]
         public async Task<IActionResult> Delete(int? id) {
             //对于删除来说，其实我只要执行就好了，不管它成不成功！
-            await service.Delete(id);
+            await service.CategoryDelete(id);
             return JsonResultSuccess("删除成功！");
         }
     }

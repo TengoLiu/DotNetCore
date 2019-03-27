@@ -16,24 +16,25 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         /// 在IOC容器注册了之后，在执行请求的时候自动就会给我们生成一个并传进来
         /// </summary>
         private readonly IGoodsService service;
-        private readonly ICategoryService gcservice;
 
-        public GoodsController(IGoodsService service, ICategoryService gcservice) {
+
+        public GoodsController(IGoodsService service) {
             this.service = service;
-            this.gcservice = gcservice;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(PageInfo pageInfo, string keyword = null, string sortBy = null) {
-            ViewData["keyword"] = keyword;
-            ViewData.Model = await service.List(pageInfo, keyword, sortBy);
+        public async Task<IActionResult> Index(PageInfo pageInfo, int categoryID = 0, string keyword = null, string sortBy = null) {
+            ViewData["Keyword"] = keyword;
+            ViewData["CategoryId"] = categoryID;
+            ViewData["Category"] = await service.CategoryList();
+            ViewData.Model = await service.List(pageInfo, categoryID, keyword, sortBy);
             return View();
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int? id) {
             var model = await service.Detail(id, true);
-            ViewData["Category"] = await gcservice.List();
+            ViewData["Category"] = await service.CategoryList();
             ViewData.Model = model;
             if (model == null) {
                 return new NotFoundResult();
@@ -61,7 +62,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Add() {
-            ViewData["Category"] = await gcservice.List();
+            ViewData["Category"] = await service.CategoryList();
             return View();
         }
 

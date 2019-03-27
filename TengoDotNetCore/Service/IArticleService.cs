@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TengoDotNetCore.Common.Service;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
@@ -42,5 +43,38 @@ namespace TengoDotNetCore.Service {
         /// <param name="includeCategory">是否要读取关联属性-文章分类</param>
         /// <returns></returns>
         Task<PageList<Article>> List(PageInfo pageInfo, int categoryID, string keyword, string sortBy,bool includeCategory);
+
+
+        /// <summary>
+        /// 通过ID获取详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<ArticleCategory> CategoryDetail(int? id);
+
+        /// <summary>
+        /// 修改更新一个Model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        Task<JsonResultObj> CategoryEdit(ArticleCategory model);
+
+        /// <summary>
+        /// 添加一个Model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        Task<JsonResultObj> CategoryAdd(ArticleCategory model);
+
+        /// <summary>
+        /// 通过id删除一个Model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<JsonResultObj> CategoryDelete(int? id);
+
+        Task<List<ArticleCategory>> CategoryList();
+
+        Task<PageList<ArticleCategory>> CategoryPageList(PageInfo pageInfo, string keyword);
     }
 }

@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190313100310_添加商品与商品分类的关系2.cs" />
+    <Compile Remove="Migrations\20190313100310_添加商品与商品分类的关系2.Designer.cs" />
+    <Compile Remove="Migrations\20190313100929_添加商品与商品分类的关系3.cs" />
+    <Compile Remove="Migrations\20190313100929_添加商品与商品分类的关系3.Designer.cs" />
     <Compile Remove="Models\Product.cs" />
   </ItemGroup>
 

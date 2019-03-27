@@ -17,11 +17,9 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         /// 在IOC容器注册了之后，在执行请求的时候自动就会给我们生成一个并传进来
         /// </summary>
         private readonly IArticleService service;
-        private readonly IArticleCategoryService acservice;
 
-        public ArticleController(IArticleService service, IArticleCategoryService acservice) {
+        public ArticleController(IArticleService service) {
             this.service = service;
-            this.acservice = acservice;
         }
 
         [HttpGet]
@@ -29,7 +27,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
             ViewData.Model = await service.List(pageInfo, categoryID, keyword, sortBy, true);
             ViewBag.Keyword = keyword;
             ViewBag.CategoryID = categoryID;
-            ViewBag.CategoryIDs = new SelectList(await acservice.List(), "ID", "Title", categoryID);
+            ViewBag.CategoryIDs = new SelectList(await service.CategoryList(), "ID", "Title", categoryID);
             return View();
         }
 
@@ -40,7 +38,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
             if (model == null) {
                 return new NotFoundResult();
             }
-            ViewBag.CategoryID = new SelectList(await acservice.List(), "ID", "Title", model.CategoryID);
+            ViewBag.CategoryID = new SelectList(await service.CategoryList(), "ID", "Title", model.CategoryID);
             return View();
         }
 
@@ -54,7 +52,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Add() {
-            ViewBag.CategoryID = new SelectList(await acservice.List(), "ID", "Title", 0);
+            ViewBag.CategoryID = new SelectList(await service.CategoryList(), "ID", "Title", 0);
             return View();
         }
 

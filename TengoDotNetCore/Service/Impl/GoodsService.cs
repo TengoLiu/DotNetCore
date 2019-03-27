@@ -141,12 +141,12 @@ namespace TengoDotNetCore.Service.Impl {
             }
         }
 
-        public async Task<PageList<Goods>> List(PageInfo pageInfo, string keyword, string sortBy) {
+        public async Task<PageList<Goods>> List(PageInfo pageInfo, int categoryID, string keyword, string sortBy) {
             var query = db.Goods.AsQueryable();
             if (!string.IsNullOrWhiteSpace(keyword)) {
                 query = query.Where(p => p.Name.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase) || p.NameEn.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase));
             }
-            if (!string.IsNullOrWhiteSpace(sortBy))
+            if (!string.IsNullOrWhiteSpace(sortBy)) {
                 switch (sortBy.Trim().ToLower()) {
                     case "id":
                         query = query.OrderBy(p => p.ID);
@@ -164,7 +164,87 @@ namespace TengoDotNetCore.Service.Impl {
                         query = query.OrderByDescending(p => p.ID);
                         break;
                 }
+            }
+            if (categoryID > 0) {
+                query = query.Where(p => p.GoodsCategory.Exists(q => q.CategoryID == categoryID));
+            }
             return await PageList<Goods>.CreateAsync(query, pageInfo);
         }
+
+        #region 商品分类相关
+        public async Task<JsonResultObj> CategoryAdd(Category model) {
+            model.AddTime = DateTime.Now;
+            if (model.ParID == 0) {
+                model.Level = 1;
+            }
+            else {
+                var parent = await db.Category.FirstOrDefaultAsync(p => p.ID == model.ParID);
+                if (parent == null) {
+                    return Error("父结点不存在！");
+                }
+                model.Level = parent.Level + 1;
+            }
+            db.Category.Add(model);
+            await db.SaveChangesAsync();
+            return Success("添加成功！");
+        }
+
+        public async Task<JsonResultObj> CategoryDelete(int? id) {
+            try {
+                if (id == null) {
+                    return Success("删除成功！");
+                }
+                var model = await db.Category.SingleOrDefaultAsync(p => p.ID == id);
+                if (model != null) {
+                    db.Category.Remove(model);
+                    await db.SaveChangesAsync();
+                }
+                return Success("删除成功！");
+            }
+            catch (Exception e) {
+                return Error(e);
+            }
+        }
+
+        public async Task<Category> CategoryDetail(int? id) {
+            if (id == null || id <= 0) {
+                return null;
+            }
+            var model = await db.Category.ToAsyncEnumerable().FirstOrDefault(p => p.ID == id);
+            return model;
+        }
+
+        public async Task<JsonResultObj> CategoryEdit(Category model) {
+            try {
+                if (model.ParID == 0) {
+                    model.Level = 1;
+                }
+                else {
+                    var parent = await db.Category.FirstOrDefaultAsync(p => p.ID == model.ParID);
+                    if (parent == null) {
+                        return Error("父结点不存在！");
+                    }
+                    model.Level = parent.Level + 1;
+                }
+                model.AddTime = DateTime.Now;
+                model.UpdateTime = DateTime.Now;
+                //标明哪些字段变动了
+                db.Entry(model).Property(p => p.Name).IsModified = true;
+                db.Entry(model).Property(p => p.ParID).IsModified = true;
+                db.Entry(model).Property(p => p.Level).IsModified = true;
+                db.Entry(model).Property(p => p.CoverImg).IsModified = true;
+                db.Entry(model).Property(p => p.Sort).IsModified = true;
+                await db.SaveChangesAsync();
+                return Success("更新成功！");
+            }
+            catch (Exception e) {
+                return Error(e);
+            }
+        }
+
+        public async Task<List<Category>> CategoryList() {
+            return await db.Category.ToAsyncEnumerable().ToList();
+        }
+        #endregion
     }
 }
