@@ -56,7 +56,9 @@ namespace TengoDotNetCore {
             });
 
             //用于在Microsoft.Extensions.DependencyInjection.ISeviceCollection中设置MVC服务的扩展方法。
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(options=> {
+
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             //初始化数据库配置
             var connection = Configuration.GetConnectionString("DefaultConnectionString");
@@ -73,9 +75,7 @@ namespace TengoDotNetCore {
             //services.AddScoped(typeof(IUserService), typeof(UserService));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IArticleService, ArticleService>();
-            services.AddScoped<IArticleCategoryService, ArticleCategoryService>();
             services.AddScoped<IGoodsService, GoodsService>();
-            services.AddScoped<IGoodsCategoryService, GoodsCategoryService>();
             #endregion
         }
 
@@ -153,6 +153,7 @@ namespace TengoDotNetCore {
                     name: "areas",
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
+                
             });
         }
     }
