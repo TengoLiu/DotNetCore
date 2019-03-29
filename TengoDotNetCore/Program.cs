@@ -8,9 +8,7 @@ namespace TengoDotNetCore {
             host.Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) => WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
 
         // 以上这个Lambda也可以用下面的写法，写成方法的形式
         //public static IWebHostBuilder CreateWebHostBuilder(string[] args) {

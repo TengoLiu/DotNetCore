@@ -1,8 +1,77 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "首页";
+    var banners = Model["banners"] as List<Article> ?? new List<Article>();
+    var goods = Model["goods"] as List<Goods> ?? new List<Goods>();
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome @ViewBag.Hello</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@model IDictionary<string, object>
+@section Header{
+    <link href="~/lib/swiper/swiper.min.css" rel="stylesheet" />
+}
+<div class="container-fluid">
+    <!--banner start-->
+    <div class="swiper-container swiper-container swiper-container-horizontal banner">
+        <div class="swiper-wrapper">
+            @for (var i = 0; i < banners.Count; i++) {
+                <div class="swiper-slide text-center">
+                    <a href="@banners[i].LinkUrl" target="_blank">
+                        <img src="@banners[i].CoverImg" style="" />
+                    </a>
+                </div>
+            }
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+    <!--banner end-->
 </div>
+
+<style>
+    .index-goods {
+    }
+
+    .index-goods li {
+        width: 20%;
+        padding:15px 5px;
+        border:1px solid #eee;
+        text-align:center;
+    }
+    .index-goods li p {
+        margin-bottom:0;
+
+    }
+</style>
+<br />
+<div class="container">
+    <ul class="clearfix index-goods">
+        @foreach (var item in goods) {
+            <li class="float-left" title="@item.Name">
+                <a href="#">
+                    <img src="@item.CoverImg" style="width:120px;height:120px;" />
+                    <p class="text-singleline">@item.Name</p>
+                    <p class="text-singleline color-red">￥ @item.Price</p>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+
+@section Scripts{
+    <script src="~/lib/swiper/swiper.min.js"></script>
+    <script>
+        /*轮播baner start*/
+        var swiper1 = new Swiper('.swiper-container', {
+            loop: true,
+            autoplay: true,
+            speed: 1000,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            }
+        });
+
+        $(".swiper-pagination-bullet").hover(function () {
+            $(this).click();
+        }, function () {
+            swiper1.autoplay.start();
+        })
+    </script>
+}

@@ -1,0 +1,71 @@
+﻿/*一些颜色 开始*/
+.color-red {
+    color: #F00;
+}
+
+.color-winered {
+    color: #aa1f24;
+}
+
+.color-black {
+    color: #000;
+}
+
+.color-333 {
+    color: #333;
+}
+
+.color-666 {
+    color: #666;
+}
+
+.color-888 {
+    color: #888;
+}
+
+.color-999 {
+    color: #999;
+}
+
+.color-blue {
+    color: #3985ff;
+}
+
+.color-primary {
+    color: #007aff;
+}
+
+.color-green {
+    color: #7b5;
+}
+
+.color-yellow {
+    color: #f0ad4e;
+}
+
+.color-orange {
+    color: #f40;
+}
+/*一些颜色 结束*/
+
+/*背景颜色 开始*/
+.bg-white {
+    background-color: #fff;
+}
+
+.bg-winered {
+    background-color: #aa1f24;
+}
+
+.bg-disabled {
+    background-color: #b6b6b6;
+}
+
+.bg-lightgray {
+    background-color: #f4f4f4;
+}
+
+.bg-green {
+    background-color: #f4f4f4;
+}
+/*背景颜色 结束*/
