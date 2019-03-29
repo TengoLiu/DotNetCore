@@ -9,8 +9,8 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
 
     [Area("Admin")]
     public class ArticleCategoryController : BaseController {
-        private readonly IArticleService service;
-        public ArticleCategoryController(IArticleService service) {
+        private readonly ArticleService service;
+        public ArticleCategoryController(ArticleService service) {
             this.service = service;
         }
 

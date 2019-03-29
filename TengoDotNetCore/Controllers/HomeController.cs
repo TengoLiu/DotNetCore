@@ -1,17 +1,20 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using TengoDotNetCore.Models;
+using TengoDotNetCore.Service;
 
 namespace TengoDotNetCore.Controllers {
     public class HomeController : BaseController {
+        HomeService service;
 
-        public HomeController() {
+        public HomeController(HomeService service) {
+            this.service = service;
         }
 
-        public IActionResult Index() {
-            //HttpContext.Session.Set("hello", Encoding.Default.GetBytes("hello world"));
-            //ViewBag.Hello = HttpContext.Session.GetString("hello");
+        public async Task<IActionResult> Index() {
+            ViewData.Model = await service.GetIndex();
             return View();
         }
 

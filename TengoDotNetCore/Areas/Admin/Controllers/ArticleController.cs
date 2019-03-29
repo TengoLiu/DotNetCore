@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Threading.Tasks;
 using TengoDotNetCore.Controllers;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
@@ -16,9 +13,9 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         /// 当前控制器私有的service对象，在构造函数中传入
         /// 在IOC容器注册了之后，在执行请求的时候自动就会给我们生成一个并传进来
         /// </summary>
-        private readonly IArticleService service;
+        private readonly ArticleService service;
 
-        public ArticleController(IArticleService service) {
+        public ArticleController(ArticleService service) {
             this.service = service;
         }
 

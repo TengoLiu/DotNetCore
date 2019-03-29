@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using TengoDotNetCore.Data;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
-using TengoDotNetCore.Data;
-using Microsoft.EntityFrameworkCore;
 
-namespace TengoDotNetCore.Service.Impl {
-    public class UserService : IUserService {
+namespace TengoDotNetCore.Service {
+    public class UserService  {
         /// <summary>
         /// 当前控制器私有的TengoDbContext对象，在构造函数中传入
         /// 在StartUp里面的IOC容器注册了之后，在执行请求的时候自动就会给我们生成一个并传进来

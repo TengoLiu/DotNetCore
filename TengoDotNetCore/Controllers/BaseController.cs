@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TengoDotNetCore.Common;
 using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Controllers {
     public class BaseController : MyControllerBase {
 
-       
 
         protected IActionResult JsonResult(JsonResultObj jsonObj) {
             return Json(jsonObj);

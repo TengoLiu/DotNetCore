@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using TengoDotNetCore.Data;
 using TengoDotNetCore.Service;
-using TengoDotNetCore.Service.Impl;
 
 namespace TengoDotNetCore {
     public class Startup {
@@ -56,7 +55,7 @@ namespace TengoDotNetCore {
             });
 
             //用于在Microsoft.Extensions.DependencyInjection.ISeviceCollection中设置MVC服务的扩展方法。
-            services.AddMvc(options=> {
+            services.AddMvc(options => {
 
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -73,9 +72,13 @@ namespace TengoDotNetCore {
             #region 自己注册的依赖注入
             //配置依赖注入的两种写法，后者代码简洁一些
             //services.AddScoped(typeof(IUserService), typeof(UserService));
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IArticleService, ArticleService>();
-            services.AddScoped<IGoodsService, GoodsService>();
+            //services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<IArticleService, ArticleService>();
+            //services.AddScoped<IGoodsService, GoodsService>();
+            services.AddScoped<UserService>();
+            services.AddScoped<ArticleService>();
+            services.AddScoped<GoodsService>();
+            services.AddScoped<HomeService>();
             #endregion
         }
 
@@ -153,7 +156,7 @@ namespace TengoDotNetCore {
                     name: "areas",
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
-                
+
             });
         }
     }

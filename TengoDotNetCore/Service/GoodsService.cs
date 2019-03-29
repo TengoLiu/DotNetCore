@@ -8,8 +8,8 @@ using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.Service.Abs;
 
-namespace TengoDotNetCore.Service.Impl {
-    public class GoodsService : AbsService, IGoodsService {
+namespace TengoDotNetCore.Service {
+    public class GoodsService : AbsService {
 
         public GoodsService(TengoDbContext db) : base(db) {
         }
@@ -144,7 +144,8 @@ namespace TengoDotNetCore.Service.Impl {
         public async Task<PageList<Goods>> List(PageInfo pageInfo, int categoryID, string keyword, string sortBy) {
             var query = db.Goods.AsQueryable();
             if (!string.IsNullOrWhiteSpace(keyword)) {
-                query = query.Where(p => p.Name.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase) || p.NameEn.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase));
+                query = query.Where(p => p.Name.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase) 
+                || p.NameEn.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase));
             }
             if (!string.IsNullOrWhiteSpace(sortBy)) {
                 switch (sortBy.Trim().ToLower()) {

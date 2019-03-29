@@ -8,8 +8,8 @@ using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.Service.Abs;
 
-namespace TengoDotNetCore.Service.Impl {
-    public class ArticleService : AbsService, IArticleService {
+namespace TengoDotNetCore.Service {
+    public class ArticleService : AbsService {
 
         public ArticleService(TengoDbContext db) : base(db) {
         }
