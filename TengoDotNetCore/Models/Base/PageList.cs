@@ -33,8 +33,15 @@ namespace TengoDotNetCore.Models.Base {
         //当前页的数据
         public List<T> DataList { get; set; }
 
-
         #region 构造函数
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public PageList() {
+            DataList = new List<T>();
+        }
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -43,6 +50,7 @@ namespace TengoDotNetCore.Models.Base {
         public PageList(int page, int pageSize) {
             this.Page = page;
             this.PageSize = pageSize;
+            DataList = new List<T>();
         }
 
         /// <summary>

@@ -1,6 +1,8 @@
-﻿@model PageList<Goods>
+﻿@model Dictionary<string,object>
 @{
     ViewData["Title"] = "商品列表";
+    var category = Model["Category"] as List<Category> ?? new List<Category>();
+    var goods= Model["Goods"] as PageList<Goods> ?? new PageList<Goods>(1,0);
 }
 <div class="page-container">
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 产品管理 <span class="c-gray en">&gt;</span> 产品列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
@@ -8,9 +10,9 @@
         <form>
             <div class="text-c">
                 @*日期范围：
-                    <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
-                    -
-                    <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">*@
+                <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
+                -
+                <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">*@
                 <input type="text" class="input-text" style="width:250px" placeholder="输入关键字" name="keyword" value="@ViewData["Keyword"]">
                 <select id="categoryID" class="input-text" name="categoryID" style="width:200px;vertical-align:middle;">
                     <option value="0">--- 所有分类 ---</option>
@@ -25,8 +27,9 @@
                 </a> <a class="btn btn-primary radius" onclick="product_add('添加产品','/admin/goods/add')" href="javascript:;">
                     <i class="Hui-iconfont">&#xe600;</i> 添加产品
                 </a>
-            </span> <span class="r">共有数据：<strong>@Model.Total</strong> 条</span>
+            </span> <span class="r">共有数据：<strong>@goods.Total</strong> 条</span>
         </div>
+        <div class="tengo-pager"></div>
         <div class="mt-20">
             <table class="table table-border table-bordered table-bg table-hover table-sort">
                 <thead>
@@ -41,7 +44,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.DataList) {
+                    @foreach (var item in goods.DataList) {
                         <tr class="text-c va-m">
                             <td><input name="" type="checkbox" value=""></td>
                             <td>@item.ID</td>
@@ -84,7 +87,7 @@
 
 @section Scripts{
     <script type="text/javascript">
-        $(".tengo-pager").append(getPager(@Model.Total,@Model.PageSize,@Model.Page,"/admin/goods?page=","&keyword=@ViewData["Keyword"]"));
+        $(".tengo-pager").append(getPager(@goods.Total,@goods.PageSize,@goods.Page,"/admin/goods?page=","&keyword=@ViewData["Keyword"]"));
 
         $(function () {
              //数据集合
@@ -93,7 +96,7 @@
             //当前结点的id
             var curID = @ViewData["CategoryID"];
 
-            @foreach (var item in ViewData["Category"] as List<Category>) {
+            @foreach (var item in category) {
                 @Html.Raw("data.push({ID:" + item.ID + ",Name:'" + item.Name + "',Level:" + item.Level + ",ParID:" + item.ParID + "});")
              }
 

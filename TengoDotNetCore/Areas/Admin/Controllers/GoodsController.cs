@@ -17,7 +17,6 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         /// </summary>
         private readonly GoodsService service;
 
-
         public GoodsController(GoodsService service) {
             this.service = service;
         }
@@ -26,8 +25,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         public async Task<IActionResult> Index(PageInfo pageInfo, int categoryID = 0, string keyword = null, string sortBy = null) {
             ViewData["Keyword"] = keyword;
             ViewData["CategoryId"] = categoryID;
-            ViewData["Category"] = await service.CategoryList();
-            ViewData.Model = await service.List(pageInfo, categoryID, keyword, sortBy);
+            ViewData.Model = await service.GetAdminIndexVM(pageInfo, categoryID, keyword, sortBy);
             return View();
         }
 

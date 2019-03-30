@@ -67,3 +67,18 @@ ul, ol {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+
+.index-goods {
+}
+
+.index-goods li {
+    width: 20%;
+    padding: 15px 5px;
+    border: 1px solid #eee;
+    text-align: center;
+}
+
+.index-goods li p {
+    margin-bottom: 0;
+}

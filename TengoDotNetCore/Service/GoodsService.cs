@@ -11,6 +11,7 @@ using TengoDotNetCore.Service.Abs;
 namespace TengoDotNetCore.Service {
     public class GoodsService : AbsService {
 
+        #region 基础方法
         public GoodsService(TengoDbContext db) : base(db) {
         }
 
@@ -144,7 +145,7 @@ namespace TengoDotNetCore.Service {
         public async Task<PageList<Goods>> List(PageInfo pageInfo, int categoryID, string keyword, string sortBy) {
             var query = db.Goods.AsQueryable();
             if (!string.IsNullOrWhiteSpace(keyword)) {
-                query = query.Where(p => p.Name.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase) 
+                query = query.Where(p => p.Name.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase)
                 || p.NameEn.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase));
             }
             if (!string.IsNullOrWhiteSpace(sortBy)) {
@@ -171,6 +172,32 @@ namespace TengoDotNetCore.Service {
             }
             return await PageList<Goods>.CreateAsync(query, pageInfo);
         }
+        #endregion
+
+        #region 业务方法
+
+        public async Task<Dictionary<string, object>> GetIndexVM(PageInfo pageInfo, int categoryID = 0, string keyword = null, string sortBy = null) {
+            var dic = new Dictionary<string, object>();
+            dic["Category"] = await CategoryList();
+            pageInfo.PageSize = 100;
+            dic["Goods"] = await List(pageInfo, categoryID, keyword, sortBy);
+            return dic;
+        }
+
+        #region Admin
+        /// <summary>
+        /// 获取商品编辑和新增的ViewModel
+        /// </summary>
+        /// <returns></returns>
+        public async Task<Dictionary<string, object>> GetAdminIndexVM(PageInfo pageInfo, int categoryID = 0, string keyword = null, string sortBy = null) {
+            var dic = new Dictionary<string, object>();
+            dic["Category"] = await CategoryList();
+            dic["Goods"] = await List(pageInfo, categoryID, keyword, sortBy);
+            return dic;
+        }
+        #endregion
+
+        #endregion
 
         #region 商品分类相关
         public async Task<JsonResultObj> CategoryAdd(Category model) {

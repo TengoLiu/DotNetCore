@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "商品首页";
+    var goods = Model["Goods"] as PageList<Goods> ?? new PageList<Goods>();
+    var category = Model["Category"] as List<Category> ?? new List<Category>();
+}
+@model IDictionary<string, object>
+<style>
+    .goods-select-box {
+    }
+
+    .goods-select-box .dl {
+        height: 30px;
+    }
+
+    .goods-select-box .dt, .goods-select-box .dd {
+    }
+
+    .goods-select-box .dt {
+        width: 80px;
+        float: left;
+        text-align: center;
+    }
+
+    .goods-select-box .dd {
+        display: inline-block;
+        margin-left: 10px;
+    }
+</style>
+
+<div class="container">
+    <div class="goods-select-box">
+        @foreach (var item in category.Where(p => p.ParID == 0)) {
+            <dl class="dl">
+                <dt class="dt"><b>@item.Name</b></dt>
+                @foreach (var child in category.Where(p => p.ParID == item.ID)) {
+                    <dd class="dd">
+                        <a href="#">@child.Name</a>
+                    </dd>
+                }
+            </dl>
+        }
+    </div>
+    <div class="container">
+        <ul class="clearfix index-goods">
+            @foreach (var item in goods.DataList) {
+                <li class="float-left" title="@item.Name">
+                    <a href="#">
+                        <img src="@item.CoverImg" style="width:120px;height:120px;" />
+                        <p class="text-singleline">@item.Name</p>
+                        <p class="text-singleline color-red">￥ @item.Price</p>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+

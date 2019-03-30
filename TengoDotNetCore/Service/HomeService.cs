@@ -13,7 +13,7 @@ namespace TengoDotNetCore.Service {
         public async Task<IDictionary<string, object>> GetIndex() {
             var dicRes = new Dictionary<string, object>();
             dicRes["banners"] = await db.Article.ToAsyncEnumerable().Where(p => p.CategoryID == 4).Take(10).ToList();
-            dicRes["goods"] = await db.Goods.ToAsyncEnumerable().Where(p => p.Status == 1).OrderBy(p => Guid.NewGuid()).Take(30).ToList();
+            dicRes["goods"] = await db.Goods.ToAsyncEnumerable().Where(p => p.Status == 1).OrderBy(p => Guid.NewGuid()).Take(60).ToList();
             return dicRes;
         }
     }
