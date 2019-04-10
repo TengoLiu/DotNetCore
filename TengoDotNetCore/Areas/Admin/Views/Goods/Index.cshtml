@@ -1,8 +1,8 @@
-﻿@model Dictionary<string,object>
+﻿@model Dictionary<string, object>
 @{
     ViewData["Title"] = "商品列表";
-    var category = Model["Category"] as List<Category> ?? new List<Category>();
-    var goods= Model["Goods"] as PageList<Goods> ?? new PageList<Goods>(1,0);
+    var category = ViewBag.Category as List<Category> ?? new List<Category>();
+    var goods = ViewBag.Goods as PageList<Goods> ?? new PageList<Goods>(1, 0);
 }
 <div class="page-container">
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 产品管理 <span class="c-gray en">&gt;</span> 产品列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
@@ -10,9 +10,9 @@
         <form>
             <div class="text-c">
                 @*日期范围：
-                <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
-                -
-                <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">*@
+                    <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
+                    -
+                    <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">*@
                 <input type="text" class="input-text" style="width:250px" placeholder="输入关键字" name="keyword" value="@ViewData["Keyword"]">
                 <select id="categoryID" class="input-text" name="categoryID" style="width:200px;vertical-align:middle;">
                     <option value="0">--- 所有分类 ---</option>

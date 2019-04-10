@@ -30,7 +30,7 @@ function getPager(count, pageSize, page, urlPrefix, urlPostfix) {
     }
     //拼接一个pageSize参数，避免参数丢失
     urlPostfix = "&pageSize=" + pageSize + urlPostfix;
-    var sb = "";
+    let sb = "";
 
     sb += "<div class='pager'>";//最外层包裹一个div
 
@@ -42,11 +42,11 @@ function getPager(count, pageSize, page, urlPrefix, urlPostfix) {
         sb += "<a href='" + urlPrefix + (page - 1) + urlPostfix + "'>上一页</a>";
     }
 
-    var pageCount = count % pageSize == 0 ? parseInt(count / pageSize) : parseInt(count / pageSize + 1);//计算总页数
+    let pageCount = count % pageSize == 0 ? parseInt(count / pageSize) : parseInt(count / pageSize + 1);//计算总页数
 
     if (pageCount <= 8) {
         //个数小于或等于8个的话，就不需要显示“...”了
-        for (var i = 1; i <= pageCount; i++) {
+        for (let i = 1; i <= pageCount; i++) {
             if (page == i) {
                 sb += "<a class='p_selected'>" + i + "</a>";
             }
@@ -65,7 +65,7 @@ function getPager(count, pageSize, page, urlPrefix, urlPostfix) {
          *  1 2 ...8 9 10 11 12  page>=pageCount-2
         */
         if (page < 6) {
-            for (var i = 1; i <= 7; i++) {
+            for (let i = 1; i <= 7; i++) {
                 if (page == i) {
                     sb += "<a class='p_selected'>" + i + "</a>";
                 }
@@ -89,7 +89,7 @@ function getPager(count, pageSize, page, urlPrefix, urlPostfix) {
                 sb += "<span> ... </span>";
             }
             else {
-                for (var i = pageCount - 5; i <= pageCount; i++) {
+                for (let i = pageCount - 5; i <= pageCount; i++) {
                     if (i == page) {
                         sb += "<a class='p_selected'>" + i + "</a>";
                     }
@@ -113,14 +113,18 @@ function getPager(count, pageSize, page, urlPrefix, urlPostfix) {
     sb += "<form class='pager_form'>";
     sb += "跳转到：<input type='text' min='1' max ='" + pageCount + "' name='page'/>";
     sb += "每页显示 <input type='text' min='1' value ='" + pageSize + "' name='pageSize'/>条记录，";
-    var params = urlPostfix.split('&');//从后缀里面取出参数
+    let params = urlPostfix.split('&');//从后缀里面取出参数
 
     if (params.length > 0) {
-        for (var i = 0; i < params.length; i++) {
-            var index = params[i].indexOf("=");
+        for (let i = 0; i < params.length; i++) {
+            let index = params[i].indexOf("=");
             if (index < 0)
                 continue;
-            sb += "<input type='hidden' name='" + params[i].substring(0, index) + "' value='" + params[i].substring(index + 1) + "'/>";
+            let key = params[i].substring(0, index);
+            if (key.trim().toLowerCase() == "pagesize") {
+                continue;
+            }
+            sb += "<input type='hidden' name='" + params[i].substring(0, index).trim() + "' value='" + params[i].substring(index + 1).trim() + "'/>";
         }
     }
     sb += "<button class='page_to'>确定</button>";
@@ -164,7 +168,7 @@ function getPagerWithoutHref(count, pageSize, page, urlPrefix, urlPostfix) {
         pageSize = 10;
     }
 
-    var sb = "";
+    let sb = "";
 
     sb += "<div class='pager'>";//最外层包裹一个div
 
@@ -176,11 +180,11 @@ function getPagerWithoutHref(count, pageSize, page, urlPrefix, urlPostfix) {
         sb += "<a " + urlPrefix + (page - 1) + urlPostfix + ">上一页</a>";
     }
 
-    var pageCount = count % pageSize == 0 ? parseInt(count / pageSize) : parseInt(count / pageSize + 1);//计算总页数
+    let pageCount = count % pageSize == 0 ? parseInt(count / pageSize) : parseInt(count / pageSize + 1);//计算总页数
 
     if (pageCount <= 8) {
         //个数小于或等于8个的话，就不需要显示“...”了
-        for (var i = 1; i <= pageCount; i++) {
+        for (let i = 1; i <= pageCount; i++) {
             if (page == i) {
                 sb += "<a class='p_selected'>" + i + "</a>";
             }
@@ -199,7 +203,7 @@ function getPagerWithoutHref(count, pageSize, page, urlPrefix, urlPostfix) {
          *  1 2 ...8 9 10 11 12  page>=pageCount-2
         */
         if (page < 6) {
-            for (var i = 1; i <= 7; i++) {
+            for (let i = 1; i <= 7; i++) {
                 if (page == i) {
                     sb += "<a class='p_selected'>" + i + "</a>";
                 }
@@ -223,7 +227,7 @@ function getPagerWithoutHref(count, pageSize, page, urlPrefix, urlPostfix) {
                 sb += "<span> ... </span>";
             }
             else {
-                for (var i = pageCount - 5; i <= pageCount; i++) {
+                for (let i = pageCount - 5; i <= pageCount; i++) {
                     if (i == page) {
                         sb += "<a class='p_selected'>" + i + "</a>";
                     }

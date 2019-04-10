@@ -1,61 +1,95 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
-using TengoDotNetCore.Controllers;
+using TengoDotNetCore.Data;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
-using TengoDotNetCore.Service;
+using TengoDotNetCore.PBLL;
 
 namespace TengoDotNetCore.Areas.Admin.Controllers {
 
     [Area("Admin")]
     public class ArticleCategoryController : BaseController {
-        private readonly ArticleService service;
-        public ArticleCategoryController(ArticleService service) {
-            this.service = service;
+
+        private readonly ArticlePBLL pbll;
+        public ArticleCategoryController(TengoDbContext db, ArticlePBLL pbll) : base(db) {
+            this.pbll = pbll;
         }
 
         public async Task<IActionResult> Index(PageInfo pageInfo, string keyword = null) {
             ViewData["keyword"] = keyword;
-            ViewData.Model = await service.CategoryPageList(pageInfo, keyword);
+            ViewData.Model = await pbll.CategoryPageList(pageInfo, keyword);
             return View();
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int? id) {
-            var model = await service.CategoryDetail(id);
-            ViewData.Model = model;
+            if (id == null || id <= 0) {
+                return new NotFoundResult();
+            }
+            var model = await db.ArticleCategory.ToAsyncEnumerable().FirstOrDefault(p => p.ID == id);
             if (model == null) {
                 return new NotFoundResult();
             }
+            ViewData.Model = model;
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(ArticleCategory model) {
             if (ModelState.IsValid) {
-                return JsonResult(await service.CategoryEdit(model));
+                try {
+                    db.Entry(model).Property(p => p.Title).IsModified = true;
+                    db.Entry(model).Property(p => p.CoverImg).IsModified = true;
+                    db.Entry(model).Property(p => p.Sort).IsModified = true;
+                    await db.SaveChangesAsync();
+                    return JsonResultSuccess("更新成功！");
+                }
+                catch (Exception e) {
+                    return JsonResultError(e);
+                }
             }
             return JsonResultParamInvalid();
         }
 
         [HttpGet]
-        public async Task<IActionResult> Add() {
+        public IActionResult Add() {
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(ArticleCategory model) {
             if (ModelState.IsValid) {
-                return JsonResult(await service.CategoryAdd(model));
+                try {
+                    db.ArticleCategory.Add(model);
+                    await db.SaveChangesAsync();
+                    return JsonResultSuccess("添加成功！");
+                }
+                catch (Exception e) {
+                    return JsonResultError(e);
+                }
             }
             return JsonResultParamInvalid();
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(int? id) {
-            //对于删除来说，其实我只要执行就好了，不管它成不成功！
-            await service.CategoryDelete(id);
-            return JsonResultSuccess("删除成功！");
+            try {
+                if (id == null) {
+                    return JsonResultSuccess("删除成功！");
+                }
+                var model = await db.ArticleCategory.SingleOrDefaultAsync(p => p.ID == id);
+                if (model != null) {
+                    db.ArticleCategory.Remove(model);
+                    await db.SaveChangesAsync();
+                }
+                return JsonResultSuccess("删除成功！");
+            }
+            catch (Exception e) {
+                return JsonResultError(e);
+            }
         }
     }
 }

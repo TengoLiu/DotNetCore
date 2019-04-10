@@ -1,9 +1,8 @@
 ﻿@{
     ViewData["Title"] = "首页";
-    var banners = Model["banners"] as List<Article> ?? new List<Article>();
-    var goods = Model["goods"] as List<Goods> ?? new List<Goods>();
+    var banners = ViewBag.Banners as List<Article> ?? new List<Article>();
+    var goods = ViewBag.Goods as List<Goods> ?? new List<Goods>();
 }
-@model IDictionary<string, object>
 @section Header{
     <link href="~/lib/swiper/swiper.min.css" rel="stylesheet" />
 }
@@ -24,14 +23,16 @@
     <!--banner end-->
 </div>
 <br />
-<div class="container">
+<div class="container home-index">
     <ul class="clearfix index-goods">
         @foreach (var item in goods) {
-            <li class="float-left" title="@item.Name">
-                <a href="#">
-                    <img src="@item.CoverImg" style="width:120px;height:120px;" />
-                    <p class="text-singleline">@item.Name</p>
-                    <p class="text-singleline color-red">￥ @item.Price</p>
+            <li class="float-left" title="@item.Name @item.NameEn">
+                <a href="/goods/detail?id=@item.ID">
+                    <img src="@item.CoverImg" style="width:180px;height:180px;" />
+                </a>
+                <p class="text-singleline color-red">￥ @item.Price</p>
+                <a href="/goods/detail?id=@item.ID">
+                    <p class="goods-name">@item.Name&ensp;&ensp;@item.NameEn</p>
                 </a>
             </li>
         }

@@ -1,57 +1,46 @@
 ﻿@{
     ViewData["Title"] = "商品首页";
-    var goods = Model["Goods"] as PageList<Goods> ?? new PageList<Goods>();
-    var category = Model["Category"] as List<Category> ?? new List<Category>();
+    var goods = ViewBag.Goods as PageList<Goods> ?? new PageList<Goods>();
+    var category = ViewBag.Category as List<Category> ?? new List<Category>();
+    var pageUrl = string.Empty;
+    if (!string.IsNullOrWhiteSpace(ViewBag.Keyword)) {
+        pageUrl += "&keyword=" + ViewBag.Keyword;
+    }
 }
-@model IDictionary<string, object>
-<style>
-    .goods-select-box {
-    }
-
-    .goods-select-box .dl {
-        height: 30px;
-    }
-
-    .goods-select-box .dt, .goods-select-box .dd {
-    }
-
-    .goods-select-box .dt {
-        width: 80px;
-        float: left;
-        text-align: center;
-    }
-
-    .goods-select-box .dd {
-        display: inline-block;
-        margin-left: 10px;
-    }
-</style>
-
-<div class="container">
+@section Header{
+    <link href="~/lib/tengo-pager/tengo-pager.css" rel="stylesheet" />
+}
+<div class="container goods-index">
     <div class="goods-select-box">
         @foreach (var item in category.Where(p => p.ParID == 0)) {
             <dl class="dl">
                 <dt class="dt"><b>@item.Name</b></dt>
                 @foreach (var child in category.Where(p => p.ParID == item.ID)) {
                     <dd class="dd">
-                        <a href="#">@child.Name</a>
+                        <a href="/goods?categoryID=@child.ID">@child.Name</a>
                     </dd>
                 }
             </dl>
         }
     </div>
-    <div class="container">
-        <ul class="clearfix index-goods">
-            @foreach (var item in goods.DataList) {
-                <li class="float-left" title="@item.Name">
-                    <a href="#">
-                        <img src="@item.CoverImg" style="width:120px;height:120px;" />
-                        <p class="text-singleline">@item.Name</p>
-                        <p class="text-singleline color-red">￥ @item.Price</p>
-                    </a>
-                </li>
-            }
-        </ul>
-    </div>
+    <ul class="clearfix index-goods">
+        @foreach (var item in goods.DataList) {
+            <li class="float-left" title="@item.Name @item.NameEn">
+                <a href="/goods/detail?id=@item.ID">
+                    <img src="@item.CoverImg" style="width:180px;height:180px;" />
+                </a>
+                <p class="text-singleline color-red">￥<span class="price">@item.Price</span></p>
+                <a href="/goods/detail?id=@item.ID">
+                    <p class="goods-name">@item.Name&ensp;&ensp;@item.NameEn</p>
+                </a>
+            </li>
+        }
+    </ul>
+    <div class="tengo-pager"></div>
 </div>
-
+@section Scripts{
+    <script src="~/lib/tengo-pager/tengo-pager.js"></script>
+    <script type="text/javascript">
+        $(".tengo-pager").append(getPager(@goods.Total,@goods.PageSize,@goods.Page, "/goods?page=","@Html.Raw(pageUrl)"));
+    </script>
+}

@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using TengoDotNetCore.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
+using TengoDotNetCore.Data;
 
 namespace TengoDotNetCore.Areas.Admin.Controllers {
 
     [Area("Admin")]
     public class HomeController : BaseController {
-       
+        public HomeController(TengoDbContext db) : base(db) { }
 
         public IActionResult Index() {
             return View();
         }
 
         public IActionResult Welcome() {
-            ViewData["CurrentIP"] = HttpContext.Connection.RemoteIpAddress;
+            ViewBag.CurrentIP = HttpContext.Connection.RemoteIpAddress;
             return View();
         }
     }

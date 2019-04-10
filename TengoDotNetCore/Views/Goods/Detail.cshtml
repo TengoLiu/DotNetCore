@@ -1,0 +1,130 @@
+﻿@model Goods
+@{
+    ViewData["Title"] = Model.Name;
+    var recGoods = ViewBag.RecGoods as List<Goods> ?? new List<Goods>();
+}
+<div class="container goods-detail">
+    <div class="row">
+        <div class="col-lg-5 goods-img">
+            <img src="@Model.CoverImg" />
+            <div class="clearfix albums">
+                <a class="glyphicon glyphicon-chevron-left btn-left"><</a>
+                <a class="glyphicon glyphicon-chevron-right btn-right">></a>
+                <ul class="clearfix albums-list">
+                    @for (var i = 0; i < 8; i++) {
+                        <li class="albums-item">
+                            <img class="img-responsive" src="@Model.CoverImg" />
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-7 goods-info">
+            <h1 class="goods-name">@Model.Name @Model.NameEn</h1>
+            <div class="bg-lightgray">
+                <div class="dl">
+                    <div class="dt">销售价格</div>
+                    <div class="dd">
+                        <span class="color-red price">
+                            ￥ @Model.Price
+                        </span>
+                    </div>
+                </div>
+
+                <div class="dl">
+                    <div class="dt">商品标签</div>
+                    <div class="dd">
+                        @foreach (var gc in Model.GoodsCategory) {
+                            <span>@gc.Category.Name，</span>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="dl">
+                <div class="dt">&ensp;库&ensp;&ensp;存&ensp;</div>
+                <div class="dd">@Model.Stock 件</div>
+            </div>
+            <div class="btns">
+                <div class="num-inp">
+                    <input id="num" type="text" value="1" />
+                    <a class="num-add" id="num-add">+</a>
+                    <a class="num-reduce" id="num-reduce">-</a>
+                </div>
+                <a class="btn-addToCart bg-red" href="javascript:">加入购物车</a>
+                <a class="btn-buy bg-green" href="javascript:">立即购买</a>
+            </div>
+        </div>
+    </div>
+    <br /><br />
+    <div class="clearfix">
+        <div class="rec-goods">
+            <div class="rec-title">热门推荐</div>
+            <ul class="rec-body">
+                @foreach (var item in recGoods) {
+                    <li title="@item.Name @item.NameEn">
+                        <a href="/goods/detail?id=@item.ID">
+                            <img src="@item.CoverImg" style="width:100%;" />
+                        </a>
+                        <p class="text-singleline color-red price">￥ @item.Price</p>
+                        <a href="/goods/detail?id=@item.ID">
+                            <p class="goods-name">@item.Name&ensp;&ensp;@item.NameEn</p>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="goods-content">
+            <div class="goods-content-header">商品介绍</div>
+            <div>
+
+            </div>
+            <div class="goods-content-body">
+                @Html.Raw(Model.Content)
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        var num = 1;
+        var stock=@Html.Raw(Model.Stock);
+
+        function setNum() {
+            $("#num").val(parseInt(num));
+        }
+
+        $("#num-add").click(function () {
+            if (num >= stock) {
+                return;
+            }
+            num = parseInt(num);
+            num++;
+            setNum();
+        });
+
+        $("#num-reduce").click(function () {
+            num = parseInt(num);
+            if (num > 1) {
+                num--;
+                setNum();
+            }
+        });
+
+        $("#num").blur(function () {
+            let inpNum = $("#num").val();
+            if (isNumber(inpNum)) {
+                num = parseInt(inpNum);
+                if (num <= 0) {
+                    num = 1;
+                }
+                if (num > stock) {
+                    num = stock;
+                }
+            }
+            else {
+                num = 1;
+            }
+            setNum();
+        });
+    </script>
+}

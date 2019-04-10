@@ -1,20 +1,26 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using TengoDotNetCore.Data;
 using TengoDotNetCore.Models;
-using TengoDotNetCore.Service;
 
 namespace TengoDotNetCore.Controllers {
     public class HomeController : BaseController {
-        HomeService service;
-
-        public HomeController(HomeService service) {
-            this.service = service;
-        }
+        public HomeController(TengoDbContext db) : base(db) { }
 
         public async Task<IActionResult> Index() {
-            ViewData.Model = await service.GetIndex();
+            ViewBag.Banners = await db.Article.ToAsyncEnumerable()
+                                    .Where(p => p.CategoryID == 4)
+                                    .Take(10)
+                                    .ToList();
+            ViewBag.Goods = await db.Goods.ToAsyncEnumerable()
+                                    .Where(p => p.Status == 1)
+                                    .OrderBy(p => Guid.NewGuid())
+                                    .Take(60)
+                                    .ToList();
             return View();
         }
 

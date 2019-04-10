@@ -53,6 +53,10 @@
     background-color: #fff;
 }
 
+.bg-red {
+    background-color: #df3033;
+}
+
 .bg-winered {
     background-color: #aa1f24;
 }
@@ -66,6 +70,6 @@
 }
 
 .bg-green {
-    background-color: #f4f4f4;
+    background-color: green;
 }
 /*背景颜色 结束*/

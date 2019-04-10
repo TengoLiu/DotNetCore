@@ -7,14 +7,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
-using TengoDotNetCore.Controllers;
+using TengoDotNetCore.Data;
 
-namespace WinexHK.Areas.Admin.Controllers {
+namespace TengoDotNetCore.Areas.Admin.Controllers {
     [Area("Admin")]
     public class KindEditorController : BaseController {
 
         private readonly IHostingEnvironment _hostingEnvironment;
-        public KindEditorController(IHostingEnvironment hostingEnvironment) {
+        public KindEditorController(IHostingEnvironment hostingEnvironment, TengoDbContext db) : base(db) {
             _hostingEnvironment = hostingEnvironment;
         }
 
