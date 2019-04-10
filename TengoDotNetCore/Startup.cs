@@ -6,8 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using TengoDotNetCore.Common.Utils.SMS;
 using TengoDotNetCore.Data;
-using TengoDotNetCore.Service;
+using TengoDotNetCore.PBLL;
 
 namespace TengoDotNetCore {
     public class Startup {
@@ -75,10 +76,11 @@ namespace TengoDotNetCore {
             //services.AddScoped<IUserService, UserService>();
             //services.AddScoped<IArticleService, ArticleService>();
             //services.AddScoped<IGoodsService, GoodsService>();
-            services.AddScoped<UserService>();
-            services.AddScoped<ArticleService>();
-            services.AddScoped<GoodsService>();
-            services.AddScoped<HomeService>();
+            services.AddScoped<ArticlePBLL>();
+            services.AddScoped<GoodsPBLL>();
+
+            //短信发送者
+            services.AddScoped<ISMS, DuanXinWang>();
             #endregion
         }
 

@@ -1,0 +1,79 @@
+﻿@model PageList<SMSLog>
+@{
+    ViewData["Title"] = "短信记录";
+    var pageUrl = string.Empty;
+    if(ViewBag.Keyword != null) {
+        pageUrl += "&keyword=" + ViewBag.Keyword;
+    }
+    if(ViewData["datemin"] != null) {
+        pageUrl += "&datemin=" + ViewData["datemin"];
+    }
+    if(ViewData["datemax"] != null) {
+        pageUrl += "&datemax=" + ViewData["datemax"];
+    }
+}
+<nav class="breadcrumb">
+    <i class="Hui-iconfont">&#xe67f;</i>
+    首页 <span class="c-gray en">&gt;</span>
+    短信管理 <span class="c-gray en">&gt;</span>
+    短信记录
+    <a class="btn btn-success radius r btn-refresh" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="Hui-iconfont">&#xe68f;</i>
+    </a>
+</nav>
+<div class="page-container">
+    <form>
+        <div class="text-c">
+            日期范围：
+            <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" value="@ViewData["datemin"]" class="input-text wdate" style="width:120px;">
+            -
+            <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" value="@ViewData["datemax"]" class="input-text Wdate" style="width:120px;">
+            <input type="text" class="input-text" style="width:250px" placeholder="输入手机号或内容" name="keyword" value="@ViewBag.Keyword">
+            <input type="hidden" name="pageSize" value="@Model.PageSize" />
+            <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜 索</button>
+        </div>
+    </form>
+    <div class="cl pd-5 bg-1 bk-gray mt-20">
+        <span class="l">
+        </span> <span class="r">共有数据：<strong>@Model.Total</strong> 条</span>
+    </div>
+    <table class="table table-border table-bordered table-bg table-hover table-sort">
+        <thead>
+            <tr><th scope="col" colspan="12">内容列表</th></tr>
+            <tr class="text-c">
+                <th>发送目的</th>
+                <th>手机号</th>
+                <th>内容</th>
+                <th>发送平台</th>
+                <th>返回结果</th>
+                <th>成功与否</th>
+                <th>发送时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model.DataList) {
+                <tr class="text-c">
+                    <td>@item.SendFor</td>
+                    <td>@item.Mobile</td>
+                    <td>@item.Content</td>
+                    <td>@item.Platform</td>
+                    <td>@item.ResultStr</td>
+                    @if(item.Success) {
+                        <td>成功</td>
+                    }
+                    else {
+                        <td>失败</td>
+                    }
+                    <td>@item.AddTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="tengo-pager"></div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(".tengo-pager").append(getPager(@Model.Total,@Model.PageSize,@Model.Page, "/admin/sms?page=", pageUrl));
+    </script>
+}

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TengoDotNetCore.Models;
+using TengoDotNetCore.Models.Logs;
 
 namespace TengoDotNetCore.Data {
     public class TengoDbContext : DbContext {
@@ -25,6 +23,10 @@ namespace TengoDotNetCore.Data {
 
         public DbSet<CartItem> CartItem { get; set; }
 
+        /// <summary>
+        /// 短信发送记录
+        /// </summary>
+        public DbSet<SMSLog> SMSLog { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             #region 添加商品和分类之间的多对多关系

@@ -39,6 +39,7 @@
 
 
   <ItemGroup>
+    <None Include="Areas\Admin\Views\Sms\Index.cshtml" />
     <None Include="wwwroot\lib\datepicker\calendar.js" />
     <None Include="wwwroot\lib\datepicker\lang\en.js" />
     <None Include="wwwroot\lib\datepicker\lang\zh-cn.js" />
