@@ -84,6 +84,11 @@ namespace TengoDotNetCore.Models {
         public string Description { get; set; }
 
         /// <summary>
+        /// 商品的图册
+        /// </summary>
+        public virtual List<Album> Album { get; set; }
+
+        /// <summary>
         /// 商品所属分类
         /// </summary>
         public virtual List<GoodsCategory> GoodsCategory { get; set; }

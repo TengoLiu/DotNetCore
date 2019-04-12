@@ -63,6 +63,14 @@ body {
     line-height: 60px; /* Vertically center the text there */
 }
 
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
 ul, ol {
     list-style: none;
 }
@@ -126,55 +134,7 @@ img {
     margin-left: 10px;
 }
 
-.goods-detail .goods-img {
-    border: 1px solid #ccc;
-}
 
-.goods-detail .goods-img .albums {
-    position: relative;
-    height: 92px;
-    overflow: hidden;
-    margin-left: -15px;
-    margin-right: -15px;
-    padding: 5px 15px;
-    border-top: 1px solid #ccc;
-}
-
-.goods-detail .goods-img .albums .albums-list {
-    max-width: 8000px;
-}
-
-.goods-detail .goods-img .albums .btn-left, .goods-img .albums .btn-right {
-    position: absolute;
-    z-index: 10;
-    top: 0;
-    width: 20px;
-    height: 90px;
-    line-height: 90px;
-    text-align: center;
-    background: #fff;
-    font-size: 18px;
-    color: #888;
-}
-
-.goods-detail .goods-img .albums .btn-left {
-    left: 0;
-}
-
-.goods-detail .goods-img .albums .btn-right {
-    right: 0;
-}
-
-.goods-detail .goods-img .albums .albums-item {
-    float: left;
-    width: 80px;
-    height: 80px;
-}
-
-.goods-detail .goods-img .albums .albums-item img {
-    width: 68px;
-    margin: 5px;
-}
 
 .goods-detail .goods-info {
     padding-top: 10px;

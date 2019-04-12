@@ -49,6 +49,47 @@
                 <a class="btn btn-default radius ml-10" id="btn-upload">上传封面图片</a>
             </div>
         </div>
+        <style>
+            .albums {
+                margin-top: 15px;
+                padding:10px;
+                border: 1px solid #eee;
+            }
+
+            .albums .album-item {
+                display: inline-block;
+                width: 80px;
+                margin-right: 15px;
+                text-align: center;
+            }
+
+            .albums .album-item .album-img {
+                max-width: 100%;
+                max-height: 100%;
+            }
+
+            .albums .album-item .album-del {
+                line-height: 30px;
+            }
+        </style>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">细节图集：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="button" class="btn btn-default radius ml-10" id="upload-albums" value="批量上传细节图" />
+                <ul class="albums" id="albums">
+                    @if (Model.Album != null) {
+                        for (int i = 0; i < Model.Album.Count; i++) {
+                            <li class="album-item">
+                                <img class="album-img" src="@Model.Album[i].OriginalPath" style="opacity: 1;">
+                                <a class="album-del" onclick="delAlbum(this);">移&ensp;除</a>
+                                <input name="albumUrls" type="hidden" value="@Model.Album[i].OriginalPath">
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">所属分类：</label>
             <div class="formControls col-xs-8 col-sm-9">
@@ -120,6 +161,7 @@
 
             var editor;
             var editor2;
+            var editor3;
             //初始化内容编辑器
             KindEditor.ready(function (K) {
                 //初始化PC版HTML编辑器
@@ -128,12 +170,14 @@
                     fileManagerJson: '/admin/kindEditor/fileManager',
                     allowFileManager: true
                 });
+
                 //初始化移动版HTML编辑器
                 editor2 = K.create('#EditorMContent', {
                     uploadJson: '/admin/kindEditor/upload',
                     fileManagerJson: '/admin/kindEditor/fileManager',
                     allowFileManager: true
                 });
+
                 //封面图上传
                 K('#btn-upload').click(function () {
                     editor.loadPlugin('image', function () {
@@ -143,6 +187,25 @@
                             clickFn: function (url, title, width, height, border, align) {
                                 K('#CoverImg').val(url);
                                 $('#CoverImgImg').prop("src", url);
+                                editor.hideDialog();
+                            }
+                        });
+                    });
+                });
+
+                //商品副图上传
+                K('#upload-albums').click(function () {
+                    editor.loadPlugin('multiimage', function () {
+                        editor.plugin.multiImageDialog({
+                            clickFn: function (urlList) {
+                                var div = K('#albums');
+                                K.each(urlList, function (i, data) {
+                                    div.append('<li class="album-item">'
+                                        + '<img class="album-img" src="' + data.url+'" style="opacity: 1;">'
+                                        +'<a class="album-del" onclick="delAlbum(this);">移&ensp;除</a>'
+                                        + '<input name="albumUrls" type="hidden" value="' + data.url+'">'
+                                        +'</li>');
+                                });
                                 editor.hideDialog();
                             }
                         });

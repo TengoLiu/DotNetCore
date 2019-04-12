@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TengoDotNetCore.Data;
 
 namespace TengoDotNetCore.Migrations
 {
     [DbContext(typeof(TengoDbContext))]
-    partial class TengoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190412074252_添加商品图册")]
+    partial class 添加商品图册
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

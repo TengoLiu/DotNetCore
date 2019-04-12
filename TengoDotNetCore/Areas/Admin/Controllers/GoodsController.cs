@@ -56,7 +56,10 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
             if (id == null || id <= 0) {
                 return new NotFoundResult();
             }
-            var query = db.Goods.Include(p => p.GoodsCategory).AsQueryable();
+            var query = db.Goods
+                .Include(p => p.GoodsCategory)
+                .Include(p => p.Album)
+                .AsQueryable();
             var model = await query.ToAsyncEnumerable().FirstOrDefault(p => p.ID == id);
 
             ViewData["Category"] = await db.Category.ToAsyncEnumerable().ToList();
@@ -68,7 +71,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Goods model, List<int> categoryIds) {
+        public async Task<IActionResult> Edit(Goods model, List<int> categoryIds, List<string> albumUrls) {
             if (ModelState.IsValid) {
                 //组装商品分类关系
                 model.GoodsCategory = new List<GoodsCategory>();
@@ -87,6 +90,36 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
                     if (string.IsNullOrWhiteSpace(model.Description)) {
                         model.Description = model.Keywords;
                     }
+
+                    var goods = await db.Goods
+                                        .Include(p => p.Album)
+                                        .Include(p => p.GoodsCategory)
+                                        .FirstOrDefaultAsync(p => p.ID == model.ID);
+
+                    for (var i = goods.Album.Count - 1; i >= 0; i--) {
+                        //判断新的集合里面有没有这个元素
+                        bool newListExists = false;
+                        for (var j = albumUrls.Count - 1; j >= 0; j--) {
+                            if (albumUrls[j] == goods.Album[i].OriginalPath) {
+                                albumUrls.RemoveAt(j);
+                                newListExists = true;
+                                break;
+                            }
+                        }
+                        //如果新集合里面没有这个元素的话，那么说明这个过期了，要移除
+                        if (!newListExists) {
+                            goods.Album.RemoveAt(i);
+                        }
+                    }
+
+                    foreach (var item in albumUrls) {
+                        goods.Album.Add(new Album {
+                            OriginalPath = item,
+                            AddTime = DateTime.Now,
+                            UpdateTime = DateTime.Now
+                        });
+                    }
+
                     model.UpdateTime = DateTime.Now;
                     //标明哪些字段变动了
                     db.Entry(model).Property(p => p.Name).IsModified = true;
@@ -100,7 +133,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
                     db.Entry(model).Property(p => p.Content).IsModified = true;
                     db.Entry(model).Property(p => p.MContent).IsModified = true;
                     db.Entry(model).Property(p => p.Sort).IsModified = true;
-
+                    db.Entry(model).Property(p => p.Album).IsModified = true;
                     //先获取商品分类关系
                     //var goodsCategory = db.GoodsCategory.Include(p => p.Category).FirstOrDefault(p => p.GoodsID == model.ID && p.CategoryID == 16);
 
@@ -154,6 +187,9 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
                             model.GoodsCategory.Remove(existItem);
                         }
                     });
+
+
+
 
                     //比对完之后,剩下的就是纯粹要插入的了，那么直接插入即可
                     if (model.GoodsCategory.Count > 0) {
