@@ -9,15 +9,26 @@ namespace TengoDotNetCore.Models {
     /// </summary>
     public class Goods : BaseModel {
 
+        /// <summary>
+        /// 商品名称
+        /// </summary>
         [Required(ErrorMessage = "名称是必填的"), MaxLength(50)]
         public string Name { get; set; }
 
+        /// <summary>
+        /// 外文名称
+        /// </summary>
         public string NameEn { get; set; }
 
         /// <summary>
         /// 封面图片
         /// </summary>
         public string CoverImg { get; set; }
+
+        /// <summary>
+        /// 商品的图册列表，一堆图片，用逗号隔开
+        /// </summary>
+        public string Albums { get; set; }
 
         /// <summary>
         /// PC端商品详情
@@ -34,9 +45,15 @@ namespace TengoDotNetCore.Models {
         /// 由于如果不指定[Column(TypeName = "decimal(18, 2)")]的话
         /// 则默认是decimal(18, 2)，实际上可以根据需要来指定在数据库中的类型
         /// </summary>
-        [Column(TypeName = "decimal(18, 2)"), Required(ErrorMessage = "价格是必填的！")]
+        [Required(ErrorMessage = "价格是必填的！")]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
 
+        /// <summary>
+        /// 库存
+        /// </summary>
+        [Required]
+        [Range(0, 99999)]
         public int Stock { get; set; }
 
         /// <summary>
@@ -75,18 +92,12 @@ namespace TengoDotNetCore.Models {
         /// <summary>
         /// SEO关键词
         /// </summary>
-        [MaxLength(128)]
         public string Keywords { get; set; }
+
         /// <summary>
         /// SEO描述
         /// </summary>
-        [MaxLength(255)]
         public string Description { get; set; }
-
-        /// <summary>
-        /// 商品的图册
-        /// </summary>
-        public virtual List<Album> Album { get; set; }
 
         /// <summary>
         /// 商品所属分类

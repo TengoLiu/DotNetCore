@@ -56,10 +56,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
             if (id == null || id <= 0) {
                 return new NotFoundResult();
             }
-            var query = db.Goods
-                .Include(p => p.GoodsCategory)
-                .Include(p => p.Album)
-                .AsQueryable();
+            var query = db.Goods.Include(p => p.GoodsCategory).AsQueryable();
             var model = await query.ToAsyncEnumerable().FirstOrDefault(p => p.ID == id);
 
             ViewData["Category"] = await db.Category.ToAsyncEnumerable().ToList();
@@ -73,16 +70,6 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         [HttpPost]
         public async Task<IActionResult> Edit(Goods model, List<int> categoryIds, List<string> albumUrls) {
             if (ModelState.IsValid) {
-                //组装商品分类关系
-                model.GoodsCategory = new List<GoodsCategory>();
-                if (categoryIds != null) {
-                    categoryIds.ForEach(p => {
-                        model.GoodsCategory.Add(new GoodsCategory {
-                            GoodsID = model.ID,
-                            CategoryID = p
-                        });
-                    });
-                }
                 try {
                     if (string.IsNullOrWhiteSpace(model.Keywords)) {
                         model.Keywords = model.Name;
@@ -91,40 +78,23 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
                         model.Description = model.Keywords;
                     }
 
-                    var goods = await db.Goods
-                                        .Include(p => p.Album)
-                                        .Include(p => p.GoodsCategory)
-                                        .FirstOrDefaultAsync(p => p.ID == model.ID);
-
-                    for (var i = goods.Album.Count - 1; i >= 0; i--) {
-                        //判断新的集合里面有没有这个元素
-                        bool newListExists = false;
-                        for (var j = albumUrls.Count - 1; j >= 0; j--) {
-                            if (albumUrls[j] == goods.Album[i].OriginalPath) {
-                                albumUrls.RemoveAt(j);
-                                newListExists = true;
-                                break;
-                            }
-                        }
-                        //如果新集合里面没有这个元素的话，那么说明这个过期了，要移除
-                        if (!newListExists) {
-                            goods.Album.RemoveAt(i);
-                        }
+                    #region 处理商品图册
+                    if (albumUrls != null && albumUrls.Count > 0) {
+                        model.Albums = string.Join(',', albumUrls);
                     }
-
-                    foreach (var item in albumUrls) {
-                        goods.Album.Add(new Album {
-                            OriginalPath = item,
-                            AddTime = DateTime.Now,
-                            UpdateTime = DateTime.Now
-                        });
+                    else {
+                        model.Albums = string.Empty;
                     }
+                    #endregion
+
+                    var goods = await db.Goods.Include(p => p.GoodsCategory).FirstOrDefaultAsync(p => p.ID == model.ID);
 
                     model.UpdateTime = DateTime.Now;
                     //标明哪些字段变动了
                     db.Entry(model).Property(p => p.Name).IsModified = true;
                     db.Entry(model).Property(p => p.NameEn).IsModified = true;
                     db.Entry(model).Property(p => p.CoverImg).IsModified = true;
+                    db.Entry(model).Property(p => p.Albums).IsModified = true;
                     db.Entry(model).Property(p => p.Price).IsModified = true;
                     db.Entry(model).Property(p => p.Stock).IsModified = true;
                     db.Entry(model).Property(p => p.Status).IsModified = true;
@@ -133,67 +103,30 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
                     db.Entry(model).Property(p => p.Content).IsModified = true;
                     db.Entry(model).Property(p => p.MContent).IsModified = true;
                     db.Entry(model).Property(p => p.Sort).IsModified = true;
-                    db.Entry(model).Property(p => p.Album).IsModified = true;
-                    //先获取商品分类关系
-                    //var goodsCategory = db.GoodsCategory.Include(p => p.Category).FirstOrDefault(p => p.GoodsID == model.ID && p.CategoryID == 16);
 
-                    //如果关系不存在的话，那么要新建
-                    //if (goodsCategory == null) {
-                    //    //先获取分类
-                    //    var category = db.Category.FirstOrDefault(p => p.ID == 16);
-                    //    //如果连分类都不存在，那么还谈什么商品与分类的关系？直接报错！
-                    //    if (category == null) {
-                    //        return Error("分类不存在！");
-                    //    }
-
-                    //    //新建一个分类关系
-                    //    goodsCategory = new GoodsCategory {
-                    //        GoodsID = model.ID,
-                    //        CategoryID = category.ID
-                    //    };
-                    //}
-                    //取出本商品就的分类关系集合
                     var oldGCs = db.GoodsCategory.Where(p => p.GoodsID == model.ID).ToList();
-                    //定义一个集合，存放即将要写入的分类关系
-                    //var newGCs = new List<GoodsCategory>();
-
-                    //我想通过移除全部旧的然后再插入新的，这样不行，居然报错了，因此我只能写代码对比新旧集合了 - -！
-                    //db.GoodsCategory.RemoveRange(oldGCs);
-
-                    //然后添加新的分类关系
-                    //newGCs.Add(goodsCategory);
-
-                    //获取所有父类，并且把所有父类结点都加进去
-                    //var parGC = await GetParentCategorys(goodsCategory.Category.ParID);
-                    //if (parGC != null) {
-                    //    foreach (var item in parGC) {
-                    //        newGCs.Add(new GoodsCategory {
-                    //            GoodsID = model.ID,
-                    //            CategoryID = item.ID
-                    //        });
-                    //    }
-                    //}
 
                     oldGCs.ForEach(p => {
                         //找一找看看旧的集合里面有没有跟新的集合一样的值，如果有，那么就不用动
-                        var existItem = model.GoodsCategory.FirstOrDefault(q => q.CategoryID == p.CategoryID);
+                        var existId = categoryIds.FirstOrDefault(q => q == p.CategoryID);
 
                         //如果旧的集合里面有，但是新的没有的话，说明这个老东西要删了
-                        if (existItem == null) {
+                        if (existId <= 0) {
                             db.GoodsCategory.Remove(p);
                         }
                         else {
-                            //不然就把新集合里面的移除掉，后面剩下的就是纯粹要插入的了
-                            model.GoodsCategory.Remove(existItem);
+                            categoryIds.Remove(existId);
                         }
                     });
 
-
-
-
                     //比对完之后,剩下的就是纯粹要插入的了，那么直接插入即可
-                    if (model.GoodsCategory.Count > 0) {
-                        db.GoodsCategory.AddRange(model.GoodsCategory);
+                    if (categoryIds.Count > 0) {
+                        foreach (var cid in categoryIds) {
+                            db.GoodsCategory.Add(new GoodsCategory {
+                                CategoryID = cid,
+                                GoodsID = model.ID
+                            });
+                        }
                     }
                     await db.SaveChangesAsync();
                     return JsonResultSuccess("修改成功！");

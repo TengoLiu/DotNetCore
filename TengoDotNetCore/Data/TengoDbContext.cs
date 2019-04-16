@@ -24,11 +24,6 @@ namespace TengoDotNetCore.Data {
         public DbSet<CartItem> CartItem { get; set; }
 
         /// <summary>
-        /// 图片地址
-        /// </summary>
-        public DbSet<Album> Album { get; set; }
-
-        /// <summary>
         /// 短信发送记录
         /// </summary>
         public DbSet<SMSLog> SMSLog { get; set; }

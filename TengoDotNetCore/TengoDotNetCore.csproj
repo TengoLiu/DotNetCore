@@ -219,6 +219,7 @@
     <None Include="wwwroot\lib\kindeditor\plugins\table\table.js" />
     <None Include="wwwroot\lib\kindeditor\plugins\template\template.js" />
     <None Include="wwwroot\lib\kindeditor\plugins\wordpaste\wordpaste.js" />
+    <None Include="wwwroot\lib\tengo-dialog\tengo-dialog.js" />
   </ItemGroup>
 
 

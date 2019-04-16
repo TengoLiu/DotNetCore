@@ -15,8 +15,10 @@
               crossorigin="anonymous"
               integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
     </environment>
+
     <link href="~/css/site.css" rel="stylesheet" />
     <link href="~/css/color.css" rel="stylesheet" />
+    <link href="~/lib/tengo-dialog/tengo-dialog.css" rel="stylesheet" />
     @RenderSection("Header", required: false)
 </head>
 <body>
@@ -76,6 +78,7 @@
     </environment>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/utils.js"></script>
+    <script src="~/lib/tengo-dialog/tengo-dialog.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -53,7 +53,7 @@
 }
 
 .easyzoom--adjacent .easyzoom-flyout {
-    top: -60px;
+    top: 0;
     left: 100%;
     width: 200%;
     height: 200%;

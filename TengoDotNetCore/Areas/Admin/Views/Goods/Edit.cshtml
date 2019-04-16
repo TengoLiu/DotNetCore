@@ -52,7 +52,7 @@
         <style>
             .albums {
                 margin-top: 15px;
-                padding:10px;
+                padding: 10px;
                 border: 1px solid #eee;
             }
 
@@ -77,12 +77,18 @@
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="button" class="btn btn-default radius ml-10" id="upload-albums" value="批量上传细节图" />
                 <ul class="albums" id="albums">
-                    @if (Model.Album != null) {
-                        for (int i = 0; i < Model.Album.Count; i++) {
+                    @{
+                        string[] albums = null;
+                        if (!string.IsNullOrWhiteSpace(Model.Albums)) {
+                            albums = Model.Albums.Split(",");
+                        }
+                    }
+                    @if (albums != null && albums.Length > 0) {
+                        foreach (var item in albums) {
                             <li class="album-item">
-                                <img class="album-img" src="@Model.Album[i].OriginalPath" style="opacity: 1;">
+                                <img class="album-img" src="@item" style="opacity: 1;">
                                 <a class="album-del" onclick="delAlbum(this);">移&ensp;除</a>
-                                <input name="albumUrls" type="hidden" value="@Model.Album[i].OriginalPath">
+                                <input name="albumUrls" type="hidden" value="@item">
                             </li>
                         }
                     }
@@ -353,6 +359,11 @@
                     $("#cid_" + data[i].ID).removeProp("checked");
                 }
             }
+        }
+
+        //图册删除的方法
+        function delAlbum(item) {
+            $(item).parent().remove();
         }
     </script>
 }

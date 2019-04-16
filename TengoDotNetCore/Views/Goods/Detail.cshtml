@@ -132,10 +132,21 @@
                 <a class="btn-left" href="javascript:"><</a>
                 <div class="pull-left small-pics">
                     <ul>
-                        @for (var i = 0; i < 10; i++) {
-                            <li>
-                                <img src="@Model.CoverImg" alt="@Model.CoverImg" title="@Model.CoverImg" style="width:80px;" />
-                            </li>
+                        <li>
+                            <img src="@Model.CoverImg" alt="@Model.CoverImg" title="@Model.CoverImg" style="width:80px;" />
+                        </li>
+                        @{
+                            string[] albums = null;
+                            if (!string.IsNullOrWhiteSpace(Model.Albums)) {
+                                albums = Model.Albums.Split(",");
+                            }
+                        }
+                        @if (albums != null && albums.Length > 0) {
+                            foreach (var item in albums) {
+                                <li>
+                                    <img src="@item" alt="@item" title="@item" style="width:80px;" />
+                                </li>
+                            }
                         }
                     </ul>
                 </div>
@@ -276,11 +287,12 @@
             var $easyzoom = $('.easyzoom').easyZoom();
             var api = $easyzoom.data('easyZoom');
 
+            $(".small-pics li").hover(function () {
+                var url = $(this).children("img").prop("src");
+                api.swap(url, url);
+            });
         });
 
-        $(".small-pics li").hover(function () {
-            var url = $(this).children("img").prop("src");
-            api.swap(url, url);
-        });
+       
     </script>
 }
