@@ -1,0 +1,177 @@
+﻿@{
+    ViewBag.Title = "新增栏目";
+}
+@model Column
+<div class="page-container">
+    <form class="form form-horizontal" id="form1">
+        <div class="text-danger"></div>
+        <div class="row cl">
+            <label for="columnType" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>栏目类别：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <select id="ColumnType" name="ColumnType_Id" class="input-text">
+                    @foreach (var item in ViewBag.Types) {
+                        <option value="@item.Id">@item.TypeName</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row cl">
+            <label for="Status" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>是否显示：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <select class="input-text" id="Status" name="status">
+                    <option value="1">显示</option>
+                    <option value="0">不显示</option>
+                </select>
+            </div>
+        </div>
+        <div class="row cl">
+            <label for="title" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>中文名称：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                @Html.TextBoxFor(p => p.Title, new { @class = "input-text" })
+                @Html.ValidationMessageFor(p => p.Title, null, new { @class = "c-danger" })
+            </div>
+        </div>
+        <div class="row cl">
+            <label for="ImgUrl" class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>主图(PC)：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <img id="uploadImg" style="width:300px;margin-bottom:15px;border:1px solid #e4e4e4;" src="@TengoDotNetCore.Common.Constant.DEFAULT_PIC" />
+                <span>上传图片或者在下面填入图片的网络地址。</span>
+                <br />
+                <input class="input-text" type="text" id="upload-url" name="imgUrl" value="@TengoDotNetCore.Common.Constant.DEFAULT_PIC" />
+                <input class="input-text" type="button" id="upload-button" value="选择图片上传（1920*480）" />
+            </div>
+        </div>
+        <div class="row cl">
+            <label for="MImgUrl" class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>主图(移动)：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <img id="uploadImg" style="width:160px;margin-bottom:15px;border:1px solid #e4e4e4;" src="@TengoDotNetCore.Common.Constant.DEFAULT_PIC" />
+                <span>上传图片或者在下面填入图片的网络地址。</span>
+                <br />
+                <input class="input-text" type="text" id="upload-url" name="mImgUrl" value="@TengoDotNetCore.Common.Constant.DEFAULT_PIC" />
+                <input class="input-text" type="button" id="upload-button2" value="选择图片上传（640*320）" />
+            </div>
+        </div>
+        <div class="row cl">
+            <label for="Href" class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>PC链接：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                @Html.TextBoxFor(p => p.Href, new { @class = "input-text" })
+                @Html.ValidationMessageFor(p => p.Href, null, new { @class = "c-danger" })
+            </div>
+        </div>
+        <div class="row cl">
+            <label for="title" class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>移动端链接：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                @Html.TextBoxFor(p => p.MHref, new { @class = "input-text" })
+                @Html.ValidationMessageFor(p => p.MHref, null, new { @class = "c-danger" })
+            </div>
+        </div>
+        <div class="row cl">
+            <label for="Sort" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>排序数字：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                @Html.TextBoxFor(p => p.Sort, new { @class = "input-text" })
+                @Html.ValidationMessageFor(p => p.Sort, null, new { @class = "c-danger" })
+            </div>
+        </div>
+        <div class="row cl">
+            <label for="ValidStartTime" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>上线时间：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" onfocus="WdatePicker({ maxDate: '#F{$dp.$D(\'ValidEndTime\')||\'%y-%M-%d\'}' })" id="ValidStartTime" name="validStartTime" value="" class="input-text Wdate" style="width:120px;">
+            </div>
+        </div>
+        <div class="row cl">
+            <label for="ValidEndTime" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>下线时间：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" onfocus="WdatePicker({ minDate: '#F{$dp.$D(\'ValidStartTime\')}' })" id="ValidEndTime" name="validEndTime" value="" class="input-text Wdate" style="width:120px;">
+            </div>
+        </div>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                <a id="btn-submit" class="btn btn-primary radius">
+                    <i class="Hui-iconfont">&#xe632;</i> 保存并提交审核
+                </a>
+                <button onclick="removeIframe();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts{
+    <script>
+        $(function () {
+            $("#btn-submit").click(function () {
+                /*
+                 * 按照我以前的做法，我肯定是input里面不写字段的限制，并且只会在后面的js里面写上一堆的限制，
+                 * 然后提交的时候在校验rules是否符合要求。
+                 * 但是按照上面那样的做法的话，非常地不妥。那样需要我手动在JS写字段限制的规则，导致大大增多了工作量，这是非常反人类的！
+                 * 这一句代码其实就是对表单再进行一次校验，并且判断校验是否通过，可谓一举两得
+                 */
+                if (!$("#form1").valid()) {
+                    return;
+                }
+                $.ajax({
+                    url: "/admin/column/ApiAdd",
+                    type: "POST",
+                    data: $("#form1").serialize(),
+                    dataType: "JSON",
+                    success: function (data) {
+                        if (data.status == 1000) {
+                            layer.msg(data.msg, { icon: 1, time: 1000 });
+                            setTimeout(function () {
+                                var index = parent.layer.getFrameIndex(window.name);
+                                console.log(window.name);
+                                parent.$('.btn-refresh').click();
+                                parent.layer.close(index);
+                            }, 1500);
+                            parent.location.reload();
+                        }
+                        else if (data.staus == 2000) {
+                            layer.msg(data.msg, { icon: 1, time: 1500 });
+                            setTimeout(function () { location.href = "/admin/manager/login"; }, 1000);
+                        }
+                        else {
+                            layer.msg(data.msg, { icon: 2, time: 2000 });
+                        }
+                    },
+                    error: function () {
+                        layer.msg("系统繁忙，请稍后再试......", { icon: 2, time: 1000 });
+                    }
+                });
+            });
+        });
+
+        KindEditor.ready(function (K) {
+            var editor = K.editor({
+                allowFileManager: true,
+                uploadJson: '/admin/kindEditor/upload',
+                fileManagerJson: '/admin/kindEditor/fileManager',
+            });
+            //商品主图上传
+            K('#upload-button').click(function () {
+                editor.loadPlugin('image', function () {
+                    editor.plugin.imageDialog({
+                        showRemote: true,
+                        imageUrl: K('#upload-url').val(),
+                        clickFn: function (url, title, width, height, border, align) {
+                            K('#upload-url').val(url);
+                            $('#uploadImg').prop("src", url);
+                            editor.hideDialog();
+                        }
+                    });
+                });
+            });
+            K('#upload-button2').click(function () {
+                editor.loadPlugin('image', function () {
+                    editor.plugin.imageDialog({
+                        showRemote: false,
+                        imageUrl: K('#upload-url2').val(),
+                        clickFn: function (url, title, width, height, border, align) {
+                            K('#upload-url2').val(url);
+                            $('#uploadImg2').prop("src", url);
+                            editor.hideDialog();
+                        }
+                    });
+                });
+            });
+        });
+
+    </script>
+}

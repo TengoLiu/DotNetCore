@@ -3,129 +3,15 @@
     ViewData["Title"] = Model.Name;
     var recGoods = ViewBag.RecGoods as List<Goods> ?? new List<Goods>();
 }
-<link href="~/css/easyzoom.css" rel="stylesheet" />
-<style>
-    .goods-detail .goods-img {
-        padding: 0;
-        border: 1px solid #eee;
-    }
-
-    .goods-detail .goods-img .main-pic {
-        border-bottom: 1px solid #eee;
-    }
-
-    .goods-detail .goods-img .small-pic-box {
-        height: 80px;
-        border-top: 1px solid #f4f4f4;
-    }
-
-    .goods-detail .goods-img .small-pic-box > span {
-        float: left;
-        height: 80px;
-        line-height: 80px;
-        width: 23px;
-        text-align: center;
-        cursor: pointer;
-    }
-
-    .goods-detail .goods-img .small-pic-box .small-pics {
-        position: relative;
-        width: 80%;
-        height: 80px;
-        margin-left: 10%;
-        margin-right: 10%;
-        overflow: hidden;
-    }
-
-    .goods-detail .goods-img .small-pic-box .small-pics .large-pic {
-    }
-
-    .goods-detail .goods-img .small-pic-box .small-pics > ul {
-        position: absolute;
-        left: 0;
-        height: 80px;
-        width: 9000px;
-    }
-
-    .goods-detail .goods-img .small-pic-box .small-pics > ul > li {
-        float: left;
-        margin-top: 5px;
-        margin-left: 8px;
-        cursor: pointer;
-    }
-
-    .goods-detail .goods-img .small-pic-box .small-pics > ul > li:first-child {
-        margin-left: 0;
-    }
-
-    .goods-detail .goods-img .small-pic-box .small-pics > ul > li > img {
-        width: 70px;
-        height: 70px;
-        border: 1px solid #eee;
-    }
-
-    .goods-detail .goods-img .large-pic {
-        display: none;
-        position: fixed;
-        width: 824px;
-        height: 824px;
-        margin: auto;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 999;
-        cursor: pointer;
-        border: 2px solid #f4f4f4;
-        border-radius: 5px;
-    }
-
-    .goods-detail .goods-img .large-pic img {
-        width: 820px;
-        height: 820px;
-    }
-
-    .goods-detail .goods-img .big-pic {
-        cursor: pointer;
-    }
-
-    .goods-detail .goods-img .big-pic > img {
-        width: 298px;
-        height: 298px;
-    }
-
-    .goods-detail .goods-img .small-pic-box {
-        position: relative;
-    }
-
-    .goods-detail .goods-img .btn-left, .goods-img .btn-right {
-        position: absolute;
-        display: block;
-        z-index: 10;
-        top: 0;
-        width: 10%;
-        height: 80px;
-        line-height: 80px;
-        text-align: center;
-        background: #fff;
-        font-size: 18px;
-        color: #888;
-    }
-
-    .goods-detail .goods-img .btn-left {
-        left: 0;
-    }
-
-    .goods-detail .goods-img .btn-right {
-        right: 0;
-    }
-</style>
+@section Header{
+    <link href="~/css/easyzoom.css" rel="stylesheet" />
+}
 <div class="container goods-detail">
     <div class="row">
         <div class="col-lg-4 goods-img">
             <div class="easyzoom easyzoom--adjacent main-pic">
                 <a href="@Model.CoverImg">
-                    <img src="@Model.CoverImg" style="width:100%;" />
+                    <img class="square width-full" src="@Model.CoverImg" />
                 </a>
             </div>
             <div class="clearfix small-pic-box">
@@ -196,11 +82,11 @@
             <ul class="rec-body">
                 @foreach (var item in recGoods) {
                     <li title="@item.Name @item.NameEn">
-                        <a href="/goods/detail?id=@item.ID">
-                            <img src="@item.CoverImg" style="width:100%;" />
+                        <a href="/goods/detail?id=@item.Id">
+                            <img class="square width-full" src="@item.CoverImg" />
                         </a>
                         <p class="text-singleline color-red price">￥ @item.Price</p>
-                        <a href="/goods/detail?id=@item.ID">
+                        <a href="/goods/detail?id=@item.Id">
                             <p class="goods-name">@item.Name&ensp;&ensp;@item.NameEn</p>
                         </a>
                     </li>
@@ -263,7 +149,7 @@
             });
 
 
-            var count = 10;
+            var count = @(albums!= null ? albums.Length:0);
             var position = 0;
             var max = count - 2;
             $(".small-pic-box .btn-left").on("click", function () {
@@ -293,6 +179,6 @@
             });
         });
 
-       
+
     </script>
 }

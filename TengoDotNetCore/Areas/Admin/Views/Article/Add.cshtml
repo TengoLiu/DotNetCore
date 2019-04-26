@@ -17,12 +17,12 @@
             </div>
         </div>
         <div class="row cl">
-            <label asp-for="CategoryID" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>文章分类：</label>
+            <label asp-for="ArticleType_Id" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>文章分类：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <select asp-for="CategoryID" class="input-text" asp-items="ViewBag.CategoryID">
+                <select asp-for="ArticleType_Id" class="input-text" asp-items="ViewBag.ArticleType_Id">
                     <option value="">-- 选择文章分类 --</option>
                 </select>
-                <span asp-validation-for="CategoryID" class="c-danger"></span>
+                <span asp-validation-for="ArticleType_Id" class="c-danger"></span>
             </div>
         </div>
         <div class="row cl">

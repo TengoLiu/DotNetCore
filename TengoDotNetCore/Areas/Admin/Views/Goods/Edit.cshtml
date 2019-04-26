@@ -6,7 +6,7 @@
 <div class="page-container">
     <form class="form form-horizontal" id="form1">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="ID" />
+        <input type="hidden" asp-for="Id" />
         <div class="row cl">
             <label asp-for="Name" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
@@ -95,14 +95,13 @@
                 </ul>
             </div>
         </div>
-
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">所属分类：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <ul class="Huifold" id="Huifold">
                     <li class="item">
                         <h4>点击打开或折叠 <b>-</b></h4>
-                        <ul class="info" id="CategoryID"></ul>
+                        <ul class="info" id="Category_ID"></ul>
                     </li>
                 </ul>
             </div>
@@ -223,11 +222,11 @@
             var tree = '';
 
             @foreach (var item in ViewData["Category"] as List<Category>) {
-                if (Model.GoodsCategory.ToList().Exists(p => p.CategoryID == item.ID)) {
-                     @Html.Raw("data.push({ID:" + item.ID + ",Name:'" + item.Name + "',Level:" + item.Level + ",ParID:" + item.ParID + ",Checked:true});")
+                if (Model.GoodsCategory.ToList().Exists(p => p.Category_ID == item.Id)) {
+                     @Html.Raw("data.push({Id:" + item.Id + ",Name:'" + item.Name + "',Level:" + item.Level + ",ParID:" + item.ParID + ",Checked:true});")
                 }
                 else {
-                    @Html.Raw("data.push({ID:" + item.ID + ",Name:'" + item.Name + "',Level:" + item.Level + ",ParID:" + item.ParID + ",Checked:false});")
+                    @Html.Raw("data.push({Id:" + item.Id + ",Name:'" + item.Name + "',Level:" + item.Level + ",ParID:" + item.ParID + ",Checked:false});")
                 }
             }
 
@@ -246,18 +245,18 @@
                             space += "├&nbsp;";
                         }
                         var li = '<li>' + space;
-                        li += '<input type="checkbox" name="categoryIds" id="cid_' + data[i].ID + '" value="' + data[i].ID + '" onclick="categoryClick(this)"/>';
-                        li += '<label for="cid_' + data[i].ID + '">' + data[i].Name + '</label>';
+                        li += '<input type="checkbox" name="categoryIds" id="cid_' + data[i].Id + '" value="' + data[i].Id + '" onclick="categoryClick(this)"/>';
+                        li += '<label for="cid_' + data[i].Id + '">' + data[i].Name + '</label>';
                         li += '</li>';
                         tree += li;
-                        createNode(data[i].ID);
+                        createNode(data[i].Id);
                     }
                 }
             }
             //从根节点开始生成checkbox
             createNode(0);
 
-            $("#CategoryID").html(tree);
+            $("#Category_ID").html(tree);
 
             checkCb();
 
@@ -306,7 +305,7 @@
         ///将所有祖先设置为选中
         function setCbParChecked(parID) {
             for (var i = 0; i < data.length; i++) {
-                if (data[i].ID === parID) {
+                if (data[i].Id === parID) {
                     data[i].Checked = true;
                     setCbParChecked(data[i].ParID);
                 }
@@ -318,7 +317,7 @@
             for (var i = 0; i < data.length; i++) {
                 if (data[i].ParID === id) {
                     data[i].Checked = false;
-                    setCbChildUnChecked(data[i].ID);
+                    setCbChildUnChecked(data[i].Id);
                 }
             }
         }
@@ -330,7 +329,7 @@
             if (checked) {
                 for (var i = 0; i < data.length; i++) {
                     //对集合进行遍历，如果遇到自己或者自己的父结点则设置选中
-                    if (data[i].ID == value) {
+                    if (data[i].Id == value) {
                         data[i].Checked = true;
                         //设置父结点为选中
                         setCbParChecked(data[i].ParID);
@@ -339,10 +338,10 @@
             }
             else {
                 for (var i = 0; i < data.length; i++) {
-                    if (data[i].ID == value) {
+                    if (data[i].Id == value) {
                         data[i].Checked = false;
                         //除了自己，还要把自己的所有后代设置为不选中
-                        setCbChildUnChecked(data[i].ID);
+                        setCbChildUnChecked(data[i].Id);
                     }
                 }
             }
@@ -353,10 +352,10 @@
         function checkCb() {
             for (var i = 0; i < data.length; i++) {
                 if (data[i].Checked) {
-                    $("#cid_" + data[i].ID).prop("checked","checked");
+                    $("#cid_" + data[i].Id).prop("checked","checked");
                 }
                 else {
-                    $("#cid_" + data[i].ID).removeProp("checked");
+                    $("#cid_" + data[i].Id).removeProp("checked");
                 }
             }
         }

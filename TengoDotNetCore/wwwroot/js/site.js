@@ -1,4 +1,17 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿//重新设置正方形图片的高度
+function resizeSquare() {
+    $(".square").each(function () {
+        let width = $(this).width;
+        $(this).height = width;
+    });
+}
 
-// Write your JavaScript code.
+//文档加载完成事件
+$(function () {
+    resizeSquare();
+});
+
+//浏览器窗口大小调整事件
+window.onresize = function () {
+    resizeSquare();
+}   

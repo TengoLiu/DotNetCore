@@ -15,9 +15,9 @@
         @foreach (var item in category.Where(p => p.ParID == 0)) {
             <dl class="dl">
                 <dt class="dt"><b>@item.Name</b></dt>
-                @foreach (var child in category.Where(p => p.ParID == item.ID)) {
+                @foreach (var child in category.Where(p => p.ParID == item.Id)) {
                     <dd class="dd">
-                        <a href="/goods?categoryID=@child.ID">@child.Name</a>
+                        <a href="/goods?categoryID=@child.Id">@child.Name</a>
                     </dd>
                 }
             </dl>
@@ -26,11 +26,11 @@
     <ul class="clearfix index-goods">
         @foreach (var item in goods.DataList) {
             <li class="float-left" title="@item.Name @item.NameEn">
-                <a href="/goods/detail?id=@item.ID">
-                    <img src="@item.CoverImg" style="width:180px;height:180px;" />
+                <a href="/goods/detail?id=@item.Id">
+                    <img class="square width-full" src="@item.CoverImg" />
                 </a>
                 <p class="text-singleline color-red">￥<span class="price">@item.Price</span></p>
-                <a href="/goods/detail?id=@item.ID">
+                <a href="/goods/detail?id=@item.Id">
                     <p class="goods-name">@item.Name&ensp;&ensp;@item.NameEn</p>
                 </a>
             </li>

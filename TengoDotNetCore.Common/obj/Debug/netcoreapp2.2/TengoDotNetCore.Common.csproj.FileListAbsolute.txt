@@ -1,0 +1,9 @@
+D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\obj\Debug\netcoreapp2.2\TengoDotNetCore.Common.csproj.CoreCompileInputs.cache
+D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\obj\Debug\netcoreapp2.2\TengoDotNetCore.Common.AssemblyInfoInputs.cache
+D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\obj\Debug\netcoreapp2.2\TengoDotNetCore.Common.AssemblyInfo.cs
+D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\bin\Debug\netcoreapp2.2\TengoDotNetCore.Common.deps.json
+D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\bin\Debug\netcoreapp2.2\TengoDotNetCore.Common.dll
+D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\bin\Debug\netcoreapp2.2\TengoDotNetCore.Common.pdb
+D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\obj\Debug\netcoreapp2.2\TengoDotNetCore.Common.dll
+D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\obj\Debug\netcoreapp2.2\TengoDotNetCore.Common.pdb
+D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\obj\Debug\netcoreapp2.2\TengoDotNetCore.Common.csprojAssemblyReference.cache

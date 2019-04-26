@@ -19,18 +19,18 @@ function createTrNode(parID) {
             }
             var tr = '<tr class="text-c">'
                 + '<td><input type="checkbox" name="" value=""></td>'
-                + '<td>' + treedata[i].ID + '</td>'
+                + '<td>' + treedata[i].Id + '</td>'
                 + '<td>' + treedata[i].ParID + '</td>'
                 + '<td>' + treedata[i].Level + '</td>'
                 + '<td class="text-l">' + space + treedata[i].Name + '</td>'
                 + '<td>' + treedata[i].Sort + '</td>'
                 + '<td class="f-14">'
-                + '<a title="编辑" href="javascript:;" onclick="category_edit(\'栏目编辑\',\'/admin/category/edit?id=' + treedata[i].ID + '\',' + treedata[i].ID + ',\'640\',\'420\')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>'
-                + '<a title="删除" href="javascript:;" onclick="category_del(this,' + treedata[i].ID + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>'
+                + '<a title="编辑" href="javascript:;" onclick="category_edit(\'栏目编辑\',\'/admin/category/edit?id=' + treedata[i].Id + '\',' + treedata[i].Id + ',\'640\',\'420\')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>'
+                + '<a title="删除" href="javascript:;" onclick="category_del(this,' + treedata[i].Id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>'
                 + '</td>'
                 + '</tr>';
             tree += tr;
-            createTrNode(treedata[i].ID);
+            createTrNode(treedata[i].Id);
         }
     }
 }
@@ -39,7 +39,7 @@ function createTrNode(parID) {
 function createOptionNode(parID) {
     for (var i = 0; i < treedata.length; i++) {
         //如果是当前结点的话，跳过，不然自己的父结点变成自己
-        if (treedata[i].ID === curID) {
+        if (treedata[i].Id === curID) {
             continue;
         }
         if (treedata[i].ParID === parID) {
@@ -53,14 +53,14 @@ function createOptionNode(parID) {
                 //如果不是一级结点的话，要加上一个 ├ 符号
                 space += "├&nbsp;";
             }
-            if (treedata[i].ID === curParID) {
-                var tr = '<option value="' + treedata[i].ID + '" selected="selected">' + space + treedata[i].Name + '</option>';
+            if (treedata[i].Id === curParID) {
+                var tr = '<option value="' + treedata[i].Id + '" selected="selected">' + space + treedata[i].Name + '</option>';
             }
             else {
-                var tr = '<option value="' + treedata[i].ID + '">' + space + treedata[i].Name + '</option>';
+                var tr = '<option value="' + treedata[i].Id + '">' + space + treedata[i].Name + '</option>';
             }
             tree += tr;
-            createOptionNode(treedata[i].ID);
+            createOptionNode(treedata[i].Id);
         }
     }
 }

@@ -36,6 +36,14 @@ button.accept-policy {
     line-height: inherit;
 }
 
+/*宽度填满的class*/
+.width-full {
+    width: 100%;
+}
+
+/*正方形样式，宽高一致，用JS来修改*/
+.square {
+}
 /* Sticky footer styles
 -------------------------------------------------- */
 * {
@@ -134,7 +142,120 @@ img {
     margin-left: 10px;
 }
 
+.goods-detail .goods-img {
+    padding: 0;
+    border: 1px solid #eee;
+}
 
+.goods-detail .goods-img .main-pic {
+    border-bottom: 1px solid #eee;
+}
+
+.goods-detail .goods-img .small-pic-box {
+    height: 80px;
+    border-top: 1px solid #f4f4f4;
+}
+
+.goods-detail .goods-img .small-pic-box > span {
+    float: left;
+    height: 80px;
+    line-height: 80px;
+    width: 23px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.goods-detail .goods-img .small-pic-box .small-pics {
+    position: relative;
+    width: 80%;
+    height: 80px;
+    margin-left: 10%;
+    margin-right: 10%;
+    overflow: hidden;
+}
+
+.goods-detail .goods-img .small-pic-box .small-pics .large-pic {
+}
+
+.goods-detail .goods-img .small-pic-box .small-pics > ul {
+    position: absolute;
+    left: 0;
+    height: 80px;
+    width: 9000px;
+}
+
+.goods-detail .goods-img .small-pic-box .small-pics > ul > li {
+    float: left;
+    margin-top: 5px;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.goods-detail .goods-img .small-pic-box .small-pics > ul > li:first-child {
+    margin-left: 0;
+}
+
+.goods-detail .goods-img .small-pic-box .small-pics > ul > li > img {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #eee;
+}
+
+.goods-detail .goods-img .large-pic {
+    display: none;
+    position: fixed;
+    width: 824px;
+    height: 824px;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    cursor: pointer;
+    border: 2px solid #f4f4f4;
+    border-radius: 5px;
+}
+
+.goods-detail .goods-img .large-pic img {
+    width: 820px;
+    height: 820px;
+}
+
+.goods-detail .goods-img .big-pic {
+    cursor: pointer;
+}
+
+.goods-detail .goods-img .big-pic > img {
+    width: 298px;
+    height: 298px;
+}
+
+.goods-detail .goods-img .small-pic-box {
+    position: relative;
+}
+
+.goods-detail .goods-img .btn-left, .goods-img .btn-right {
+    position: absolute;
+    display: block;
+    z-index: 10;
+    top: 0;
+    width: 10%;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    background: #fff;
+    font-size: 18px;
+    color: #888;
+}
+
+.goods-detail .goods-img .btn-left {
+    left: 0;
+}
+
+.goods-detail .goods-img .btn-right {
+    right: 0;
+}
 
 .goods-detail .goods-info {
     padding-top: 10px;

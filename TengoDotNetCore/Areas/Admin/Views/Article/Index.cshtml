@@ -20,7 +20,7 @@
                 <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">*@
             <input type="text" class="input-text" style="width:250px" placeholder="输入关键字" name="keyword" value="@ViewData["keyword"]">
 
-            <select id="CategoryID" class="input-text" asp-items="ViewBag.CategoryIDs" name="categoryID" style="width:160px;vertical-align:middle;">
+            <select class="input-text" asp-items="ViewBag.ArticleType_Ids" name="ArticleType_Id" style="width:160px;vertical-align:middle;">
                 <option value="">-- 所有分类 --</option>
             </select>
 
@@ -53,10 +53,10 @@
         <tbody>
             @foreach (var item in Model.DataList) {
                 <tr class="text-c">
-                    <td><input type="checkbox" value="@item.ID" name="id"></td>
-                    <td>@item.ID</td>
+                    <td><input type="checkbox" value="@item.Id" name="id"></td>
+                    <td>@item.Id</td>
                     <td>@item.Title</td>
-                    <td>@item.Category.Title</td>
+                    <td>@item.ArticleType.TypeName</td>
                     <td><img class="picture-thumb" src="@item.CoverImg" style="width:100px;" /> </td>
                     <td>@item.Sort</td>
                     <td class="td-status">
@@ -78,8 +78,8 @@
                     </td>
                     <td class="td-manage">
                         <a style="text-decoration:none" onClick="stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
-                        <a title="编辑" href="javascript:;" onclick="edit('内容编辑','/admin/article/edit?id=@item.ID','1','1000','800')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                        <a title="删除" href="javascript:;" onclick="del(this,'@item.ID')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                        <a title="编辑" href="javascript:;" onclick="edit('内容编辑','/admin/article/edit?id=@item.Id','1','1000','800')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                        <a title="删除" href="javascript:;" onclick="del(this,'@item.Id')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                     </td>
                 </tr>
             }
@@ -97,7 +97,7 @@
         //    ]
         //});
 
-        $(".tengo-pager").append(getPager(@Model.Total,@Model.PageSize,@Model.Page, "/admin/article?page=", "&keyword=@ViewBag.Keyword&categoryID=@ViewBag.CategoryID"));
+        $(".tengo-pager").append(getPager(@Model.Total,@Model.PageSize,@Model.Page, "/admin/article?page=", "&keyword=@ViewBag.Keyword&articleType_Id=@ViewBag.ArticleType_Id"));
 
         /*
             参数解释：

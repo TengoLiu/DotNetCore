@@ -151,7 +151,7 @@
 
              var data = new Array();
             @foreach (var item in Category) {
-                @Html.Raw("data.push({" +"ID:" +item.ID+","+"ParID:" + item.ParID + ","+"Name:'" + item.Name + "'," +"Level:" + item.Level + "," +"Sort:" + item.Sort + "," +"CoverImg:'" + item.CoverImg + "'" +"});")
+                @Html.Raw("data.push({" + "Id:" + item.Id+","+"ParID:" + item.ParID + ","+"Name:'" + item.Name + "'," +"Level:" + item.Level + "," +"Sort:" + item.Sort + "," +"CoverImg:'" + item.CoverImg + "'" +"});")
              }
 
             //从父类ID为0开始，生成分类树

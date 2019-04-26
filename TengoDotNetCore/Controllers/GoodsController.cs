@@ -1,28 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using TengoDotNetCore.Data;
 using TengoDotNetCore.Models.Base;
-using TengoDotNetCore.PBLL;
+using TengoDotNetCore.Service;
 
 namespace TengoDotNetCore.Controllers {
     public class GoodsController : BaseController {
-        private GoodsPBLL pbll;
-
-        public GoodsController(TengoDbContext db, GoodsPBLL pbll) : base(db) {
-            this.pbll = pbll;
+        private readonly GoodsService service;
+        public GoodsController(GoodsService service) {
+            this.service = service;
         }
 
         #region Index 商品列表
         public async Task<IActionResult> Index(PageInfo pageInfo, int categoryID = 0, List<int> categoryIDs = null, string keyword = null, string sortBy = null) {
-            ViewBag.Category = await db.Category.ToAsyncEnumerable().ToList();
+            ViewBag.Category = await service.GetCategoryList();
             if (pageInfo.PageSize <= 0) {
                 pageInfo.PageSize = 60;
             }
-            ViewBag.Goods = await pbll.PageList(pageInfo, categoryID, categoryIDs, keyword, sortBy);
+            ViewBag.Goods = await service.PageList(pageInfo, 0, categoryIDs, keyword, sortBy);
             return View();
         }
         #endregion
@@ -32,22 +27,13 @@ namespace TengoDotNetCore.Controllers {
             if (id == null || id <= 0) {
                 return new NotFoundResult();
             }
-            var model = await db.Goods
-                .Include(p => p.GoodsCategory)
-                .ThenInclude(pt => pt.Category)
-                .ToAsyncEnumerable()
-                .FirstOrDefault(p => p.ID == id);
+            var model = await service.Get((int)id);
             if (model == null || model.Status != 1) {
                 return new NotFoundResult();
             }
 
             ViewData.Model = model;
-            ViewBag.RecGoods = await db.Goods
-                                    .Where(p => p.Status == 1)
-                                    .ToAsyncEnumerable()
-                                    .OrderBy(p => Guid.NewGuid())
-                                    .Take(5)
-                                    .ToList();
+            ViewBag.RecGoods = await service.GetRecList(5);
             return View();
         }
         #endregion

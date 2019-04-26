@@ -27,11 +27,11 @@
     <ul class="clearfix index-goods">
         @foreach (var item in goods) {
             <li class="float-left" title="@item.Name @item.NameEn">
-                <a href="/goods/detail?id=@item.ID">
-                    <img src="@item.CoverImg" style="width:180px;height:180px;" />
+                <a href="/goods/detail?id=@item.Id">
+                    <img class="square width-full" src="@item.CoverImg" />
                 </a>
                 <p class="text-singleline color-red">￥ @item.Price</p>
-                <a href="/goods/detail?id=@item.ID">
+                <a href="/goods/detail?id=@item.Id">
                     <p class="goods-name">@item.Name&ensp;&ensp;@item.NameEn</p>
                 </a>
             </li>
@@ -57,6 +57,8 @@
             $(this).click();
         }, function () {
             swiper1.autoplay.start();
-        })
+        });
+
+        $("")
     </script>
 }
