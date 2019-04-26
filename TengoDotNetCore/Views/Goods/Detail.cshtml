@@ -45,20 +45,17 @@
                 <div class="dl">
                     <div class="dt">销售价格</div>
                     <div class="dd">
-                        <span class="color-red price">
-                            ￥ @Model.Price
-                        </span>
+                        <span class="color-red price">￥ @Model.Price</span>
                     </div>
                 </div>
-
-                <div class="dl">
-                    <div class="dt">商品标签</div>
-                    <div class="dd">
-                        @foreach (var gc in Model.GoodsCategory) {
-                            <span>@gc.Category.Name，</span>
-                        }
+                @if (string.IsNullOrWhiteSpace(Model.CategoryIdStr)) {
+                    <div class="dl">
+                        <div class="dt">商品标签</div>
+                        <div class="dd">
+                            <span>@Model.CategoryStr</span>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
             <div class="dl">
                 <div class="dt">&ensp;库&ensp;&ensp;存&ensp;</div>

@@ -33,8 +33,8 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id) {
-            if (id == null || id <= 0) {
+        public async Task<IActionResult> Edit(int id=0) {
+            if (id <= 0) {
                 return new NotFoundResult();
             }
             var model = await service.GetCategory((int)id);
@@ -55,8 +55,8 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int? id) {
-            return Json(await service.DeleteCategory((int)id));
+        public async Task<IActionResult> Delete(int id=0) {
+            return Json(await service.DeleteCategory(id));
         }
     }
 }

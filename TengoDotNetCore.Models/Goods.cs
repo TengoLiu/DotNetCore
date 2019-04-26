@@ -100,8 +100,19 @@ namespace TengoDotNetCore.Models {
         public string Description { get; set; }
 
         /// <summary>
-        /// 商品所属分类
+        /// 存放商品分类的Json
+        /// 还是不要做多对多关系吧，
+        /// 因为如果那样做的话，查询会非常地麻烦，并且消耗性能
+        /// 比如要多选的时候，如果是通过中间表来查，同一条记录，由于关系的变化，还会出现多次
         /// </summary>
-        public virtual List<GoodsCategory> GoodsCategory { get; set; }
+        public string CategoryIdStr { get; set; }
+
+        public string CategoryStr { get; set; }
+
+        /// <summary>
+        /// 商品的分类列表
+        /// </summary>
+        [NotMapped]
+        public List<Category> Categories { get; set; }
     }
 }

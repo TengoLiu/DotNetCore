@@ -23,11 +23,11 @@ namespace TengoDotNetCore.Controllers {
         #endregion
 
         #region Detail 商品详情
-        public async Task<IActionResult> Detail(int? id) {
-            if (id == null || id <= 0) {
+        public async Task<IActionResult> Detail(int id = 0) {
+            if (id <= 0) {
                 return new NotFoundResult();
             }
-            var model = await service.Get((int)id);
+            var model = await service.Get(id);
             if (model == null || model.Status != 1) {
                 return new NotFoundResult();
             }

@@ -58,7 +58,7 @@ namespace TengoDotNetCore {
             //用于在Microsoft.Extensions.DependencyInjection.ISeviceCollection中设置MVC服务的扩展方法。
             services.AddMvc(options => {
 
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            }).SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             //初始化数据库配置
             var connection = Configuration.GetConnectionString("DefaultConnectionString");
@@ -68,7 +68,6 @@ namespace TengoDotNetCore {
                 //第二个参数如果不写，那么如果是SQLSERVER2008的话，skip.take分页将无法使用，会有兼容问题
                 options.UseSqlServer(connection, a => a.UseRowNumberForPaging());
             });
-
 
             #region 自己注册的依赖注入
             //配置依赖注入的两种写法，后者代码简洁一些

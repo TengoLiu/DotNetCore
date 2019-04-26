@@ -6,10 +6,5 @@ namespace TengoDotNetCore.Models {
     /// 商品的分类，树形结构
     /// </summary>
     public class Category : BageTreeNode {
-
-        /// <summary>
-        /// 分类对应的商品
-        /// </summary>
-        public virtual List<GoodsCategory> GoodsCategory { get; set; }
     }
 }

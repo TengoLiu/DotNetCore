@@ -222,7 +222,7 @@
             var tree = '';
 
             @foreach (var item in ViewData["Category"] as List<Category>) {
-                if (Model.GoodsCategory.ToList().Exists(p => p.Category_ID == item.Id)) {
+                if (Model.CategoryIdStr.Contains("'"+item.Id+"'")) {
                      @Html.Raw("data.push({Id:" + item.Id + ",Name:'" + item.Name + "',Level:" + item.Level + ",ParID:" + item.ParID + ",Checked:true});")
                 }
                 else {

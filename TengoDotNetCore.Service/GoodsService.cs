@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
@@ -29,7 +30,7 @@ namespace TengoDotNetCore.Service {
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<JsonResultObj> Insert(Goods model) {
+        public async Task<JsonResultObj> Insert(Goods model, List<int> categoryIds) {
             try {
                 if (string.IsNullOrWhiteSpace(model.Keywords)) {
                     model.Keywords = model.Name + "," + model.NameEn;
@@ -37,6 +38,24 @@ namespace TengoDotNetCore.Service {
                 if (string.IsNullOrWhiteSpace(model.Description)) {
                     model.Description = model.Keywords;
                 }
+                StringBuilder sbId = null;
+                StringBuilder sbStr = null;
+                if (categoryIds != null && categoryIds.Count > 0) {
+                    sbId = new StringBuilder();
+                    sbStr = new StringBuilder();
+                    foreach (var cid in categoryIds) {
+                        var cty = await GetCategory(cid);
+                        if (cty != null) {
+                            sbId.AppendFormat("'{0}',", cid);
+                            //注意，由于分号被我用了，所以如果分类本身就有分号的话，要替换成中文的
+                            sbStr.AppendFormat("'{0}',", cty.Name.Replace('\'', '’'));
+                        }
+                    }
+                    sbId.Remove(sbId.Length - 1, 1);
+                    sbStr.Remove(sbStr.Length - 1, 1);
+                }
+                model.CategoryIdStr = sbId != null ? sbId.ToString() : string.Empty;
+                model.CategoryStr = sbStr != null ? sbStr.ToString() : string.Empty;
                 model.AddTime = DateTime.Now;
                 model.UpdateTime = DateTime.Now;
                 db.Goods.Add(model);
@@ -61,47 +80,40 @@ namespace TengoDotNetCore.Service {
                 if (string.IsNullOrWhiteSpace(model.Description)) {
                     model.Description = model.Keywords;
                 }
-                var goods = await db.Goods.Include(p => p.GoodsCategory).FirstOrDefaultAsync(p => p.Id == model.Id);
+                var goods = await db.Goods.FirstOrDefaultAsync(p => p.Id == model.Id);
 
-                model.UpdateTime = DateTime.Now;
-                //标明哪些字段变动了
-                db.Entry(model).Property(p => p.Name).IsModified = true;
-                db.Entry(model).Property(p => p.NameEn).IsModified = true;
-                db.Entry(model).Property(p => p.CoverImg).IsModified = true;
-                db.Entry(model).Property(p => p.Albums).IsModified = true;
-                db.Entry(model).Property(p => p.Price).IsModified = true;
-                db.Entry(model).Property(p => p.Stock).IsModified = true;
-                db.Entry(model).Property(p => p.Status).IsModified = true;
-                db.Entry(model).Property(p => p.Keywords).IsModified = true;
-                db.Entry(model).Property(p => p.Description).IsModified = true;
-                db.Entry(model).Property(p => p.Content).IsModified = true;
-                db.Entry(model).Property(p => p.MContent).IsModified = true;
-                db.Entry(model).Property(p => p.Sort).IsModified = true;
-
-                var oldGCs = db.GoodsCategory.Where(p => p.Goods_ID == model.Id).ToList();
-
-                oldGCs.ForEach(p => {
-                    //找一找看看旧的集合里面有没有跟新的集合一样的值，如果有，那么就不用动
-                    var existId = categoryIds.FirstOrDefault(q => q == p.Category_ID);
-
-                    //如果旧的集合里面有，但是新的没有的话，说明这个老东西要删了
-                    if (existId <= 0) {
-                        db.GoodsCategory.Remove(p);
-                    }
-                    else {
-                        categoryIds.Remove(existId);
-                    }
-                });
-
-                //比对完之后,剩下的就是纯粹要插入的了，那么直接插入即可
-                if (categoryIds.Count > 0) {
+                StringBuilder sbId = null;
+                StringBuilder sbStr = null;
+                if (categoryIds != null && categoryIds.Count > 0) {
+                    sbId = new StringBuilder();
+                    sbStr = new StringBuilder();
                     foreach (var cid in categoryIds) {
-                        db.GoodsCategory.Add(new GoodsCategory {
-                            Category_ID = cid,
-                            Goods_ID = model.Id
-                        });
+                        var cty = await GetCategory(cid);
+                        if (cty != null) {
+                            sbId.AppendFormat("'{0}',", cid);
+                            //注意，由于分号被我用了，所以如果分类本身就有分号的话，要替换成中文的
+                            sbStr.AppendFormat("'{0}',", cty.Name.Replace('\'', '’'));
+                        }
                     }
+                    sbId.Remove(sbId.Length - 1, 1);
+                    sbStr.Remove(sbStr.Length - 1, 1);
                 }
+                goods.Name = model.Name;
+                goods.NameEn = model.NameEn;
+                goods.CoverImg = model.CoverImg;
+                goods.Albums = model.Albums;
+                goods.Price = model.Price;
+                goods.Stock = model.Stock;
+                goods.Status = model.Status;
+                goods.CategoryIdStr = sbId != null ? sbId.ToString() : string.Empty;
+                goods.CategoryStr = sbStr != null ? sbStr.ToString() : string.Empty;
+                goods.Keywords = model.Keywords;
+                goods.Description = model.Description;
+                goods.Content = model.Content;
+                goods.MContent = model.MContent;
+                goods.Sort = model.Sort;
+                goods.UpdateTime = DateTime.Now;
+
                 await db.SaveChangesAsync();
                 return JsonResultSuccess("修改成功！");
             }
@@ -158,12 +170,12 @@ namespace TengoDotNetCore.Service {
                 }
             }
             if (categoryID > 0) {
-                query = query.Where(p => p.GoodsCategory.Exists(q => q.Category_ID == categoryID));
+                //query = query.Where(p => p.GoodsCategory.Exists(q => q.Category_ID == categoryID));
             }
             if (categoryIDs != null && categoryIDs.Count > 0) {
-                foreach (var item in categoryIDs) {
-                    query = query.Where(p => p.GoodsCategory.Exists(q => q.Category_ID == item));
-                }
+                //foreach (var item in categoryIDs) {
+                //    query = query.Where(p => p.GoodsCategory.Exists(q => q.Category_ID == item));
+                //}
             }
             return await CreatePageAsync(query, pageInfo);
         }

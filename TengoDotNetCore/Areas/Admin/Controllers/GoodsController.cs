@@ -23,16 +23,16 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
             ViewBag.Keyword = keyword;
             ViewBag.CategoryId = categoryID;
             ViewBag.Category = await service.GetCategoryList();
-            ViewBag.Goods = service.PageList(pageInfo, categoryID, null, keyword, sortBy);
+            ViewBag.Goods = await service.PageList(pageInfo, categoryID, null, keyword, sortBy);
             return View();
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id) {
-            if (id == null || id <= 0) {
+        public async Task<IActionResult> Edit(int id = 0) {
+            if (id <= 0) {
                 return new NotFoundResult();
             }
-            var model = await service.Get((int)id);
+            var model = await service.Get(id);
             ViewData.Model = model;
             if (model == null) {
                 return new NotFoundResult();
@@ -67,17 +67,8 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         [HttpPost]
         public async Task<IActionResult> Add(Goods model, List<int> categoryIds) {
             if (ModelState.IsValid) {
-                if (categoryIds != null) {
-                    model.GoodsCategory = new List<GoodsCategory>();
-                    categoryIds.ForEach(p => {
-                        model.GoodsCategory.Add(new GoodsCategory {
-                            Goods = model,
-                            Category_ID = p
-                        });
-                    });
-                }
                 try {
-                    return Json(await service.Insert(model));
+                    return Json(await service.Insert(model, categoryIds));
                 }
                 catch (Exception e) {
                     return JsonResultError(e);
@@ -87,7 +78,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int? id) {
+        public async Task<IActionResult> Delete(int id = 0) {
             return Json(await service.Delete(id));
         }
     }
