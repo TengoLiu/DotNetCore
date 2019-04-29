@@ -37,5 +37,12 @@ namespace TengoDotNetCore.Controllers {
             return View();
         }
         #endregion
+
+        #region RecList 获取推荐商品列表 api/goods/reclist
+        [Route("api/goods/reclist")]
+        public async Task<IActionResult> RecList(int take = 5) {
+            return Json(await service.GetRecList(take));
+        }
+        #endregion
     }
 }
