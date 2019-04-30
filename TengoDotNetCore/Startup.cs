@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using TengoDotNetCore.Common.Utils.SMS;
 using TengoDotNetCore.Service;
@@ -58,7 +60,26 @@ namespace TengoDotNetCore {
             //用于在Microsoft.Extensions.DependencyInjection.ISeviceCollection中设置MVC服务的扩展方法。
             services.AddMvc(options => {
 
-            }).SetCompatibilityVersion(CompatibilityVersion.Latest);
+            })
+            .AddJsonOptions(options => {//添加JSON配置
+                /*
+                 * 忽略循环引用
+                 * 由于Model之间会互相引用做导航属性
+                 * 如Order的里面有OrderGoods，而OrderGoods里面也有Order属性
+                 * 如果序列化的话，就会无限循环，导致出问题
+                 * 设置这个属性就能避免这个问题
+                 */
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
+                /*
+                 * 不更改元数据的key的大小写
+                 * 控制器序列化json给前台的时候会再把Model相关属性的首字母改成小写
+                 * 如在后台里面 User 的 Name 属性，到前台属性名称会变成 name
+                 * 如果设置了这里，则上面的设定不再生效
+                 */
+                //options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             //初始化数据库配置
             var connection = Configuration.GetConnectionString("DefaultConnectionString");
@@ -81,7 +102,7 @@ namespace TengoDotNetCore {
             services.AddScoped<CommonService>();
             services.AddScoped<SmsService>();
             services.AddScoped<CartService>();
-
+            services.AddScoped<OrderService>();
             //短信发送者
             services.AddScoped<ISMS, DuanXinWang>();
             #endregion
