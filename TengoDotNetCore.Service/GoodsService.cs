@@ -191,7 +191,7 @@ namespace TengoDotNetCore.Service {
             return await db.Goods
                   .Where(p => p.Status == 1)
                   .OrderBy(p => Guid.NewGuid())
-                  .Take(5)
+                  .Take(take)
                   .ToListAsync();
         }
 

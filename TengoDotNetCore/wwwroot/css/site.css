@@ -13,6 +13,10 @@ html {
     font-size: 14px;
 }
 
+body {
+    background: #f4f4f4;
+}
+
 @media (min-width: 768px) {
     html {
         font-size: 16px;
@@ -59,6 +63,10 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+}
+
+.container {
+    background: #fff;
 }
 
 .footer {
@@ -391,4 +399,169 @@ img {
 
 .goods-content-body * {
     max-width: 100%;
+}
+
+
+.cart {
+    margin-top: 60px;
+    font-size: 14px;
+}
+
+.cart .cart-table {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    text-align: center;
+}
+
+.cart .cart-table .cart-td {
+    float: left;
+}
+
+.cart .cart-table .cart-title {
+    height: 36px;
+    line-height: 36px;
+    border-bottom: 1px solid #ddd;
+    background: #f3f3f3;
+}
+
+.cart .cart-table label {
+    margin-bottom: 0;
+}
+
+.cart .cart-table .cart-item {
+    height: 100px;
+    overflow: hidden;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart .cart-table .cart-item .cart-td {
+    height: 100px;
+    padding: 10px;
+}
+
+.cart .cart-table .cart-item .cart-checkbox {
+    padding-top: 30px;
+}
+
+.cart .cart-table .cart-item .cart-checkbox input {
+    vertical-align: middle;
+}
+
+.cart .cart-table .cart-item .goods-name {
+    height: 80px;
+    line-height: 20px;
+    overflow: hidden;
+    text-align: left;
+}
+
+.cart .cart-table .cart-item .goods-img {
+    width: 80px;
+    height: 80px;
+}
+
+.cart .qty-box {
+    width: 110px;
+    margin: auto;
+    border: 1px solid #ddd;
+}
+
+.cart .qty-box .qty-inp {
+    width: 48px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 5px;
+    border: none;
+    text-align: center;
+}
+
+.cart .qty-box .qty-reduce, .qty-box .qty-add {
+    display: block;
+    width: 28px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.cart .qty-box .qty-reduce {
+    float: left;
+    border-right: 1px solid #ddd;
+}
+
+.cart .qty-box .qty-add {
+    float: right;
+    border-left: 1px solid #ddd;
+}
+
+.cart .cart-bottom {
+    margin-top: 15px;
+}
+
+.cart .cart-bottom .remove-all, .cart .cart-bottom .cart-info {
+    height: 60px;
+    line-height: 60px;
+}
+
+.cart .cart-bottom .remove-all {
+    float: left;
+    width: 300px;
+    text-align: left;
+}
+
+.cart .cart-bottom .cart-info {
+    float: right;
+    margin-right: 30px;
+    width: 600px;
+    text-align: right;
+}
+
+.cart .cart-bottom .cart-info b {
+    font-size: 18px;
+    color: #f40;
+}
+
+.cart .cart-bottom .btn {
+    float: right;
+    margin-top: 11px;
+}
+
+.cart .rec-box {
+    margin-top: 30px;
+}
+
+.cart .rec-box .rec-title {
+    margin-bottom: 10px;
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 2px solid #f40;
+    text-align: center;
+    font-size: 18px;
+    color: #f40;
+}
+
+.cart .rec-box .rec-body {
+}
+
+.cart .rec-box .rec-body .rec-item {
+    float: left;
+    margin-bottom: 15px;
+    width: 20%;
+    padding: 0 10px;
+}
+
+.cart .rec-box .rec-body .rec-item img {
+    max-width: 100%;
+}
+
+.cart .rec-box .rec-body .rec-item .goods-name {
+    height: 42px;
+    line-height: 21px;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+.cart .rec-box .rec-body .rec-item .price {
+    font-size: 16px;
+    color: #F00;
 }

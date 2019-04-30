@@ -80,6 +80,7 @@ namespace TengoDotNetCore {
             services.AddScoped<ColumnService>();
             services.AddScoped<CommonService>();
             services.AddScoped<SmsService>();
+            services.AddScoped<CartService>();
 
             //短信发送者
             services.AddScoped<ISMS, DuanXinWang>();

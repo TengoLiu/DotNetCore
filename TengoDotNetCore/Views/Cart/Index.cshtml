@@ -1,3 +1,254 @@
 ﻿@{
     Layout = "_LayoutVue";
 }
+@section Header{
+}
+<div class="container cart">
+    <template v-if="cartInfo.totalQty>0">
+        <div class="cart-table">
+            <div class="clearfix cart-title">
+                <div class="width-6 cart-td">
+                    <input type="checkbox" id="cb-all"
+                           v-bind:checked="allChecked"
+                           v-on:click="clickCheckAll" />
+                    <label for="cb-all">全选</label>
+                </div>
+                <div class="width-40 cart-td">商品</div>
+                <div class="width-12 cart-td">单价</div>
+                <div class="width-15 cart-td">数量</div>
+                <div class="width-15 cart-td">小计</div>
+                <div class="width-12 cart-td">操作</div>
+            </div>
+            <div class="clearfix cart-item"
+                 v-for="item in cartList">
+                <div class="cart-td width-6 cart-checkbox">
+                    <input class="cb-item" type="checkbox"
+                           v-bind:checked="item.selected"
+                           v-bind:id="'cb_'+item.goods_ID"
+                           v-on:click="clickCheck(item)" />
+                    <label v-bind:for="'cb_'+item.goods_ID">选择</label>
+                </div>
+                <div class="cart-td width-8">
+                    <a v-bind:href="'/goods/detail/'+item.goods_ID" target="_blank">
+                        <img class="goods-img" v-bind:src="item.goods.coverImg">
+                    </a>
+                </div>
+                <div class="cart-td width-32">
+                    <a v-bind:href="'/goods/detail/'+item.goods_ID" target="_blank">
+                        <p class="goods-name">{{item.goods.name}}</p>
+                    </a>
+                </div>
+                <div class="cart-td width-12 cart-price"> ￥ {{item.goods.price.toFixed(2)}}</div>
+                <div class="cart-td width-15">
+                    <div class="qty-box">
+                        <a class="qty-reduce" href="javascript:" v-on:click="clickReduce(item)"> - </a>
+                        <input class="qty-inp" v-model="item.qty" v-on:blur="blurQty(item)">
+                        <a class="qty-add" href="javascript:" v-on:click="clickAdd(item)"> + </a>
+                    </div>
+                </div>
+                <div class="cart-td width-15"> ￥ {{(item.goods.price*item.qty).toFixed(2)}}</div>
+                <div class="cart-td width-12">
+                    <a href="javascript:">移入收藏夹</a>
+                    <br />
+                    <a href="javascript:" v-on:click="clickRemove(item)">删除</a>
+                </div>
+            </div>
+        </div>
+        <div class="cart-bottom clearfix">
+            <div class="remove-all"><a href="javascript:" v-on:click="clickRemoveAll">清空购物车</a></div>
+            <a class="btn btn-danger" href="javascript:" v-on:click="clickGo">去结算</a>
+            <div class="cart-info">
+                购物车内共 <b>{{cartInfo.totalQty}}</b> 件商品，
+                已选择 <b>{{cartInfo.totalSelected}}</b> 件商品，
+                总计<b>￥ {{cartInfo.totalAmount.toFixed(2)}}</b> 元
+            </div>
+        </div>
+    </template>
+    <template v-else>
+        购物车中尚未添加任何商品，快去首页逛逛吧~
+    </template>
+    <template>
+        <div class="rec-box">
+            <p class="rec-title">猜您喜欢</p>
+            <ul class="clearfix rec-body">
+                <li class="rec-item" v-for="item in recList">
+                    <a v-bind:href="'/goods/detail/'+item.id">
+                        <img v-bind:src="item.coverImg" />
+                        <p class="goods-name">{{item.name}}</p>
+                        <p class="price">￥ {{item.price.toFixed(2)}}</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </template>
+</div>
+@section Footer{
+    <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                recList: [],//推荐商品列表
+                cartList: [],//各个店铺的购物车列表的集合
+            },
+            methods: {
+                getCartList: function () {//获取购物车商品
+                    this.$http.get('/api/cart/list').then(function (res) {
+                        console.log(res)
+                        for (let i = 0; i < res.body.length; i++) {
+                            this.cartList.push(res.body[i]);
+
+                        }
+                    }, function () {
+                        console.log('请求失败处理');
+                    });
+                },
+                getRecList: function () {//获取推荐商品
+                    this.$http.get('/api/goods/reclist?take=10').then(function (res) {
+                        console.log(res)
+                        for (let i = 0; i < res.body.length; i++) {
+                            this.recList.push(res.body[i]);
+                        }
+                    }, function () {
+                        console.log('请求失败处理');
+                    });
+                },
+                setQty: function (goodsId, qty) {//与后端同步设置购物车商品数量
+                    this.$http.post('/api/cart/setQty',
+                        {
+                            goodsId: goodsId,
+                            qty: qty
+                        },
+                        {
+                            //如果是发送POST请求并且要传递数据到后台的话，那么这个参数必写，将JSON模拟成表单数据
+                            emulateJSON: true
+                        }).then(function (res) {
+                            console.log(res)
+                            console.log('请求失败处理');
+                        });
+                },
+                setChecked: function (goodsId) {//与后端同步设置单个商品的选中状态
+                    this.$http.post('/api/cart/setChecked',
+                        { goodsId: goodsId, }, {
+                            //如果是发送POST请求并且要传递数据到后台的话，那么这个参数必写，将JSON模拟成表单数据
+                            emulateJSON: true
+                        }).then(function (res) {
+                            console.log(res)
+                            console.log('请求失败处理');
+                        });
+                },
+                setAllChecked: function (goodsId) {//与后端同步设置所有商品的选中状态
+                    this.$http.post('/api/cart/setAllChecked').then(function (res) {
+                        console.log(res)
+                        console.log('请求失败处理');
+                    });
+                },
+                removeAll: function () {//与后端同步设置所有商品的选中状态
+                    this.$http.post('/api/cart/removeAll');
+                },
+                clickAdd: function (item) {//商品数量加1
+                    if (item.qty + 1 > item.goods.stock) {
+                        alert("提示", "库存不足，该商品仅剩" + item.goods.stock + "件...");
+                    }
+                    else {
+                        item.qty++;
+                        this.setQty(item.goods_ID, item.qty);
+                    }
+                },
+                clickReduce: function (item) {//商品数量减1
+                    if (item.qty > 1) {
+                        item.qty--;
+                        this.setQty(item.goods_ID, item.qty);
+                    }
+                },
+                clickRemove: function (item) {//移除商品事件
+                    for (let i = 0; i < this.cartList.length; i++) {
+                        if (this.cartList[i].goods_ID == item.goods_ID) {
+                            this.cartList.splice(i, 1);
+                            this.setQty(item.goods_ID, 0);
+                            break;
+                        }
+                    }
+                },
+                clickRemoveAll: function () {//移除所有购物车商品
+                    this.cartList.splice(0, this.cartList.length);
+                    this.removeAll();
+                },
+                blurQty: function (item) {//数量输入框失去焦点事件
+                    if (isNullOrUndefinedOrEmpty(item.qty) || !isNumber(item.qty) || item.qty <= 0) {
+                        item.qty = 1;
+                    }
+                    if (item.qty > item.goods.stock) {
+                        alert("库存不足...")
+                        item.qty = item.goods.stock
+                        this.setQty(item.goods_ID, item.qty);
+                    }
+                },
+                clickCheck: function (item) {//点击选中单个商品
+                    item.selected = !item.selected;
+                },
+                clickCheckAll: function () {//点击选中全部事件
+                    if (this.allChecked) {//如果已经全部选中了的话，那么变成全部不选中
+                        for (let i = 0; i < this.cartList.length; i++) {
+                            this.cartList[i].selected = false;
+                        }
+                    }
+                    else {//不然就是全部选中
+                        for (let i = 0; i < this.cartList.length; i++) {
+                            this.cartList[i].selected = true;
+                        }
+                    }
+                },
+                clickGo: function () {//去结算
+                    let anyCheck = false;
+                    for (let i = 0; i < this.cartList.length; i++) {
+                        if (this.cartList[i].selected) {
+                            anyCheck = true;
+                        }
+                    }
+                    if (!anyCheck) {
+                        alert("您尚未选择商品，无法结算");
+                        return;
+                    }
+                    location.href = "/order/edit";
+                }
+            },
+            computed: {
+                allChecked: function () {//是否全部选中
+                    if (this.cartList.length == 0) {
+                        return false;
+                    }
+                    let checkAll = true;
+                    for (let i = 0; i < this.cartList.length; i++) {
+                        if (!this.cartList[i].selected) {
+                            checkAll = false;
+                            break;
+                        }
+                    }
+                    return checkAll;
+                },
+                cartInfo: function () {//购物车商品数量统计
+                    let totalQty = 0;
+                    let totalSelected = 0;
+                    let totalAmount = 0;
+                    for (let i = 0; i < this.cartList.length; i++) {
+                        totalQty += this.cartList[i].qty;
+                        if (this.cartList[i].selected) {
+                            totalSelected += this.cartList[i].qty;
+                            totalAmount += this.cartList[i].goods.price * this.cartList[i].qty;
+                        }
+                    }
+                    return {
+                        totalQty: totalQty,
+                        totalSelected: totalSelected,
+                        totalAmount: totalAmount
+                    };
+                },
+            },
+            created: function () {
+                this.getCartList();
+                this.getRecList();
+            }
+        });
+    </script>
+}

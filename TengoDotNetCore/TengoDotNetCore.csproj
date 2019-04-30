@@ -20,6 +20,10 @@
     <None Remove="wwwroot\lib\H-ui\lib\ueditor\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\js\tengo-ajax.js" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
