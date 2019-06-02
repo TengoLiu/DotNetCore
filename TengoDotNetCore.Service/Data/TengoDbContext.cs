@@ -25,6 +25,8 @@ namespace TengoDotNetCore.Service.Data {
 
         public DbSet<CartItem> CartItem { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+
         /// <summary>
         /// 短信发送记录
         /// </summary>
