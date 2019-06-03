@@ -27,10 +27,10 @@
     <ul class="clearfix index-goods">
         @foreach (var item in goods) {
             <li class="float-left" title="@item.Name @item.NameEn">
-                <a href="/goods/detail?id=@item.Id">
+                <a href="/goods/detail?id=@item.Id" target="_blank">
                     <img class="square width-full" src="@item.CoverImg" />
                 </a>
-                <p class="text-singleline color-red">￥ @item.Price</p>
+                <p class="price">￥@item.Price</p>
                 <a href="/goods/detail?id=@item.Id">
                     <p class="goods-name">@item.Name&ensp;&ensp;@item.NameEn</p>
                 </a>

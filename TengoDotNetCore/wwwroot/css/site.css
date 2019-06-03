@@ -114,19 +114,22 @@ img {
     width: 20%;
     padding: 15px 5px;
     border: 1px solid #eee;
-    text-align: center;
+}
+
+.index-goods li img {
+    margin: auto;
 }
 
 .index-goods .goods-name {
     height: 42px;
     line-height: 21px;
     overflow: hidden;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .price {
     font-size: 22px;
-    font-weight: 600;
+    color: #F00;
 }
 
 .goods-index .goods-select-box {
