@@ -8,12 +8,6 @@ using TengoDotNetCore.Service;
 
 namespace TengoDotNetCore.Controllers {
     public class OrderController : Controller {
-        private OrderService service;
-
-        public OrderController(OrderService service) {
-            this.service = service;
-        }
-
         #region Index 用户订单列表
         public IActionResult Index() {
             return View();
@@ -22,7 +16,7 @@ namespace TengoDotNetCore.Controllers {
 
         #region List 获取订单列表接口 api/order/list
         [Route("api/order/list")]
-        public async Task<IActionResult> List(PageInfo pageInfo) {
+        public async Task<IActionResult> List([FromServices]OrderService service, PageInfo pageInfo) {
             var json = await service.List(pageInfo, 1);
             return Json(json);
         }
@@ -42,7 +36,7 @@ namespace TengoDotNetCore.Controllers {
 
         #region Save 保存订单接口 api/order/save
         [Route("api/order/save")]
-        public async Task<IActionResult> Save(int addrId, string message = "") {
+        public async Task<IActionResult> Save([FromServices]OrderService service, int addrId, string message = "") {
             return Json(await service.Save(addrId, message));
         }
         #endregion

@@ -9,12 +9,7 @@ using TengoDotNetCore.Service;
 
 namespace TengoDotNetCore.Controllers {
     public class HomeController : BaseController {
-        private readonly CommonService service;
-        public HomeController(CommonService service) {
-            this.service = service;
-        }
-
-        public async Task<IActionResult> Index() {
+        public async Task<IActionResult> Index([FromServices]CommonService service) {
             var dic = await service.GetHomeIndexViewModel();
             if (dic != null) {
                 ViewBag.Banners = dic["Banners"];
@@ -38,6 +33,10 @@ namespace TengoDotNetCore.Controllers {
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public void TestFenCi([FromServices]CommonService service) {
+            service.TestFenCi();
         }
     }
 }
