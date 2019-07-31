@@ -26,9 +26,9 @@ function dialogAlert(title, content, callback) {
 function dialogConfirm(title, content, okCallback, cancelCallback) {
     console.log(arguments)
     let alertbox = '<div class="dialog dialogConfirm">'
-       + '<div class="title">' + title + '<a class="exit" href="javascript:void(0)" onclick=\'$(".dialog").remove();$(".dialog-cover").remove();\'>X</a></div>'
-       + '<div class="content">' + content + '</div>'
-       + '<div class="btns">';
+        + '<div class="title">' + title + '<a class="exit" href="javascript:void(0)" onclick=\'$(".dialog").remove();$(".dialog-cover").remove();\'>X</a></div>'
+        + '<div class="content">' + content + '</div>'
+        + '<div class="btns">';
     if (arguments.length >= 3 && okCallback != 'undefined' && typeof okCallback == 'function') {
         confirmOkCallback = okCallback;
         alertbox += '<a class="btn ok" href="javascript:void(0)" onclick=\'confirmOkCallback();confirmOkCallback=undefined;$(".dialogConfirm").remove();$(".dialog-cover").remove();\'>确 定</a>'
@@ -46,6 +46,5 @@ function dialogConfirm(title, content, okCallback, cancelCallback) {
     alertbox += '</div>'
     alertbox += '</div>';
     alertbox += '<div class="dialog-cover"></div>';
-
     document.write(alertbox)
 }
