@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -144,12 +145,41 @@ namespace TengoDotNetCore.Service {
             }
         }
 
-        public async Task<PageList<Goods>> PageList(PageInfo pageInfo, int categoryID, List<int> categoryIDs, string keyword, string sortBy) {
-            var query = db.Goods.AsQueryable();
+        /// <summary>
+        /// 筛选商品列表
+        /// </summary>
+        /// <param name="pageInfo"></param>
+        /// <param name="categoryIDs"></param>
+        /// <param name="keyword"></param>
+        /// <param name="sortBy"></param>
+        /// <returns></returns>
+        public async Task<PageList<Goods>> PageList(PageInfo pageInfo, List<int> categoryIDs, string keyword, string sortBy) {
+            var sb = new StringBuilder("SELECT * FROM [Goods] WHERE 1=1");
+            var parameters = new List<SqlParameter>();
+            //关键词筛选
             if (!string.IsNullOrWhiteSpace(keyword)) {
-                query = query.Where(p => p.Name.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase)
-                || p.NameEn.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase));
+                sb.Append(" AND [Name] LIKE @keyword OR [NameEn] LIKE @keyword");
+                parameters.Add(new SqlParameter("keyword", "%" + keyword.Trim() + "%"));
             }
+
+            //categoryIDs多选,先移除无意义的0
+            if (categoryIDs != null && categoryIDs.Count > 0) {
+                categoryIDs.RemoveAll(p => p <= 0);
+            }
+            if (categoryIDs != null && categoryIDs.Count > 0) {
+                sb.Append(" AND (");
+                foreach (var item in categoryIDs) {
+                    //由于数据库里面怕1和11这样id的like会重复，因此我加了个单引号，做成了 '1','2'这种样子的，
+                    //于是筛选LIKE就要改一改了，如下,这是不使用参数化传参的方式搞的，而如果用参数化传参的话，
+                    // 参数应该是这样写：new SqlParameter("CategoryId", "%" + "'" + keyword.Trim() + "'" + "%"
+                    sb.AppendFormat("[CategoryIdStr] LIKE '%''{0}''%' OR ", item);
+                }
+                //移除最后面多余的OR和空格
+                sb.Remove(sb.Length - 4, 3);
+                sb.Append(")");
+            }
+            var query = db.Goods.FromSql(sb.ToString(), parameters.ToArray());
+
             if (!string.IsNullOrWhiteSpace(sortBy)) {
                 switch (sortBy.Trim().ToLower()) {
                     case "id":
@@ -168,14 +198,6 @@ namespace TengoDotNetCore.Service {
                         query = query.OrderByDescending(p => p.Id);
                         break;
                 }
-            }
-            if (categoryID > 0) {
-                //query = query.Where(p => p.GoodsCategory.Exists(q => q.Category_ID == categoryID));
-            }
-            if (categoryIDs != null && categoryIDs.Count > 0) {
-                //foreach (var item in categoryIDs) {
-                //    query = query.Where(p => p.GoodsCategory.Exists(q => q.Category_ID == item));
-                //}
             }
             return await CreatePageAsync(query, pageInfo);
         }

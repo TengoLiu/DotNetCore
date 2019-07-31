@@ -12,12 +12,12 @@ namespace TengoDotNetCore.Controllers {
         }
 
         #region Index 商品列表
-        public async Task<IActionResult> Index(PageInfo pageInfo, int categoryID = 0, List<int> categoryIDs = null, string keyword = null, string sortBy = null) {
+        public async Task<IActionResult> Index(PageInfo pageInfo, List<int> categoryID = null, string keyword = null, string sortBy = null) {
             ViewBag.Category = await service.GetCategoryList();
             if (pageInfo.PageSize <= 0) {
                 pageInfo.PageSize = 60;
             }
-            ViewBag.Goods = await service.PageList(pageInfo, 0, categoryIDs, keyword, sortBy);
+            ViewBag.Goods = await service.PageList(pageInfo, categoryID, keyword, sortBy);
             return View();
         }
         #endregion

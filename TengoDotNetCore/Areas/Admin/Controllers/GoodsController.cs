@@ -19,11 +19,11 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(PageInfo pageInfo, int categoryID = 0, string keyword = null, string sortBy = null) {
+        public async Task<IActionResult> Index(PageInfo pageInfo, List<int> categoryID = null, string keyword = null, string sortBy = null) {
             ViewBag.Keyword = keyword;
             ViewBag.CategoryId = categoryID;
             ViewBag.Category = await service.GetCategoryList();
-            ViewBag.Goods = await service.PageList(pageInfo, categoryID, null, keyword, sortBy);
+            ViewBag.Goods = await service.PageList(pageInfo, categoryID, keyword, sortBy);
             return View();
         }
 
