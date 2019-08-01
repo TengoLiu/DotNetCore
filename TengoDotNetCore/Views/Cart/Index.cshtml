@@ -4,6 +4,13 @@
 @section Header{
 }
 <div class="container cart">
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+            &times;
+        </button>
+        成功！很好地完成了提交。
+    </div>
     <template v-if="cartInfo.totalQty>0">
         <div class="cart-table">
             <div class="clearfix cart-title">
@@ -83,8 +90,11 @@
     </template>
 </div>
 @section Footer{
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
     <script>
+       
         var app = new Vue({
             el: '#app',
             data: {
@@ -94,9 +104,14 @@
             methods: {
                 getCartList: function () {//获取购物车商品
                     this.$http.get('/api/cart/list').then(function (res) {
-                        console.log(res)
-                        for (let i = 0; i < res.body.length; i++) {
-                            this.cartList.push(res.body[i]);
+                        var status = res.body.status;
+                        if (status == 1000) {
+                            var data = res.body.data;
+                            for (let i = 0; i < data.length; i++) {
+                                this.cartList.push(data[i]);
+                            }
+                        }
+                        else {
 
                         }
                     }, function () {
@@ -246,6 +261,7 @@
                 },
             },
             created: function () {
+                dialogAlert("事实上");
                 this.getCartList();
                 this.getRecList();
             }

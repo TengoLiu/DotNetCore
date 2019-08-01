@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
 using TengoDotNetCore.Common.Utils.SMS;
+using TengoDotNetCore.MiddleWares;
 using TengoDotNetCore.Service;
 using TengoDotNetCore.Service.Data;
 
@@ -22,6 +22,7 @@ namespace TengoDotNetCore {
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        //这个方法会被运行时调用。用这个方法来把服务注册到容器里面。其实就是在这个方法注册需要添加到IOC容器里面的服务。
         public void ConfigureServices(IServiceCollection services) {
 
             //这个方法用于注入一个默认的Cookie策略配置，配置Cookie的共通属性
@@ -136,10 +137,13 @@ namespace TengoDotNetCore {
                  * 告诉浏览器当接到这个header的时候，在一定时间内访问本网站的资源都必须使用https方式。这个默认值为30天。
                  */
                 app.UseHsts();
-            }
+            }   
 
             //添加HTTPS重定向，也就是如果不是HTTPS的话会自动跳转到HTTPS
             app.UseHttpsRedirection();
+
+            //可以使用简便的写法引入自定义的中间件啦！当然，我这个中间件啥也不做的。
+            app.UseTengoMiddleware();
 
             /*
              * 为当前请求路径启用静态文件服务,即对外可以映射静态文件目录，默认是根目录下的wwwroot，这个可以在设置env.WebRootPath。

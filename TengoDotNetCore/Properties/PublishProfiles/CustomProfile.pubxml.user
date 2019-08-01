@@ -6,6 +6,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>D:\Program Files\Tengo商城</_PublishTargetUrl>
+    <_PublishTargetUrl>D:\Tengo商城发布</_PublishTargetUrl>
   </PropertyGroup>
 </Project>
