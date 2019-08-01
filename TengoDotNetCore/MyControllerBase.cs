@@ -39,11 +39,11 @@ namespace TengoDotNetCore {
         #endregion
 
         #region 返回JSON相关的方法
-        protected IActionResult JsonResult(JsonResultObj jsonObj) {
+        protected IActionResult MyJsonResult(JsonResultObj jsonObj) {
             return Json(jsonObj);
         }
 
-        protected IActionResult JsonResultSuccess(string msg) {
+        protected IActionResult MyJsonResultSuccess(string msg) {
             return Json(new JsonResultObj {
                 code = 1000,
                 msg = msg,
@@ -51,7 +51,7 @@ namespace TengoDotNetCore {
             });
         }
 
-        protected IActionResult JsonResultSuccess(string msg, object obj) {
+        protected IActionResult MyJsonResultSuccess(string msg, object obj) {
             return Json(new JsonResultObj {
                 code = 1000,
                 msg = msg,
@@ -59,21 +59,21 @@ namespace TengoDotNetCore {
             });
         }
 
-        protected IActionResult JsonResultError(Exception e) {
+        protected IActionResult MyJsonResultError(Exception e) {
             return Json(new JsonResultObj {
                 code = 999,
                 msg = e.Message
             });
         }
 
-        protected IActionResult JsonResultError(string msg) {
+        protected IActionResult MyJsonResultError(string msg) {
             return Json(new JsonResultObj {
                 code = 999,
                 msg = msg
             });
         }
-
-        protected IActionResult JsonResultError(string msg, object obj) {
+        
+        protected IActionResult MyJsonResultError(string msg, object obj) {
             return Json(new JsonResultObj {
                 code = 1000,
                 msg = msg,
@@ -81,7 +81,7 @@ namespace TengoDotNetCore {
             });
         }
 
-        protected IActionResult JsonResultParamInvalid() {
+        protected IActionResult MyJsonResultParamInvalid() {
             return Json(new JsonResultObj {
                 code = 1001,
                 msg = "您提交的参数缺失或者有误，请检查输入的信息是否完整。",

@@ -55,7 +55,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
 
                 return Json(await service.Update(model, categoryIds));
             }
-            return JsonResultParamInvalid();
+            return MyJsonResultParamInvalid();
         }
 
         [HttpGet]
@@ -71,10 +71,10 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
                     return Json(await service.Insert(model, categoryIds));
                 }
                 catch (Exception e) {
-                    return JsonResultError(e);
+                    return MyJsonResultError(e);
                 }
             }
-            return JsonResultParamInvalid();
+            return MyJsonResultParamInvalid();
         }
 
         [HttpPost]

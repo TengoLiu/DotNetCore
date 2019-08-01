@@ -41,7 +41,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
             if (ModelState.IsValid) {
                 return Json(await service.Update(model));
             }
-            return JsonResultParamInvalid();
+            return MyJsonResultParamInvalid();
         }
 
         [HttpGet]
@@ -55,7 +55,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
             if (ModelState.IsValid) {
                 return Json(await service.Insert(model));
             }
-            return JsonResultParamInvalid();
+            return MyJsonResultParamInvalid();
         }
 
         [HttpPost]

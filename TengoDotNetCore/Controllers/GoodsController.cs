@@ -6,13 +6,9 @@ using TengoDotNetCore.Service;
 
 namespace TengoDotNetCore.Controllers {
     public class GoodsController : BaseController {
-        private readonly GoodsService service;
-        public GoodsController(GoodsService service) {
-            this.service = service;
-        }
 
         #region Index 商品列表
-        public async Task<IActionResult> Index(PageInfo pageInfo, List<int> categoryID = null, string keyword = null, string sortBy = null) {
+        public async Task<IActionResult> Index([FromServices]GoodsService service, PageInfo pageInfo, List<int> categoryID = null, string keyword = null, string sortBy = null) {
             ViewBag.Category = await service.GetCategoryList();
             if (pageInfo.PageSize <= 0) {
                 pageInfo.PageSize = 60;
@@ -23,7 +19,7 @@ namespace TengoDotNetCore.Controllers {
         #endregion
 
         #region Detail 商品详情
-        public async Task<IActionResult> Detail(int id = 0) {
+        public async Task<IActionResult> Detail([FromServices]GoodsService service, int id = 0) {
             if (id <= 0) {
                 return new NotFoundResult();
             }
@@ -40,7 +36,7 @@ namespace TengoDotNetCore.Controllers {
 
         #region RecList 获取推荐商品列表 api/goods/reclist
         [Route("api/goods/reclist")]
-        public async Task<IActionResult> RecList(int take = 5) {
+        public async Task<IActionResult> RecList([FromServices]GoodsService service, int take = 5) {
             return Json(await service.GetRecList(take));
         }
         #endregion

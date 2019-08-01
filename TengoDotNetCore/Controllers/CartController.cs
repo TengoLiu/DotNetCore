@@ -4,7 +4,7 @@ using TengoDotNetCore.Service;
 
 namespace TengoDotNetCore.Controllers {
     public class CartController : BaseController {
-  
+
         #region Index 我的购物车
         public IActionResult Index() {
             return View();
@@ -14,13 +14,13 @@ namespace TengoDotNetCore.Controllers {
         #region List 获取购物车列表接口 api/cart/list
         [Route("api/cart/list")]
         public async Task<IActionResult> List([FromServices]CartService service) {
-            return Json(await service.GetUserCartList(1, true));
+            return MyJsonResultSuccess("success",await service.GetUserCartList(1, true));
         }
         #endregion
 
         #region SetQty 更新覆盖购物车商品数量 幂等! api/cart/setQty
         [Route("api/cart/setQty")]
-        public async Task SetQty([FromServices]CartService service,int goodsID, int qty) {
+        public async Task SetQty([FromServices]CartService service, int goodsID, int qty) {
             await service.SetQty(1, goodsID, qty);
         }
         #endregion

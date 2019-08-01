@@ -13,7 +13,7 @@ namespace TengoDotNetCore.Controllers {
                 return Json(await service.SendVerifyCode(mobile, sendFor));
             }
             catch (Exception exp) {
-                return JsonResultError(exp);
+                return MyJsonResultError(exp);
             }
         }
         #endregion
