@@ -1,7 +1,55 @@
 ﻿@{
     ViewData["Title"] = "填写订单信息";
 }
-<div class="container order-edit">
+<div id="app" class="container order-edit">
+    <dl class="addr-select">
+        <dt class="sub-title">确认收货地址</dt>
+        <dd class="addr-item selected">
+            <span class="addr-item-pre" v-if="address.isDefault">寄送至：</span>
+            <span class="addr-item-info">
+                浦东新区 拱极路 xxxx 号 xx街道 小明 收（18817573487）
+            </span>
+            <a class="float-right" href="#">修改地址</a>
+        </dd>
 
+        <dd class="addr-item">
+            <span class="addr-item-pre">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</span>
+            <span class="addr-item-info">
+                浦东新区 拱极路 xxxx 号 xx街道 小明 收（18817573487）
+            </span>
+            <a class="float-right" href="#">选择地址</a>
+            <span class="float-right">&ensp;&ensp;</span>
+            <a class="float-right" href="#">修改地址</a>
+        </dd>
+    </dl>
+    <div class="goods-info">
+        <p class="sub-title">确认商品信息</p>
+        <table class="table table-bordered goods-table">
+            <tr class="text-center bg-lightgray">
+                <th colspan="2">商品信息</th>
+                <th>单价 x 数量</th>
+                <th>小计</th>
+            </tr>
+            <tr>
+                <td class="goods-img" style="width:100px;">
+                    <img src="https://www.winex-hk.com/upload/20181010/20181010161342_8267.png" />
+                </td>
+                <td class="goods-name">
+                    奥德碧丝城堡干红葡萄酒2012  
+                </td>
+                <td class="goods-price">￥2000.00 x 1</td>
+                <td class="goods-price">￥2000.00</td>
+            </tr>
+        </table>
+    </div>
+    <div class="amount-count">
+        <p>商品金额：<b class="color-red">￥10086.00</b></p>
+        <p>运输费用：<b class="color-red">￥20.00</b></p>
+        <p>总金额：<b class="color-red">￥20.00</b></p>
+        <div id="btn-submit" class="btn btn-danger">提交订单</div>
+    </div>
 </div>
+@section Footer{ 
 
+
+}

@@ -38,7 +38,7 @@
     </ul>
     <div class="tengo-pager"></div>
 </div>
-@section Scripts{
+@section Footer{
     <script src="~/lib/tengo-pager/tengo-pager.js"></script>
     <script type="text/javascript">
         $(".tengo-pager").append(getPager(@goods.Total,@goods.PageSize,@goods.Page, "/goods?page=","@Html.Raw(pageUrl)"));

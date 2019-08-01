@@ -67,8 +67,8 @@
                     <a class="num-add" id="num-add">+</a>
                     <a class="num-reduce" id="num-reduce">-</a>
                 </div>
-                <a class="btn-addToCart bg-red" href="javascript:">加入购物车</a>
-                <a class="btn-buy bg-green" href="javascript:">立即购买</a>
+                <a id="btnAdd2Cart" class="btn-addToCart bg-red" href="javascript:">加入购物车</a>
+                <a id="btnBuyAtNow" class="btn-buy bg-green" href="javascript:">立即购买</a>
             </div>
         </div>
     </div>
@@ -101,7 +101,7 @@
         </div>
     </div>
 </div>
-@section Scripts{
+@section Footer{
     <script src="~/js/easyzoom.js"></script>
     <script>
         var num = 1;
@@ -110,6 +110,14 @@
         function setNum() {
             $("#num").val(parseInt(num));
         }
+        function getNum() {
+            let qty = $("#num").val();
+            if (!isNumber(qty)) {
+                return 0;
+            }
+            return parseInt(qty);
+        }
+
         $(function () {
             $("#num-add").click(function () {
                 if (num >= stock) {
@@ -145,6 +153,73 @@
                 setNum();
             });
 
+            //加入购物车
+            $("#btnAdd2Cart").click(function () {
+                let qty = getNum();
+                if (qty <= 0) {
+                    dialogAlert("提示","请输入正确的商品数量！");
+                    return;
+                }
+                if (qty > stock) {
+                    dialogAlert("提示","当前库存为" + stock + "，库存不足！");
+                    return;
+                }
+                $.ajax({
+                    url: "/api/cart/setQty",
+                    type: "post",
+                    dataType: "Json",
+                    data: { goodsID: @Model.Id, qty: qty },
+                    success: function (data) {
+                        var code = data.code;
+                        var msg = data.msg;
+                        if (code == 1000) {
+                            dialogConfirm("提示", "加入购物车成功！是否马上去购物车结算？", function () {
+                                location.href = "/cart";
+                            });
+                        }
+                        else {
+                            dialogAlert("提示",msg);
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data)
+                        dialogAlert("提示","系统繁忙，请稍后再试......");
+                    }
+                });
+            });
+
+            //立即购买
+            $("#btnBuyAtNow").click(function () {
+                let qty = getNum();
+                if (qty <= 0) {
+                    dialogAlert("提示","请输入正确的商品数量！");
+                    return;
+                }
+                if (qty > stock) {
+                    dialogAlert("提示","当前库存为" + stock + "，库存不足！");
+                    return;
+                }
+                $.ajax({
+                    url: "/api/cart/buyAtNow",
+                    type: "post",
+                    dataType: "Json",
+                    data: { goodsID: @Model.Id, qty: qty },
+                    success: function (data) {
+                        var code = data.code;
+                        var msg = data.msg;
+                        if (code == 1000) {
+                            location.href = "/order/edit";
+                        }
+                        else {
+                            dialogAlert("提示",msg);
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data)
+                        dialogAlert("提示","系统繁忙，请稍后再试......");
+                    }
+                });
+            });
 
             var count = @(albums!= null ? albums.Length:0);
             var position = 0;
@@ -175,7 +250,5 @@
                 api.swap(url, url);
             });
         });
-
-
     </script>
 }
