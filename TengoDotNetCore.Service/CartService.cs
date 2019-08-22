@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
-using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.Service.Base;
 using TengoDotNetCore.Service.Data;
 
@@ -33,9 +32,9 @@ namespace TengoDotNetCore.Service {
         /// <param name="goodsID"></param>
         /// <param name="qty"></param>
         /// <returns></returns>
-        public async Task<JsonResultObj> SetQty(int userId, int goodsID, int qty) {
+        public async Task SetQty(int userId, int goodsID, int qty) {
             if (goodsID <= 0 || userId <= 0) {
-                return JsonResultParamInvalid();
+                return;
             }
             var cartItem = db.CartItem.FirstOrDefault(p => p.Goods_ID == goodsID);
             if (qty > 0) {
@@ -61,7 +60,6 @@ namespace TengoDotNetCore.Service {
                     await db.SaveChangesAsync();
                 }
             }
-            return JsonResultSuccess("success");
         }
 
         /// <summary>

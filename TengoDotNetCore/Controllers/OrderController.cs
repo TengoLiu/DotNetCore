@@ -33,13 +33,6 @@ namespace TengoDotNetCore.Controllers {
         }
         #endregion
 
-        #region GetEditViewData 获取订单填写页面的数据 api/order/getEditData
-        [Route("api/order/getEditData")]
-        public async Task<IActionResult> GetEditData([FromServices]OrderService service) {
-            return MyJsonResult(await service.GetEditData(1));
-        }
-        #endregion
-
         #region Save 保存订单接口 api/order/save
         [Route("api/order/save")]
         public async Task<IActionResult> Save([FromServices]OrderService service, int addrId, string message = "") {

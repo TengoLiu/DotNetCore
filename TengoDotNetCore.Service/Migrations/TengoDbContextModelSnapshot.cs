@@ -27,30 +27,17 @@ namespace TengoDotNetCore.Service.Migrations
 
                     b.Property<DateTime>("AddTime");
 
-                    b.Property<string>("Area")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    b.Property<string>("Area");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    b.Property<string>("City");
 
-                    b.Property<string>("Detail")
-                        .IsRequired()
-                        .HasMaxLength(200);
+                    b.Property<string>("Detail");
 
                     b.Property<bool>("IsDefault");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20);
+                    b.Property<string>("Phone");
 
-                    b.Property<string>("Phone")
-                        .IsRequired();
-
-                    b.Property<string>("Province")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    b.Property<string>("Province");
 
                     b.Property<string>("Tag");
 
@@ -307,118 +294,11 @@ namespace TengoDotNetCore.Service.Migrations
                     b.ToTable("SMSLog");
                 });
 
-            modelBuilder.Entity("TengoDotNetCore.Models.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("AddTime");
-
-                    b.Property<string>("AddrArea");
-
-                    b.Property<string>("AddrCity");
-
-                    b.Property<string>("AddrDetail");
-
-                    b.Property<string>("AddrPhone");
-
-                    b.Property<string>("AddrProvince");
-
-                    b.Property<decimal>("ExpressFee")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<string>("ExpressNo");
-
-                    b.Property<string>("ExpressSendName");
-
-                    b.Property<decimal>("GoodsAmount")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<bool>("IsSend");
-
-                    b.Property<string>("Message");
-
-                    b.Property<string>("Orgin");
-
-                    b.Property<bool>("PayStatus");
-
-                    b.Property<DateTime>("PayTime");
-
-                    b.Property<int>("PaymentID");
-
-                    b.Property<string>("PaymentName");
-
-                    b.Property<string>("Remark");
-
-                    b.Property<DateTime>("SendTime");
-
-                    b.Property<string>("SerialNumber");
-
-                    b.Property<int>("Status");
-
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<DateTime>("UpdateTime");
-
-                    b.Property<int>("UserID");
-
-                    b.Property<string>("UserName");
-
-                    b.Property<string>("UserNickName");
-
-                    b.Property<string>("UserPhone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("TengoDotNetCore.Models.OrderGoods", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("AddTime");
-
-                    b.Property<string>("CoverImg");
-
-                    b.Property<int>("GoodId");
-
-                    b.Property<string>("GoodsName");
-
-                    b.Property<int>("Order_Id");
-
-                    b.Property<decimal>("OrginalPrice")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<int>("Qty");
-
-                    b.Property<decimal>("RealPrice")
-                        .HasColumnType("decimal(18, 5)");
-
-                    b.Property<string>("Specifications");
-
-                    b.Property<DateTime>("UpdateTime");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Order_Id");
-
-                    b.ToTable("OrderGoods");
-                });
-
             modelBuilder.Entity("TengoDotNetCore.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Account")
-                        .IsRequired()
-                        .HasMaxLength(20);
 
                     b.Property<DateTime>("AddTime");
 
@@ -426,18 +306,11 @@ namespace TengoDotNetCore.Service.Migrations
 
                     b.Property<string>("LastIP");
 
-                    b.Property<DateTime>("LastTime");
+                    b.Property<string>("LastTime");
 
-                    b.Property<string>("NickName")
-                        .IsRequired()
-                        .HasMaxLength(20);
+                    b.Property<string>("NickName");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(16);
-
-                    b.Property<string>("Phone")
-                        .IsRequired();
+                    b.Property<string>("Phone");
 
                     b.Property<string>("RealName");
 
@@ -486,14 +359,6 @@ namespace TengoDotNetCore.Service.Migrations
                     b.HasOne("TengoDotNetCore.Models.ColumnType", "ColumnType")
                         .WithMany()
                         .HasForeignKey("ColumnType_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TengoDotNetCore.Models.OrderGoods", b =>
-                {
-                    b.HasOne("TengoDotNetCore.Models.Order", "Order")
-                        .WithMany("GoodsList")
-                        .HasForeignKey("Order_Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

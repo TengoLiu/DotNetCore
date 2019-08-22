@@ -1,16 +1,12 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
-using TengoDotNetCore.Models.Base;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace TengoDotNetCore.Filters {
     public class TengoGlobalFilterAttribute : ActionFilterAttribute {
-        private IHostingEnvironment _env;
-
-        public TengoGlobalFilterAttribute(IHostingEnvironment env) {
-            _env = env;
-        }
 
         /// <summary>
         /// 摘要:
@@ -31,25 +27,12 @@ namespace TengoDotNetCore.Filters {
         /// </summary>
         /// <param name="filterContext"></param>
         public override void OnActionExecuted(ActionExecutedContext filterContext) {
-
-            #region 如果Action执行之后发现报错了
+            //如果说执行Action方法出现错误的话,中断操作,并且重定向到错误页面
             if (filterContext.Exception != null) {
-                if (_env.IsDevelopment()) {
-                    //如果是测试环境的话，那么啥都不做，直接显示报错页面
-                }
-                else {//由于中间件已经给我定义好了报错的页面了，所以这里只需要对Api报错进行处理就好了
-                    var path = filterContext.HttpContext.Request.Path.ToString();
-                    if (path.Contains("/api", StringComparison.OrdinalIgnoreCase)) {
-                        filterContext.Canceled = true;
-                        filterContext.Result = new JsonResult(new JsonResultObj {
-                            code = 999,
-                            msg = Common.Constant.ERROR_DEFAULT
-                        });
-                    }
-                }
+                filterContext.Canceled = true;
+                filterContext.Result = new RedirectToRouteResult("/error");
+                return;
             }
-            #endregion
-
             base.OnActionExecuted(filterContext);
         }
 

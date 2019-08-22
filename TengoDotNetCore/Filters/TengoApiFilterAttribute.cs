@@ -27,6 +27,15 @@ namespace TengoDotNetCore.Filters {
         /// </summary>
         /// <param name="filterContext"></param>
         public override void OnActionExecuted(ActionExecutedContext filterContext) {
+            //如果说执行Action方法出现错误的话,中断操作,并且重定向到错误页面
+            if (filterContext.Exception != null) {
+                filterContext.Canceled = true;
+                filterContext.Result = new JsonResult(new {
+                    code = 999,
+                    msg = filterContext.Exception.Message + "|" + filterContext.Exception.InnerException
+                });
+                return;
+            }
             base.OnActionExecuted(filterContext);
         }
 

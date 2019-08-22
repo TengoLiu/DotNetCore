@@ -21,7 +21,8 @@ namespace TengoDotNetCore.Service {
         /// <param name="model"></param>
         /// <returns></returns>
         public async Task<Goods> Get(int id) {
-            var model = await db.Goods.FirstOrDefaultAsync(p => p.Id == id);
+            var model = await db.Goods
+                .FirstOrDefaultAsync(p => p.Id == id);
             return model;
         }
 
@@ -56,7 +57,8 @@ namespace TengoDotNetCore.Service {
                 }
                 model.CategoryIdStr = sbId != null ? sbId.ToString() : string.Empty;
                 model.CategoryStr = sbStr != null ? sbStr.ToString() : string.Empty;
-                model.DoBeforeInsert();
+                model.AddTime = DateTime.Now;
+                model.UpdateTime = DateTime.Now;
                 db.Goods.Add(model);
                 await db.SaveChangesAsync();
                 return JsonResultSuccess("添加成功！");
@@ -111,7 +113,7 @@ namespace TengoDotNetCore.Service {
                 goods.Content = model.Content;
                 goods.MContent = model.MContent;
                 goods.Sort = model.Sort;
-                model.DoBeforeUpdate();
+                goods.UpdateTime = DateTime.Now;
 
                 await db.SaveChangesAsync();
                 return JsonResultSuccess("修改成功！");

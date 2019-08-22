@@ -14,14 +14,14 @@ namespace TengoDotNetCore.Controllers {
         #region List 获取购物车列表接口 api/cart/list
         [Route("api/cart/list")]
         public async Task<IActionResult> List([FromServices]CartService service) {
-            return MyJsonResultSuccess("success", await service.GetUserCartList(1, true));
+            return MyJsonResultSuccess("success",await service.GetUserCartList(1, true));
         }
         #endregion
 
         #region SetQty 更新覆盖购物车商品数量 幂等! api/cart/setQty
         [Route("api/cart/setQty")]
-        public async Task<IActionResult> SetQty([FromServices]CartService service, int goodsID, int qty) {
-            return MyJsonResult(await service.SetQty(1, goodsID, qty));
+        public async Task SetQty([FromServices]CartService service, int goodsID, int qty) {
+            await service.SetQty(1, goodsID, qty);
         }
         #endregion
 
@@ -43,16 +43,6 @@ namespace TengoDotNetCore.Controllers {
         [Route("api/cart/setAllChecked")]
         public async Task SetAllChecked([FromServices]CartService service, int selected) {
             await service.SetAllChecked(1, selected);
-        }
-        #endregion
-
-        #region BuyAtNow 立即购买 api/cart/buyAtNow
-        [Route("api/cart/buyAtNow")]
-        public async Task<IActionResult> BuyAtNow([FromServices]CartService service, int goodsID, int qty) {
-            //将所有的商品设为不选中
-            await service.SetAllChecked(1, 0);
-            //然后将当前商品的数量设为指定数量并且选中
-            return MyJsonResult(await service.SetQty(1, goodsID, qty));
         }
         #endregion
     }

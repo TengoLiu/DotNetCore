@@ -49,16 +49,10 @@ namespace TengoDotNetCore.Models {
         public decimal ExpressFee { get; set; }
 
         /// <summary>
-        /// 订单总金额
+        /// 订单实付金额
         /// </summary>
         [Column(TypeName = "decimal(18, 2)")]
         public decimal TotalAmount { get; set; }
-
-        /// <summary>
-        /// 订单实付金额，注意 实付金额 = 总金额 - 各项优惠减免金额
-        /// </summary>
-        [Column(TypeName = "decimal(18, 2)")]
-        public decimal RealAmount { get; set; }
 
         /// <summary>
         /// 订单状态

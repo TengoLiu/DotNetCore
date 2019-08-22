@@ -1,26 +1,26 @@
 ﻿@{
-    Layout = "_LayoutVue";
     ViewData["Title"] = "填写订单信息";
 }
 <div id="app" class="container order-edit">
     <dl class="addr-select">
         <dt class="sub-title">确认收货地址</dt>
-        <template v-if="addrList.length>0">
-            <dd v-for="item in addrList"
-                class="addr-item"
-                v-bind:class="{'selected':item.isDefault}">
-                <span class="addr-item-pre" v-if="item.isDefault">寄送至：</span>
-                <span class="addr-item-pre" v-else></span>
-                <span class="addr-item-info">
-                    {{item.province}} {{item.city}} {{item.area}} {{item.detail}} {{item.name}} 收（{{item.phone}}）
-                </span>
-                <a class="addr-btn" href="#">选择地址</a>
-                <a class="addr-btn" href="#">修改地址</a>
-            </dd>
-        </template>
-        <template v-else>
+        <dd class="addr-item selected">
+            <span class="addr-item-pre" v-if="address.isDefault">寄送至：</span>
+            <span class="addr-item-info">
+                浦东新区 拱极路 xxxx 号 xx街道 小明 收（18817573487）
+            </span>
+            <a class="float-right" href="#">修改地址</a>
+        </dd>
 
-        </template>
+        <dd class="addr-item">
+            <span class="addr-item-pre">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</span>
+            <span class="addr-item-info">
+                浦东新区 拱极路 xxxx 号 xx街道 小明 收（18817573487）
+            </span>
+            <a class="float-right" href="#">选择地址</a>
+            <span class="float-right">&ensp;&ensp;</span>
+            <a class="float-right" href="#">修改地址</a>
+        </dd>
     </dl>
     <div class="goods-info">
         <p class="sub-title">确认商品信息</p>
@@ -49,34 +49,7 @@
         <div id="btn-submit" class="btn btn-danger">提交订单</div>
     </div>
 </div>
-@section Footer{
-    <script>
-        var app = new Vue({
-            el: '#app',
-            data: {
-                addrList: [],//收货地址列表
-                cartList: [],//各个店铺的购物车列表的集合
-            },
-            methods: {
-            },
-            computed: {
+@section Footer{ 
 
-            },
-            created: function () {
-                this.$http.post('/api/order/getEditData').then(function (res) {
-                    var code = res.body.code;
-                    console.log(res.body);
-                    if (code == 1000) {
-                        this.addrList = res.body.data.addrList;       
-                        this.cartList = res.body.data.cartList;       
-                    }
-                    else {
-                    }
-                }, function () {
-                    console.log('请求失败处理');
-                });
-            }
-        });
-    </script>
 
 }

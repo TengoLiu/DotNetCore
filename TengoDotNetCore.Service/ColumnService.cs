@@ -28,7 +28,8 @@ namespace TengoDotNetCore.Service {
         /// <returns></returns>
         public async Task<JsonResultObj> Insert(Column model) {
             try {
-                model.DoBeforeInsert();
+                model.AddTime = DateTime.Now;
+                model.UpdateTime = DateTime.Now;
                 // 判断栏目标题是否有重复
                 bool isExistColumnTitle = await db.Column.AnyAsync(p => p.Title == model.Title);
                 if (isExistColumnTitle) {
@@ -72,7 +73,7 @@ namespace TengoDotNetCore.Service {
                 oldModel.Sort = model.Sort;
                 oldModel.ValidStartTime = model.ValidStartTime;
                 oldModel.ValidEndTime = model.ValidEndTime;
-                oldModel.DoBeforeUpdate();
+                oldModel.UpdateTime = DateTime.Now;
                 int result = await db.SaveChangesAsync();
                 if (result > 0) {
                     return JsonResultSuccess("更新成功！");

@@ -20,7 +20,7 @@ function dialogAlert(title, content, callback) {
     alertbox += '</div>'
     alertbox += '</div>';
     alertbox += '<div class="dialog-cover"></div>';
-    $("body").append(alertbox);
+    document.write(alertbox)
 }
 
 function dialogConfirm(title, content, okCallback, cancelCallback) {
@@ -46,5 +46,5 @@ function dialogConfirm(title, content, okCallback, cancelCallback) {
     alertbox += '</div>'
     alertbox += '</div>';
     alertbox += '<div class="dialog-cover"></div>';
-    $("body").append(alertbox);
+    document.write(alertbox)
 }
