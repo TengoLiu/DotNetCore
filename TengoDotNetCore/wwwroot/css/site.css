@@ -407,6 +407,7 @@ img {
 
 .cart {
     margin-top: 60px;
+    padding: 15px;
     font-size: 14px;
 }
 
@@ -567,4 +568,70 @@ img {
 .cart .rec-box .rec-body .rec-item .price {
     font-size: 16px;
     color: #F00;
+}
+
+/*订单填写页面样式*/
+.order-edit {
+    padding: 15px;
+}
+
+.order-edit .sub-title {
+    line-height: 40px;
+    border-bottom: 1px solid #f3f3f3;
+    font-weight: 700;
+    font-size: 17px;
+}
+
+.order-edit .addr-select .addr-item {
+    margin-top: 10px;
+    padding: 3px 5px;
+    border: 2px solid #fff;
+    cursor: pointer;
+}
+
+.order-edit .addr-select .addr-btn {
+    float: right;
+    margin-left: 15px;
+}
+
+.order-edit .addr-select .addr-item-pre {
+    float: left;
+    display: block;
+    width: 80px;
+    height: 21px;
+    text-align: right;
+    font-weight: bold;
+    color: #f40;
+}
+
+.order-edit .addr-select .addr-item.selected, .order-edit .addr-select .addr-item:hover {
+    border-color: #f40;
+}
+
+.order-edit .goods-info {
+    margin-top: 15px;
+}
+
+.order-edit .goods-info .goods-img {
+    width: 100px;
+    height: 100px;
+    padding: 10px;
+}
+
+.order-edit .goods-info .goods-img img {
+    width: 80px;
+    height: 80px;
+}
+
+.order-edit .goods-info .goods-price {
+    width: 240px;
+    text-align: center;
+}
+
+.amount-count {
+    text-align: right;
+}
+
+.amount-count .btn {
+    margin-top: 15px;
 }

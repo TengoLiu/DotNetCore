@@ -14,12 +14,12 @@ namespace TengoDotNetCore.Service {
         public ArticleService(TengoDbContext db) : base(db) { }
 
         /// <summary>
-        /// 更新
+        /// 获取单个实体
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         public async Task<Article> Get(int id) {
-            var model =await db.Article.FirstOrDefaultAsync(p => p.Id == id);
+            var model = await db.Article.FirstOrDefaultAsync(p => p.Id == id);
             return model;
         }
 
@@ -36,8 +36,7 @@ namespace TengoDotNetCore.Service {
                 if (string.IsNullOrWhiteSpace(model.Description)) {
                     model.Description = model.Keywords;
                 }
-                model.AddTime = DateTime.Now;
-                model.UpdateTime = DateTime.Now;
+                model.DoBeforeInsert();
                 db.Article.Add(model);
                 await db.SaveChangesAsync();
                 return JsonResultSuccess("添加成功！");
@@ -60,7 +59,7 @@ namespace TengoDotNetCore.Service {
                 if (string.IsNullOrWhiteSpace(model.Description)) {
                     model.Description = model.Keywords;
                 }
-                model.UpdateTime = DateTime.Now;
+                model.DoBeforeUpdate();
                 //标明哪些字段变动了
                 db.Entry(model).Property(p => p.Title).IsModified = true;
                 db.Entry(model).Property(p => p.Author).IsModified = true;

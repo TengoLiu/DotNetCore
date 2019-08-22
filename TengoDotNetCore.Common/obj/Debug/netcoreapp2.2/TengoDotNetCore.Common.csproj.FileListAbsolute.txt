@@ -6,4 +6,9 @@ D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\bin\Debug\netcoreapp2.2
 D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\bin\Debug\netcoreapp2.2\TengoDotNetCore.Common.pdb
 D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\obj\Debug\netcoreapp2.2\TengoDotNetCore.Common.dll
 D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\obj\Debug\netcoreapp2.2\TengoDotNetCore.Common.pdb
+D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\bin\Debug\netcoreapp2.2\Microsoft.Extensions.Http.dll
+D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\bin\Debug\netcoreapp2.2\Microsoft.Extensions.Http.xml
+D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\obj\Debug\netcoreapp2.2\TengoDotNetCore.Common.csproj.CopyComplete
+D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Http.Abstractions.dll
+D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Http.Abstractions.xml
 D:\VS2017Projects\TengoDotNetCore\TengoDotNetCore.Common\obj\Debug\netcoreapp2.2\TengoDotNetCore.Common.csprojAssemblyReference.cache
