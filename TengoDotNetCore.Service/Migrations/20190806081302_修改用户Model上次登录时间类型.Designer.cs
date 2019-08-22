@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Service.Migrations
 {
     [DbContext(typeof(TengoDbContext))]
-    partial class TengoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190806081302_修改用户Model上次登录时间类型")]
+    partial class 修改用户Model上次登录时间类型
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

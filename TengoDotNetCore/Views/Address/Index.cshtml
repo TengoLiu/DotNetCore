@@ -1,0 +1,40 @@
+﻿@model List<Address>
+@{
+    ViewData["Title"] = "收货地址";
+}
+<div class="container addr-index">
+    <table class="table">
+        <tr>
+            <th>编号</th>
+            <th>收货人</th>
+            <th>所在地区</th>
+            <th>详细地址</th>
+            <th>手机</th>
+            <th>操作</th>
+            <th></th>
+        </tr>
+        @for (var i = 0; i < Model.Count; i++) {
+        <tr>
+            <td>@(i + 1)</td>
+            <td>@Model[i].Name</td>
+            <td>@Model[i].Province @Model[i].City @Model[i].Area </td>
+            <td>@Model[i].Detail</td>
+            <td>@Model[i].Phone</td>
+            <td>
+                <a href="javascript:">修改</a> |
+                <a href="javascript:">删除</a>
+            </td>
+            <td>
+                @if (Model[i].IsDefault) {
+                    <span>默认地址</span>
+                }
+                else {
+                    <a>设为默认</a>
+                }
+            </td>
+        </tr>
+        }
+    </table>
+</div>
+
+

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Service.Migrations
 {
     [DbContext(typeof(TengoDbContext))]
-    partial class TengoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190806060303_修改用户Model")]
+    partial class 修改用户Model
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -426,7 +428,7 @@ namespace TengoDotNetCore.Service.Migrations
 
                     b.Property<string>("LastIP");
 
-                    b.Property<DateTime>("LastTime");
+                    b.Property<string>("LastTime");
 
                     b.Property<string>("NickName")
                         .IsRequired()

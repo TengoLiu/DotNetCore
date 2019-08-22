@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>@ViewData["Title"] - TengoDotNetCore</title>
     <environment include="Development">
@@ -17,10 +18,10 @@
               crossorigin="anonymous"
               integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
     </environment>
+    <link href="~/css/site.css" rel="stylesheet" />
     <link href="~/css/width.css" rel="stylesheet" />
     <link href="~/css/color.css" rel="stylesheet" />
     <link href="~/lib/tengo-dialog/tengo-dialog.css" rel="stylesheet" />
-    <link href="~/css/site.css" rel="stylesheet" />
     @RenderSection("Header", required: false)
 </head>
 <body>
@@ -68,6 +69,7 @@
     <environment exclude="Development">
         <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     </environment>
+    <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
     <script src="~/lib/tengo-dialog/tengo-dialog.js"></script>
     <script src="~/js/utils.js"></script>
     @RenderSection("Footer", required: false)

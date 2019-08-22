@@ -1,6 +1,8 @@
 /.vs
 /TengoDotNetCore/bin/
 /TengoDotNetCore/obj/
+/TengoDotNetCore.API/bin/
+/TengoDotNetCore.API/obj/
 /TengoDotNetCore.Common/bin/
 /TengoDotNetCore.Common/obj/
 /TengoDotNetCore.Models/bin/
