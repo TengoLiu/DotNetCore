@@ -2,15 +2,18 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
 using TengoDotNetCore.Common.Utils.SMS;
+using TengoDotNetCore.Filters;
 using TengoDotNetCore.MiddleWares;
 using TengoDotNetCore.Service;
 using TengoDotNetCore.Service.Data;
+using TengoDotNetCore.ViewsUtils;
 
 namespace TengoDotNetCore {
     public class Startup {
@@ -60,7 +63,8 @@ namespace TengoDotNetCore {
 
             //用于在Microsoft.Extensions.DependencyInjection.ISeviceCollection中设置MVC服务的扩展方法。
             services.AddMvc(options => {
-
+                //注册我的全局过滤器
+                options.Filters.Add(typeof(TengoGlobalFilterAttribute));
             })
             .AddJsonOptions(options => {//添加JSON配置
                 /*
@@ -91,6 +95,8 @@ namespace TengoDotNetCore {
                 options.UseSqlServer(connection, a => a.UseRowNumberForPaging());
             });
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             #region 自己注册的依赖注入
             //配置依赖注入的两种写法，后者代码简洁一些
             //services.AddScoped(typeof(IUserService), typeof(UserService));
@@ -104,9 +110,18 @@ namespace TengoDotNetCore {
             services.AddScoped<SmsService>();
             services.AddScoped<CartService>();
             services.AddScoped<OrderService>();
+            services.AddScoped<AddressService>();
+            services.AddScoped<UserService>();
+
             //短信发送者
             services.AddScoped<ISMS, DuanXinWang>();
             #endregion
+
+            ///配置自定义视图查询器，让框架能够根据设备类型来适配不同的视图
+            services.Configure<RazorViewEngineOptions>(o => {
+                o.ViewLocationExpanders.Add(new CustomViewLocationExpander());
+
+            });
         }
 
         /// <summary>
@@ -137,7 +152,7 @@ namespace TengoDotNetCore {
                  * 告诉浏览器当接到这个header的时候，在一定时间内访问本网站的资源都必须使用https方式。这个默认值为30天。
                  */
                 app.UseHsts();
-            }   
+            }
 
             //添加HTTPS重定向，也就是如果不是HTTPS的话会自动跳转到HTTPS
             app.UseHttpsRedirection();
