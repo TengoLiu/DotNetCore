@@ -227,6 +227,7 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\TengoDotNetCore.API\TengoDotNetCore.API.csproj" />
     <ProjectReference Include="..\TengoDotNetCore.Common\TengoDotNetCore.Common.csproj" />
     <ProjectReference Include="..\TengoDotNetCore.Models\TengoDotNetCore.Models.csproj" />
     <ProjectReference Include="..\TengoDotNetCore.Service\TengoDotNetCore.Service.csproj" />

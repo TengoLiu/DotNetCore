@@ -1,0 +1,81 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.2",
+    "signature": "6c8ed84b8c7a18e2a95029c59f50338eb1aaa55d"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.2": {
+      "TengoDotNetCore.API/1.0.0": {
+        "dependencies": {
+          "BouncyCastle.NetCore": "1.8.5",
+          "LitJson": "0.13.0",
+          "TengoDotNetCore.Models": "1.0.0"
+        },
+        "runtime": {
+          "TengoDotNetCore.API.dll": {}
+        }
+      },
+      "BouncyCastle.NetCore/1.8.5": {
+        "runtime": {
+          "lib/netstandard2.0/BouncyCastle.Crypto.dll": {
+            "assemblyVersion": "1.8.5.0",
+            "fileVersion": "1.8.19031.1"
+          }
+        }
+      },
+      "LitJson/0.13.0": {
+        "runtime": {
+          "lib/netstandard2.0/LitJSON.dll": {
+            "assemblyVersion": "0.13.0.0",
+            "fileVersion": "0.13.0.0"
+          }
+        }
+      },
+      "TengoDotNetCore.Common/1.0.0": {
+        "runtime": {
+          "TengoDotNetCore.Common.dll": {}
+        }
+      },
+      "TengoDotNetCore.Models/1.0.0": {
+        "dependencies": {
+          "TengoDotNetCore.Common": "1.0.0"
+        },
+        "runtime": {
+          "TengoDotNetCore.Models.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TengoDotNetCore.API/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BouncyCastle.NetCore/1.8.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tEEZQa/7t1vXD0p3Xv79M8XyxA7iMIa8VjADV3zMWfdpOAfyJYIwhbRd9puz/CXJeZl3vddVo72yf+qxH0iyxA==",
+      "path": "bouncycastle.netcore/1.8.5",
+      "hashPath": "bouncycastle.netcore.1.8.5.nupkg.sha512"
+    },
+    "LitJson/0.13.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YwTo1PYKKFK8naY3Cj4M75vySS98lf54IuU7t9HY78juk1Xx16z2a7H2Xl+zTC2OW0sw3ztFwNe91vwdyhj1sQ==",
+      "path": "litjson/0.13.0",
+      "hashPath": "litjson.0.13.0.nupkg.sha512"
+    },
+    "TengoDotNetCore.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TengoDotNetCore.Models/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

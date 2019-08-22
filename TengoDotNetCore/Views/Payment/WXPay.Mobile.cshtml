@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "微信支付";
+    Layout = null;
+}
+@model TengoDotNetCore.API.WXPay.WXPay
+<!DOCTYPE html>
+<html>
+<head>
+    <title>微信支付</title>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script type="text/javascript">
+        //调用微信JS api 支付
+        function jsApiCall()
+        {
+            WeixinJSBridge.invoke(
+                'getBrandWCPayRequest',
+                @Html.Raw(Model.wxJsApiParam),//josn串
+                function (res)
+                {
+                    // 支付成功
+                    if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                        // 跳转手机支付成功页面
+                        location.href = "/order/detail?id=@(Model.out_trade_no)";
+                        return;
+                    }
+                        // 支付取消
+                    else if(res.err_msg == "get_brand_wcpay_request:cancel" ){
+                        // 跳转手机支付倒计时页面
+                        location.href = "/order/detail?id=@(Model.out_trade_no)";
+                        return;
+                    }
+                        // 支付失败
+                    else{
+                        // 跳转支付失败页面
+                        //alert(res.err_msg);
+                        location.href = "/order/detail?id=@(Model.out_trade_no)";
+                        return;
+                    }
+                }
+            );
+        }
+    </script>
+</head>
+<body>
+    @if (Model == null) {
+        <script>
+            alert("");
+        </script>
+        <div>
+            Model IS NULL
+        </div>
+    }
+    <script type="text/javascript">
+        if (typeof WeixinJSBridge == "undefined") {
+            if (document.addEventListener) {
+                document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+            }
+            else if (document.attachEvent) {
+                document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+            }
+        }
+        else {
+            jsApiCall();
+        }
+    </script>
+</body>
+</html>
