@@ -1,10 +1,8 @@
 ﻿@{
     ViewData["Title"] = "用户列表";
 }
-@model List<User>
+@using Microsoft.AspNetCore.Http
 <h1>Index</h1>
-@foreach(var item in Model) {
-    <div>
-        @item.Id-@item.NickName
-    </div>
-}
+<p>
+   用户昵称： @(Context.Session.Get<User>("SESSION_USER").NickName)
+</p>

@@ -96,7 +96,7 @@ namespace TengoDotNetCore.Service {
                 return JsonResultError("账号和密码不能为空！");
             }
             var user = await db.User.FirstOrDefaultAsync(p => p.Phone == account || p.Account == account);
-            if (user != null) {
+            if (user == null) {
                 return JsonResultError("对不起，该用户不存在，请检查输入的账号和密码是否有误！");
             }
             else {
