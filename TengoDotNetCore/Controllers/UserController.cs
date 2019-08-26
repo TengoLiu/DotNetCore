@@ -5,19 +5,25 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TengoDotNetCore.Common;
+using TengoDotNetCore.Filters;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Service;
 
 namespace TengoDotNetCore.Controllers {
     public class UserController : BaseController {
 
+        #region Index 个人中心页面
+        [UserFilter]
         public IActionResult Index() {
             return View();
         }
+        #endregion
 
+        #region Login 登录页面
         public IActionResult Login() {
             return View();
         }
+        #endregion
 
         #region ApiRegister 登录接口 ----- api/user/register
         [Route("api/user/login")]
@@ -30,9 +36,11 @@ namespace TengoDotNetCore.Controllers {
         }
         #endregion
 
+        #region Register 注册页面
         public IActionResult Register() {
             return View();
         }
+        #endregion
 
         #region ApiRegister 注册接口 ----- api/user/register
         [Route("api/user/register")]
