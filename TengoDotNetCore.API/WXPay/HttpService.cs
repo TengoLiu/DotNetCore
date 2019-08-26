@@ -31,12 +31,10 @@ namespace TengoDotNetCore.API.WXPay {
             try {
                 //设置最大连接数
                 ServicePointManager.DefaultConnectionLimit = 200;
-                ServicePointManager.SecurityProtocol
-                    = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
                 //设置https验证方式
-                if(url.StartsWith("https", StringComparison.OrdinalIgnoreCase)) {
-                    ServicePointManager.ServerCertificateValidationCallback =
-                            new RemoteCertificateValidationCallback(CheckValidationResult);
+                if (url.StartsWith("https", StringComparison.OrdinalIgnoreCase)) {
+                    ServicePointManager.ServerCertificateValidationCallback =new RemoteCertificateValidationCallback(CheckValidationResult);
                 }
 
                 /***************************************************************
@@ -58,7 +56,7 @@ namespace TengoDotNetCore.API.WXPay {
 
                 #region 使用证书的处理
                 //是否使用证书
-                if(isUseCert) {
+                if (isUseCert) {
 
                     #region 官方DEMO原有代码，发送请求的时候从文件直接读证书信息，但是这样做是不可以的
                     //string path = HttpContext.Current.Request.PhysicalApplicationPath;
@@ -79,7 +77,7 @@ namespace TengoDotNetCore.API.WXPay {
                     X509Store certStore = new X509Store(StoreName.My, StoreLocation.LocalMachine);
                     certStore.Open(OpenFlags.ReadOnly);
                     X509Certificate2Collection certCollection = certStore.Certificates.Find(X509FindType.FindBySubjectName
-                        ,WxPayConfig.MCHID
+                        , WxPayConfig.MCHID
                         , false);
                     request.ClientCertificates.Add(certCollection[0]);
                 }
@@ -98,29 +96,29 @@ namespace TengoDotNetCore.API.WXPay {
                 result = sr.ReadToEnd().Trim();
                 sr.Close();
             }
-            catch(System.Threading.ThreadAbortException e) {
+            catch (System.Threading.ThreadAbortException e) {
                 //Log.Error("HttpService", "Thread - caught ThreadAbortException - resetting.");
                 //Log.Error("Exception message: {0}", e.Message);
                 System.Threading.Thread.ResetAbort();
             }
-            catch(WebException e) {
+            catch (WebException e) {
                 //Log.Error("HttpService", e.ToString());
-                if(e.Status == WebExceptionStatus.ProtocolError) {
+                if (e.Status == WebExceptionStatus.ProtocolError) {
                     //Log.Error("HttpService", "StatusCode : " + ((HttpWebResponse)e.Response).StatusCode);
                     //Log.Error("HttpService", "StatusDescription : " + ((HttpWebResponse)e.Response).StatusDescription);
                 }
                 throw new WxPayException(e.ToString());
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 //Log.Error("HttpService", e.ToString());
                 throw new WxPayException(e.ToString());
             }
             finally {
                 //关闭连接和流
-                if(response != null) {
+                if (response != null) {
                     response.Close();
                 }
-                if(request != null) {
+                if (request != null) {
                     request.Abort();
                 }
             }
@@ -144,7 +142,7 @@ namespace TengoDotNetCore.API.WXPay {
                 //设置最大连接数
                 ServicePointManager.DefaultConnectionLimit = 200;
                 //设置https验证方式
-                if(url.StartsWith("https", StringComparison.OrdinalIgnoreCase)) {
+                if (url.StartsWith("https", StringComparison.OrdinalIgnoreCase)) {
                     ServicePointManager.ServerCertificateValidationCallback =
                             new RemoteCertificateValidationCallback(CheckValidationResult);
                 }
@@ -169,12 +167,12 @@ namespace TengoDotNetCore.API.WXPay {
                 result = sr.ReadToEnd().Trim();
                 sr.Close();
             }
-            catch(System.Threading.ThreadAbortException e) {
+            catch (System.Threading.ThreadAbortException e) {
                 //Log.Error("HttpService", "Thread - caught ThreadAbortException - resetting.");
                 //Log.Error("Exception message: {0}", e.Message);
                 System.Threading.Thread.ResetAbort();
             }
-            catch(WebException e) {
+            catch (WebException e) {
                 //Log.Error("HttpService", e.ToString());
                 if (e.Status == WebExceptionStatus.ProtocolError) {
                     //Log.Error("HttpService", "StatusCode : " + ((HttpWebResponse)e.Response).StatusCode);
@@ -182,16 +180,16 @@ namespace TengoDotNetCore.API.WXPay {
                 }
                 throw new WxPayException(e.ToString());
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 //Log.Error("HttpService", e.ToString());
                 throw new WxPayException(e.ToString());
             }
             finally {
                 //关闭连接和流
-                if(response != null) {
+                if (response != null) {
                     response.Close();
                 }
-                if(request != null) {
+                if (request != null) {
                     request.Abort();
                 }
             }
