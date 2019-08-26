@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TengoDotNetCore.Common;
+using TengoDotNetCore.Common.Sessions;
 using TengoDotNetCore.Filters;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Service;

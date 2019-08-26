@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using TengoDotNetCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TengoDotNetCore.Models;
 using TengoDotNetCore.Common;
-using Microsoft.AspNetCore.Mvc;
+using TengoDotNetCore.Common.Sessions;
+using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Filters {
