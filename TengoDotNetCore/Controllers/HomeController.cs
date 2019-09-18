@@ -1,21 +1,16 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Service;
 
 namespace TengoDotNetCore.Controllers {
     public class HomeController : BaseController {
-        public async Task<IActionResult> Index([FromServices]CommonService service) {
-            var dic = await service.GetHomeIndexViewModel();
-            if (dic != null) {
-                ViewBag.Banners = dic["Banners"];
-                ViewBag.Goods = dic["Goods"];
-            }
+        public async Task<IActionResult> Index([FromServices]ArticleService articleService, [FromServices]GoodsService goodsService) {
+            ViewBag.Banners = await articleService.GetList(p => p.ArticleType_Id == 4, 10);
+
+            ViewBag.Goods = await goodsService.GetList(p => p.Status == 1, 10);
             return View();
         }
 
@@ -36,10 +31,6 @@ namespace TengoDotNetCore.Controllers {
         [Route("home/error")]
         public IActionResult Error() {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        public void TestFenCi([FromServices]CommonService service) {
-            service.TestFenCi();
         }
     }
 }

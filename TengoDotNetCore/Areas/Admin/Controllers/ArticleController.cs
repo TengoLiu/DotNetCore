@@ -15,7 +15,10 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Index(PageInfo pageInfo, int articleType_Id = 0, string keyword = null, string sortBy = null) {
-            ViewData.Model = await service.PageList(pageInfo, articleType_Id, keyword, sortBy, true);
+            ViewData.Model = await service.GetPageList(pageInfo.Page, pageInfo.PageSize
+                                                        , p => p.ArticleType_Id == articleType_Id
+                                                            && p.Status == 1
+                                                            && (!string.IsNullOrWhiteSpace(keyword) && p.Title.Contains(keyword) || string.IsNullOrWhiteSpace(keyword)));
             ViewBag.Keyword = keyword;
             ViewBag.ArticleType_Id = articleType_Id;
             ViewBag.ArticleType_Ids = new SelectList(await service.ArticleTypeList(), "Id", "TypeName", articleType_Id);
@@ -23,11 +26,11 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id=0) {
-            if ( id <= 0) {
+        public async Task<IActionResult> Edit(int id = 0) {
+            if (id <= 0) {
                 return new NotFoundResult(); ;
             }
-            var model = await service.Get((int)id);
+            var model = await service.Get(p => p.Id == id);
             ViewData.Model = model;
             if (model == null) {
                 return new NotFoundResult();
@@ -59,7 +62,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id=0) {
+        public async Task<IActionResult> Delete(int id = 0) {
             return Json(await service.Delete(id));
         }
     }

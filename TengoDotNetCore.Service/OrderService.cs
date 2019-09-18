@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
@@ -10,9 +12,29 @@ using TengoDotNetCore.Service.Base;
 using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Service {
-    public class OrderService : BaseService {
+    public class OrderService : BaseService<Order> {
 
         public OrderService(TengoDbContext db) : base(db) { }
+
+        public override async Task<Order> Get(Expression<Func<Order, bool>> where, params Expression<Func<Order, Property>>[] includes) {
+            return await CreateQueryable(db.Orders, where, includes).FirstOrDefaultAsync();
+        }
+
+        public override async Task<List<Order>> GetList(Expression<Func<Order, bool>> where, params Expression<Func<Order, Property>>[] includes) {
+            return await CreateQueryable(db.Orders, where, includes).ToListAsync();
+        }
+
+        public override async Task<List<Order>> GetList(Expression<Func<Order, bool>> where, int rowCount, params Expression<Func<Order, Property>>[] includes) {
+            return await CreateQueryable(db.Orders, where, includes).Take(rowCount).ToListAsync();
+        }
+
+        public override async Task<PageList<Order>> GetPageList(int page, int pageSize, Expression<Func<Order, bool>> where, params Expression<Func<Order, Property>>[] includes) {
+            return await CreatePageAsync(CreateQueryable(db.Orders, where, includes), page, pageSize);
+        }
+
+
+
+
 
         public async Task<Order> Get(int id, bool getGoods = false) {
             var query = db.Orders.AsQueryable();
@@ -33,7 +55,7 @@ namespace TengoDotNetCore.Service {
             return JsonResultSuccess("success", await CreatePageAsync(query, pageInfo));
         }
 
-        public async Task<JsonResultObj> Save(int addrId, string message = "") {
+        public async Task<JsonResultObj> Save(int userId, int addrId, string message = "") {
             return new JsonResultObj();
         }
 

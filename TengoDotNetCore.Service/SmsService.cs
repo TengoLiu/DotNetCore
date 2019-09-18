@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TengoDotNetCore.Common;
@@ -11,12 +14,32 @@ using TengoDotNetCore.Service.Base;
 using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Service {
-    public class SmsService : BaseService {
+    public class SmsService : BaseService<SMSLog> {
         private ISMS smsSender;
 
         public SmsService(TengoDbContext db, ISMS smsSender) : base(db) {
             this.smsSender = smsSender;
         }
+
+        public override async Task<SMSLog> Get(Expression<Func<SMSLog, bool>> where, params Expression<Func<SMSLog, Property>>[] includes) {
+            return await CreateQueryable(db.SMSLog, where, includes).FirstOrDefaultAsync();
+        }
+
+        public override async Task<List<SMSLog>> GetList(Expression<Func<SMSLog, bool>> where, params Expression<Func<SMSLog, Property>>[] includes) {
+            return await CreateQueryable(db.SMSLog, where, includes).ToListAsync();
+        }
+
+        public override async Task<List<SMSLog>> GetList(Expression<Func<SMSLog, bool>> where, int rowCount, params Expression<Func<SMSLog, Property>>[] includes) {
+            return await CreateQueryable(db.SMSLog, where, includes).Take(rowCount).ToListAsync();
+        }
+
+        public override async Task<PageList<SMSLog>> GetPageList(int page, int pageSize, Expression<Func<SMSLog, bool>> where, params Expression<Func<SMSLog, Property>>[] includes) {
+            return await CreatePageAsync(CreateQueryable(db.SMSLog, where, includes), page, pageSize);
+        }
+
+
+
+
 
         /// <summary>
         /// 获取短信发送记录

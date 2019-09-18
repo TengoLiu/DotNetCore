@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using TengoDotNetCore.Common.Utils.SMS;
 using TengoDotNetCore.Models.Base;
@@ -8,7 +11,7 @@ using TengoDotNetCore.Models.Logs;
 using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Service.Base {
-    public class BaseService {
+    public abstract class BaseService<T> where T : class {
         /// <summary>
         /// DbContext对象
         /// </summary>
@@ -99,7 +102,7 @@ namespace TengoDotNetCore.Service.Base {
         /// <param name="query">查询条件</param>
         /// <param name="pageInfo">分页信息</param>
         /// <returns></returns>
-        public static async Task<PageList<T>> CreatePageAsync<T>(IQueryable<T> query, PageInfo pageInfo) {
+        public static async Task<PageList<PLT>> CreatePageAsync<PLT>(IQueryable<PLT> query, PageInfo pageInfo) {
             return await CreatePageAsync(query, pageInfo.Page, pageInfo.PageSize);
         }
 
@@ -110,19 +113,36 @@ namespace TengoDotNetCore.Service.Base {
         /// <param name="page">查询的页码</param>
         /// <param name="pageSize">页长</param>
         /// <returns></returns>
-        public static async Task<PageList<T>> CreatePageAsync<T>(IQueryable<T> query, int page, int pageSize) {
+        public static async Task<PageList<PLT>> CreatePageAsync<PLT>(IQueryable<PLT> query, int page, int pageSize) {
             if (page <= 0) {
                 page = 1;
             }
             if (pageSize <= 0) {
                 pageSize = 10;
             }
-            var data = new PageList<T>(page, pageSize);
+            var data = new PageList<PLT>(page, pageSize);
             data.Page = page;
             data.PageSize = pageSize;
             data.Total = await query.CountAsync();
             data.DataList = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             return data;
+        }
+
+        /// <summary>
+        /// 创建查询Query对象
+        /// </summary>
+        /// <param name="dbSet">Model对应的DbSet</param>
+        /// <param name="where">where条件表达式</param>
+        /// <param name="includes">需要查找的导航属性，外键属性</param>
+        /// <returns></returns>
+        public static IQueryable<T> CreateQueryable(DbSet<T> dbSet, Expression<Func<T, bool>> where, params Expression<Func<T, Property>>[] includes) {
+            var query = dbSet.AsQueryable().Where(where);
+            if (includes != null && includes.Length > 0) {
+                foreach (var include in includes) {
+                    query = query.Include(include);
+                }
+            }
+            return query;
         }
         #endregion
 
@@ -153,5 +173,13 @@ namespace TengoDotNetCore.Service.Base {
             return sendRes.Success;
         }
         #endregion
+
+        public abstract Task<T> Get(Expression<Func<T, bool>> where, params Expression<Func<T, Property>>[] inlcludes);
+
+        public abstract Task<List<T>> GetList(Expression<Func<T, bool>> where, params Expression<Func<T, Property>>[] inlcludes);
+
+        public abstract Task<List<T>> GetList(Expression<Func<T, bool>> where, int rowCount, params Expression<Func<T, Property>>[] inlcludes);
+
+        public abstract Task<PageList<T>> GetPageList(int page, int pageSize, Expression<Func<T, bool>> where, params Expression<Func<T, Property>>[] inlcludes);
     }
 }

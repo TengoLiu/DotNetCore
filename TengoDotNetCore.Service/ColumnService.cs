@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
@@ -9,8 +11,24 @@ using TengoDotNetCore.Service.Base;
 using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Service {
-    public class ColumnService : BaseService {
+    public class ColumnService : BaseService<Column> {
         public ColumnService(TengoDbContext db) : base(db) { }
+
+        public override async Task<Column> Get(Expression<Func<Column, bool>> where, params Expression<Func<Column, Property>>[] includes) {
+            return await CreateQueryable(db.Column, where, includes).FirstOrDefaultAsync();
+        }
+
+        public override async Task<List<Column>> GetList(Expression<Func<Column, bool>> where, params Expression<Func<Column, Property>>[] includes) {
+            return await CreateQueryable(db.Column, where, includes).ToListAsync();
+        }
+
+        public override async Task<List<Column>> GetList(Expression<Func<Column, bool>> where, int rowCount, params Expression<Func<Column, Property>>[] includes) {
+            return await CreateQueryable(db.Column, where, includes).Take(rowCount).ToListAsync();
+        }
+
+        public override async Task<PageList<Column>> GetPageList(int page, int pageSize, Expression<Func<Column, bool>> where, params Expression<Func<Column, Property>>[] includes) {
+            return await CreatePageAsync(CreateQueryable(db.Column, where, includes), page, pageSize);
+        }
 
         public async Task<Column> Get(int id, bool includeType = false) {
             var query = db.Column.AsQueryable();

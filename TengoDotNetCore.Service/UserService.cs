@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
@@ -10,17 +12,23 @@ using TengoDotNetCore.Service.Base;
 using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Service {
-    public class UserService : BaseService {
+    public class UserService : BaseService<User> {
         public UserService(TengoDbContext db) : base(db) { }
 
-        /// <summary>
-        /// 获取单个实体
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public async Task<User> Get(int id) {
-            var model = await db.User.FirstOrDefaultAsync(p => p.Id == id);
-            return model;
+        public override async Task<User> Get(Expression<Func<User, bool>> where, params Expression<Func<User, Property>>[] includes) {
+            return await CreateQueryable(db.User, where, includes).FirstOrDefaultAsync();
+        }
+
+        public override async Task<List<User>> GetList(Expression<Func<User, bool>> where, params Expression<Func<User, Property>>[] includes) {
+            return await CreateQueryable(db.User, where, includes).ToListAsync();
+        }
+
+        public override async Task<List<User>> GetList(Expression<Func<User, bool>> where, int rowCount, params Expression<Func<User, Property>>[] includes) {
+            return await CreateQueryable(db.User, where, includes).Take(rowCount).ToListAsync();
+        }
+
+        public override async Task<PageList<User>> GetPageList(int page, int pageSize, Expression<Func<User, bool>> where, params Expression<Func<User, Property>>[] includes) {
+            return await CreatePageAsync(CreateQueryable(db.User, where, includes), page, pageSize);
         }
 
         /// <summary>

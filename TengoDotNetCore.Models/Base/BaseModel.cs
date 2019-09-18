@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace TengoDotNetCore.Models.Base {
     /// <summary>
     /// 基础的Model，包含一些公用的属性，比如主键Id、添加时间和修改时间
     /// </summary>
-    public class BaseModel {
+    public abstract class BaseModel {
         /// <summary>
         /// 无论什么Model，都要有主键Id
         /// </summary>
@@ -40,5 +41,6 @@ namespace TengoDotNetCore.Models.Base {
         public void DoBeforeUpdate() {
             AddTime = DateTime.Now;
         }
+
     }
 }

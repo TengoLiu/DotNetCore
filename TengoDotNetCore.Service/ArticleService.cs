@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
@@ -9,19 +11,26 @@ using TengoDotNetCore.Service.Base;
 using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Service {
-    public class ArticleService : BaseService {
+    public class ArticleService : BaseService<Article> {
 
         public ArticleService(TengoDbContext db) : base(db) { }
 
-        /// <summary>
-        /// 获取单个实体
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public async Task<Article> Get(int id) {
-            var model = await db.Article.FirstOrDefaultAsync(p => p.Id == id);
-            return model;
+        public override async Task<Article> Get(Expression<Func<Article, bool>> where, params Expression<Func<Article, Property>>[] includes) {
+            return await CreateQueryable(db.Article, where, includes).FirstOrDefaultAsync();
         }
+
+        public override async Task<List<Article>> GetList(Expression<Func<Article, bool>> where, params Expression<Func<Article, Property>>[] includes) {
+            return await CreateQueryable(db.Article, where, includes).ToListAsync();
+        }
+
+        public override async Task<List<Article>> GetList(Expression<Func<Article, bool>> where, int rowCount, params Expression<Func<Article, Property>>[] includes) {
+            return await CreateQueryable(db.Article, where, includes).Take(rowCount).ToListAsync();
+        }
+
+        public override async Task<PageList<Article>> GetPageList(int page, int pageSize, Expression<Func<Article, bool>> where, params Expression<Func<Article, Property>>[] includes) {
+            return await CreatePageAsync(CreateQueryable(db.Article, where, includes), page, pageSize);
+        }
+
 
         /// <summary>
         /// 插入
@@ -96,45 +105,6 @@ namespace TengoDotNetCore.Service {
                 await db.SaveChangesAsync();
             }
             return JsonResultSuccess("删除成功！");
-        }
-
-        /// <summary>
-        /// 分页获取文章列表
-        /// </summary>
-        /// <param name="pageInfo">分页信息，封装了页码以及页长凳</param>
-        /// <param name="keyword">关键词</param>
-        /// <param name="sortBy">排序条件</param>
-        /// <returns></returns>
-        public async Task<PageList<Article>> PageList(PageInfo pageInfo, int articleType_Id, string keyword, string sortBy, bool includeCategory) {
-            var query = db.Article.AsQueryable();
-            if (articleType_Id > 0) {
-                query = query.Where(p => p.ArticleType_Id == articleType_Id);
-            }
-            if (includeCategory) {
-                query = query.Include(p => p.ArticleType);
-            }
-            if (!string.IsNullOrWhiteSpace(keyword)) {
-                query = query.Where(p => p.Title.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase) || p.Author.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase));
-            }
-            if (!string.IsNullOrWhiteSpace(sortBy))
-                switch (sortBy.Trim().ToLower()) {
-                    case "id":
-                        query = query.OrderBy(p => p.Id);
-                        break;
-                    case "id_desc":
-                        query = query.OrderByDescending(p => p.Id);
-                        break;
-                    case "sort":
-                        query = query.OrderBy(p => p.Sort);
-                        break;
-                    case "sort_desc":
-                        query = query.OrderByDescending(p => p.Sort);
-                        break;
-                    default:
-                        query = query.OrderByDescending(p => p.Id);
-                        break;
-                }
-            return await CreatePageAsync(query, pageInfo);
         }
 
         #region 商品分类相关

@@ -43,7 +43,7 @@ namespace TengoDotNetCore.Controllers {
         #region Save 保存订单接口 api/order/save
         [Route("api/order/save")]
         public async Task<IActionResult> Save([FromServices]OrderService service, int addrId, string message = "") {
-            return MyJsonResult(await service.Save(addrId, message));
+            return MyJsonResult(await service.Save(1,addrId, message));
         }
         #endregion
 

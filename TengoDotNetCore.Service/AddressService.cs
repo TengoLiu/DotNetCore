@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
@@ -10,25 +11,23 @@ using TengoDotNetCore.Service.Base;
 using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Service {
-    public class AddressService : BaseService {
+    public class AddressService : BaseService<Address> {
         public AddressService(TengoDbContext db) : base(db) { }
 
-        /// <summary>
-        /// 获取单个实体
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public async Task<Address> Get(int id) {
-            var model = await db.Address.FirstOrDefaultAsync(p => p.Id == id);
-            return model;
+        public override async Task<Address> Get(Expression<Func<Address, bool>> where, params Expression<Func<Address, Property>>[] includes) {
+            return await CreateQueryable(db.Address, where, includes).FirstOrDefaultAsync();
         }
 
-        /// <summary>
-        /// 获取用户的收货地址列表
-        /// </summary>
-        /// <returns></returns>
-        public async Task<List<Address>> GetAll(int userId) {
-            return await db.Address.Where(p => p.User_ID == userId).ToListAsync();
+        public override async Task<List<Address>> GetList(Expression<Func<Address, bool>> where, params Expression<Func<Address, Property>>[] includes) {
+            return await CreateQueryable(db.Address, where, includes).ToListAsync();
+        }
+
+        public override async Task<List<Address>> GetList(Expression<Func<Address, bool>> where, int rowCount, params Expression<Func<Address, Property>>[] includes) {
+            return await CreateQueryable(db.Address, where, includes).Take(rowCount).ToListAsync();
+        }
+
+        public override async Task<PageList<Address>> GetPageList(int page, int pageSize, Expression<Func<Address, bool>> where, params Expression<Func<Address, Property>>[] includes) {
+            return await CreatePageAsync(CreateQueryable(db.Address, where, includes), page, pageSize);
         }
 
         /// <summary>
@@ -89,5 +88,7 @@ namespace TengoDotNetCore.Service {
             }
             return JsonResultSuccess("删除成功！");
         }
+
+
     }
 }

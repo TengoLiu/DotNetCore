@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using TengoDotNetCore.Common;
 using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Models {
     public class Address : BaseModel {
+
         /// <summary>
         /// User外键
         /// </summary>

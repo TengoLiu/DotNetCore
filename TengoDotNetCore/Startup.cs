@@ -106,7 +106,6 @@ namespace TengoDotNetCore {
             services.AddScoped<ArticleService>();
             services.AddScoped<GoodsService>();
             services.AddScoped<ColumnService>();
-            services.AddScoped<CommonService>();
             services.AddScoped<SmsService>();
             services.AddScoped<CartService>();
             services.AddScoped<OrderService>();

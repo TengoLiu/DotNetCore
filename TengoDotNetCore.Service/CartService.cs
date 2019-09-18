@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
@@ -8,8 +11,26 @@ using TengoDotNetCore.Service.Base;
 using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Service {
-    public class CartService : BaseService {
+    public class CartService : BaseService<CartItem> {
         public CartService(TengoDbContext db) : base(db) { }
+
+        public override async Task<CartItem> Get(Expression<Func<CartItem, bool>> where, params Expression<Func<CartItem, Property>>[] includes) {
+            return await CreateQueryable(db.CartItem, where, includes).FirstOrDefaultAsync();
+        }
+
+        public override async Task<List<CartItem>> GetList(Expression<Func<CartItem, bool>> where, params Expression<Func<CartItem, Property>>[] includes) {
+            return await CreateQueryable(db.CartItem, where, includes).ToListAsync();
+        }
+
+        public override async Task<List<CartItem>> GetList(Expression<Func<CartItem, bool>> where, int rowCount, params Expression<Func<CartItem, Property>>[] includes) {
+            return await CreateQueryable(db.CartItem, where, includes).Take(rowCount).ToListAsync();
+        }
+
+        public override async Task<PageList<CartItem>> GetPageList(int page, int pageSize, Expression<Func<CartItem, bool>> where, params Expression<Func<CartItem, Property>>[] includes) {
+            return await CreatePageAsync(CreateQueryable(db.CartItem, where, includes), page, pageSize);
+        }
+
+
 
         /// <summary>
         /// 获取用户的购物车列表

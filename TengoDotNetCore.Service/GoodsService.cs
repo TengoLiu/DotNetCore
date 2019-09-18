@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
@@ -11,9 +13,27 @@ using TengoDotNetCore.Service.Base;
 using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Service {
-    public class GoodsService : BaseService {
+    public class GoodsService : BaseService<Goods> {
 
         public GoodsService(TengoDbContext db) : base(db) { }
+
+        public override async Task<Goods> Get(Expression<Func<Goods, bool>> where, params Expression<Func<Goods, Property>>[] includes) {
+            return await CreateQueryable(db.Goods, where, includes).FirstOrDefaultAsync();
+        }
+
+        public override async Task<List<Goods>> GetList(Expression<Func<Goods, bool>> where, params Expression<Func<Goods, Property>>[] includes) {
+            return await CreateQueryable(db.Goods, where, includes).ToListAsync();
+        }
+
+        public override async Task<List<Goods>> GetList(Expression<Func<Goods, bool>> where, int rowCount, params Expression<Func<Goods, Property>>[] includes) {
+            return await CreateQueryable(db.Goods, where, includes).Take(rowCount).ToListAsync();
+        }
+
+        public override async Task<PageList<Goods>> GetPageList(int page, int pageSize, Expression<Func<Goods, bool>> where, params Expression<Func<Goods, Property>>[] includes) {
+            return await CreatePageAsync<Goods>(CreateQueryable(db.Goods, where, includes), page, pageSize);
+        }
+
+
 
         /// <summary>
         /// 更新
