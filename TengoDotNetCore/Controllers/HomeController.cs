@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
-using TengoDotNetCore.Service;
+using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Controllers {
     public class HomeController : BaseController {
-        public async Task<IActionResult> Index([FromServices]ArticleService articleService, [FromServices]GoodsService goodsService) {
-            ViewBag.Banners = await articleService.GetList(p => p.ArticleType_Id == 4, 10);
-
-            ViewBag.Goods = await goodsService.GetList(p => p.Status == 1, 10);
+        public async Task<IActionResult> Index([FromServices]TengoDbContext db) {
+            ViewBag.Banners = await db.Article.Where(p => p.ArticleType.TypeName == "首页轮播图").Take(10).OrderByDescending(p => p.Id).ToListAsync();
+            ViewBag.Goods = await db.Goods.Where(p => p.Status == 1).Take(10).OrderByDescending(p => p.Id).ToListAsync();
             return View();
         }
 

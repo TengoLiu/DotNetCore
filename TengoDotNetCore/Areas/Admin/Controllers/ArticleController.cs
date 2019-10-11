@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.Service;
+using TengoDotNetCore.Service.Base;
+using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Areas.Admin.Controllers {
     [Area("Admin")]
@@ -14,11 +18,16 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(PageInfo pageInfo, int articleType_Id = 0, string keyword = null, string sortBy = null) {
-            ViewData.Model = await service.GetPageList(pageInfo.Page, pageInfo.PageSize
-                                                        , p => p.ArticleType_Id == articleType_Id
-                                                            && p.Status == 1
-                                                            && (!string.IsNullOrWhiteSpace(keyword) && p.Title.Contains(keyword) || string.IsNullOrWhiteSpace(keyword)));
+        public async Task<IActionResult> Index([FromServices]TengoDbContext db, PageInfo pageInfo, int articleType_Id = 0, string keyword = null, string sortBy = null) {
+            var query = db.Article.AsQueryable();
+            if (articleType_Id > 0) {
+                query = query.Where(p => p.ArticleType_Id == articleType_Id);
+            }
+            if (!string.IsNullOrWhiteSpace(keyword)) {
+                keyword = keyword.Trim();
+                query = query.Where(p => p.Title.Contains(keyword));
+            }
+            ViewData.Model = await BaseService.CreatePageAsync(query, pageInfo.Page, pageInfo.PageSize);
             ViewBag.Keyword = keyword;
             ViewBag.ArticleType_Id = articleType_Id;
             ViewBag.ArticleType_Ids = new SelectList(await service.ArticleTypeList(), "Id", "TypeName", articleType_Id);
@@ -26,11 +35,11 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id = 0) {
+        public async Task<IActionResult> Edit([FromServices]TengoDbContext db, int id = 0) {
             if (id <= 0) {
                 return new NotFoundResult(); ;
             }
-            var model = await service.Get(p => p.Id == id);
+            var model = await db.Article.FirstOrDefaultAsync(p => p.Id == id);
             ViewData.Model = model;
             if (model == null) {
                 return new NotFoundResult();

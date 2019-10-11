@@ -39,7 +39,7 @@ namespace TengoDotNetCore.Models.Base {
         /// 更新对象时执行一些共通的操作，目前仅设置一下更新时间
         /// </summary>
         public void DoBeforeUpdate() {
-            AddTime = DateTime.Now;
+            UpdateTime = DateTime.Now;
         }
 
     }

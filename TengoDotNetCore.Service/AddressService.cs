@@ -11,24 +11,8 @@ using TengoDotNetCore.Service.Base;
 using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Service {
-    public class AddressService : BaseService<Address> {
+    public class AddressService : BaseService {
         public AddressService(TengoDbContext db) : base(db) { }
-
-        public override async Task<Address> Get(Expression<Func<Address, bool>> where, params Expression<Func<Address, Property>>[] includes) {
-            return await CreateQueryable(db.Address, where, includes).FirstOrDefaultAsync();
-        }
-
-        public override async Task<List<Address>> GetList(Expression<Func<Address, bool>> where, params Expression<Func<Address, Property>>[] includes) {
-            return await CreateQueryable(db.Address, where, includes).ToListAsync();
-        }
-
-        public override async Task<List<Address>> GetList(Expression<Func<Address, bool>> where, int rowCount, params Expression<Func<Address, Property>>[] includes) {
-            return await CreateQueryable(db.Address, where, includes).Take(rowCount).ToListAsync();
-        }
-
-        public override async Task<PageList<Address>> GetPageList(int page, int pageSize, Expression<Func<Address, bool>> where, params Expression<Func<Address, Property>>[] includes) {
-            return await CreatePageAsync(CreateQueryable(db.Address, where, includes), page, pageSize);
-        }
 
         /// <summary>
         /// 插入
@@ -88,7 +72,6 @@ namespace TengoDotNetCore.Service {
             }
             return JsonResultSuccess("删除成功！");
         }
-
 
     }
 }

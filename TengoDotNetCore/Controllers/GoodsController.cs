@@ -1,15 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.Service;
+using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Controllers {
     public class GoodsController : BaseController {
 
         #region Index 商品列表
-        public async Task<IActionResult> Index([FromServices]GoodsService service, PageInfo pageInfo, List<int> categoryID = null, string keyword = null, string sortBy = null) {
-            ViewBag.Category = await service.GetCategoryList();
+        public async Task<IActionResult> Index([FromServices]GoodsService service, [FromServices]TengoDbContext db, PageInfo pageInfo, List<int> categoryID = null, string keyword = null, string sortBy = null) {
+            ViewBag.Category = await db.Category.ToListAsync();
             if (pageInfo.PageSize <= 0) {
                 pageInfo.PageSize = 60;
             }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.Service;
+using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Areas.Admin.Controllers {
 
@@ -23,11 +24,11 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id = 0) {
+        public async Task<IActionResult> Edit([FromServices]TengoDbContext db, int id = 0) {
             if (id <= 0) {
                 return new NotFoundResult();
             }
-            var model = await service.Get(p => p.Id == id);
+            var model = await db.Article.FirstOrDefaultAsync(p => p.Id == id);
             if (model == null) {
                 return new NotFoundResult();
             }

@@ -1,62 +1,59 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Service;
+using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Areas.Admin.Controllers {
 
     [Area("Admin")]
     public class CategoryController : BaseController {
-        public GoodsService service;
 
-        public CategoryController(GoodsService service) {
-            this.service = service;
-        }
-
-        public async Task<IActionResult> Index() {
-            ViewData.Model = await service.GetCategoryList();
+        public async Task<IActionResult> Index([FromServices]TengoDbContext db) {
+            ViewData.Model = await db.Category.ToListAsync();
             return View();
         }
 
         [HttpGet]
-        public async Task<IActionResult> Add() {
-            ViewBag.Category = await service.GetCategoryList();
+        public async Task<IActionResult> Add([FromServices]TengoDbContext db) {
+            ViewBag.Category = await db.Category.ToListAsync();
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(Category model) {
+        public async Task<IActionResult> Add([FromServices]CategoryService service, Category model) {
             if (ModelState.IsValid) {
-                return Json(await service.InsertCategory(model));
+                return Json(await service.Insert(model));
             }
             return MyJsonResultParamInvalid();
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id=0) {
+        public async Task<IActionResult> Edit([FromServices]TengoDbContext db, int id = 0) {
             if (id <= 0) {
-                return new NotFoundResult();
+                return NotFound();
             }
-            var model = await service.GetCategory((int)id);
+            var model = await db.Category.FirstOrDefaultAsync(p => p.Id == id);
             if (model == null) {
                 return new NotFoundResult();
             }
-            ViewBag.Category = await service.GetCategoryList();
+            ViewBag.Category = await db.Category.ToListAsync();
             ViewData.Model = model;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Category model) {
+        public async Task<IActionResult> Edit([FromServices]CategoryService service, Category model) {
             if (ModelState.IsValid) {
-                return Json(await service.UpdateCategory(model));
+                return Json(await service.Update(model));
             }
             return MyJsonResultParamInvalid();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id=0) {
-            return Json(await service.DeleteCategory(id));
+        public async Task<IActionResult> Delete([FromServices]CategoryService service, int id = 0) {
+            return Json(await service.Delete(id));
         }
     }
 }

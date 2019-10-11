@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.Service;
+using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Areas.Admin.Controllers {
 
@@ -19,16 +20,16 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(PageInfo pageInfo, List<int> categoryID = null, string keyword = null, string sortBy = null) {
+        public async Task<IActionResult> Index([FromServices]TengoDbContext db, PageInfo pageInfo, List<int> categoryID = null, string keyword = null, string sortBy = null) {
             ViewBag.Keyword = keyword;
             ViewBag.CategoryId = categoryID;
-            ViewBag.Category = await service.GetCategoryList();
+            ViewBag.Category = await db.Category.ToListAsync();
             ViewBag.Goods = await service.PageList(pageInfo, categoryID, keyword, sortBy);
             return View();
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id = 0) {
+        public async Task<IActionResult> Edit([FromServices]TengoDbContext db, int id = 0) {
             if (id <= 0) {
                 return new NotFoundResult();
             }
@@ -37,7 +38,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
             if (model == null) {
                 return new NotFoundResult();
             }
-            ViewBag.Category = await service.GetCategoryList();
+            ViewBag.Category = await db.Category.ToListAsync();
             return View();
         }
 
@@ -59,8 +60,8 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> Add() {
-            ViewBag.Category = await service.GetCategoryList();
+        public async Task<IActionResult> Add([FromServices]TengoDbContext db) {
+            ViewBag.Category = await db.Category.ToListAsync();
             return View();
         }
 

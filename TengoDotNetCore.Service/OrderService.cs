@@ -12,29 +12,9 @@ using TengoDotNetCore.Service.Base;
 using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Service {
-    public class OrderService : BaseService<Order> {
+    public class OrderService : BaseService {
 
         public OrderService(TengoDbContext db) : base(db) { }
-
-        public override async Task<Order> Get(Expression<Func<Order, bool>> where, params Expression<Func<Order, Property>>[] includes) {
-            return await CreateQueryable(db.Orders, where, includes).FirstOrDefaultAsync();
-        }
-
-        public override async Task<List<Order>> GetList(Expression<Func<Order, bool>> where, params Expression<Func<Order, Property>>[] includes) {
-            return await CreateQueryable(db.Orders, where, includes).ToListAsync();
-        }
-
-        public override async Task<List<Order>> GetList(Expression<Func<Order, bool>> where, int rowCount, params Expression<Func<Order, Property>>[] includes) {
-            return await CreateQueryable(db.Orders, where, includes).Take(rowCount).ToListAsync();
-        }
-
-        public override async Task<PageList<Order>> GetPageList(int page, int pageSize, Expression<Func<Order, bool>> where, params Expression<Func<Order, Property>>[] includes) {
-            return await CreatePageAsync(CreateQueryable(db.Orders, where, includes), page, pageSize);
-        }
-
-
-
-
 
         public async Task<Order> Get(int id, bool getGoods = false) {
             var query = db.Orders.AsQueryable();

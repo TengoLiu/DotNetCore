@@ -11,26 +11,9 @@ using TengoDotNetCore.Service.Base;
 using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Service {
-    public class ArticleService : BaseService<Article> {
+    public class ArticleService : BaseService {
 
         public ArticleService(TengoDbContext db) : base(db) { }
-
-        public override async Task<Article> Get(Expression<Func<Article, bool>> where, params Expression<Func<Article, Property>>[] includes) {
-            return await CreateQueryable(db.Article, where, includes).FirstOrDefaultAsync();
-        }
-
-        public override async Task<List<Article>> GetList(Expression<Func<Article, bool>> where, params Expression<Func<Article, Property>>[] includes) {
-            return await CreateQueryable(db.Article, where, includes).ToListAsync();
-        }
-
-        public override async Task<List<Article>> GetList(Expression<Func<Article, bool>> where, int rowCount, params Expression<Func<Article, Property>>[] includes) {
-            return await CreateQueryable(db.Article, where, includes).Take(rowCount).ToListAsync();
-        }
-
-        public override async Task<PageList<Article>> GetPageList(int page, int pageSize, Expression<Func<Article, bool>> where, params Expression<Func<Article, Property>>[] includes) {
-            return await CreatePageAsync(CreateQueryable(db.Article, where, includes), page, pageSize);
-        }
-
 
         /// <summary>
         /// 插入

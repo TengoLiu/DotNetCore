@@ -1,7 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "首页";
-    var banners = ViewBag.Banners as List<Article> ?? new List<Article>();
-    var goods = ViewBag.Goods as List<Goods> ?? new List<Goods>();
+    ViewBag.Title = "首页";
 }
 @section Header{
     <link href="~/lib/swiper/swiper.min.css" rel="stylesheet" />
@@ -10,13 +8,16 @@
     <!--banner start-->
     <div class="swiper-container swiper-container swiper-container-horizontal banner">
         <div class="swiper-wrapper">
-            @for (var i = 0; i < banners.Count; i++) {
-                <div class="swiper-slide text-center">
-                    <a href="@banners[i].LinkUrl" target="_blank">
-                        <img src="@banners[i].CoverImg" style="" />
-                    </a>
-                </div>
+            @if (ViewBag.Banners != null) {
+                for (var i = 0; i < ViewBag.Banners.Count; i++) {
+                    <div class="swiper-slide text-center">
+                        <a href="@ViewBag.Banners[i].LinkUrl" target="_blank">
+                            <img src="@ViewBag.Banners[i].CoverImg" style="" />
+                        </a>
+                    </div>
+                }
             }
+
         </div>
         <div class="swiper-pagination"></div>
     </div>
@@ -25,7 +26,7 @@
 <br />
 <div class="container home-index">
     <ul class="clearfix index-goods">
-        @foreach (var item in goods) {
+        @foreach (var item in ViewBag.Goods) {
             <li class="float-left" title="@item.Name @item.NameEn">
                 <a href="/goods/detail?id=@item.Id" target="_blank">
                     <img class="square width-full" src="@item.CoverImg" />

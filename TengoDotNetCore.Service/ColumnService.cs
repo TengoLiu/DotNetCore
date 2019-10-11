@@ -11,24 +11,8 @@ using TengoDotNetCore.Service.Base;
 using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Service {
-    public class ColumnService : BaseService<Column> {
+    public class ColumnService : BaseService {
         public ColumnService(TengoDbContext db) : base(db) { }
-
-        public override async Task<Column> Get(Expression<Func<Column, bool>> where, params Expression<Func<Column, Property>>[] includes) {
-            return await CreateQueryable(db.Column, where, includes).FirstOrDefaultAsync();
-        }
-
-        public override async Task<List<Column>> GetList(Expression<Func<Column, bool>> where, params Expression<Func<Column, Property>>[] includes) {
-            return await CreateQueryable(db.Column, where, includes).ToListAsync();
-        }
-
-        public override async Task<List<Column>> GetList(Expression<Func<Column, bool>> where, int rowCount, params Expression<Func<Column, Property>>[] includes) {
-            return await CreateQueryable(db.Column, where, includes).Take(rowCount).ToListAsync();
-        }
-
-        public override async Task<PageList<Column>> GetPageList(int page, int pageSize, Expression<Func<Column, bool>> where, params Expression<Func<Column, Property>>[] includes) {
-            return await CreatePageAsync(CreateQueryable(db.Column, where, includes), page, pageSize);
-        }
 
         public async Task<Column> Get(int id, bool includeType = false) {
             var query = db.Column.AsQueryable();
@@ -67,44 +51,6 @@ namespace TengoDotNetCore.Service {
         }
 
         /// <summary>
-        /// 更新
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public async Task<JsonResultObj> Update(Column model) {
-            try {
-                // 判断栏目标题是否有重复
-                bool isExistColumnTitle = await db.Column.AnyAsync(p => p.Title == model.Title && p.Id != model.Id);
-                if (isExistColumnTitle) {
-                    return JsonResultError("该标题已存在！");
-                }
-
-                var oldModel = db.Column.FirstOrDefault(p => p.Id == model.Id);
-                oldModel.ColumnType_Id = model.ColumnType_Id;
-                oldModel.Status = model.Status;
-                oldModel.Title = model.Title.Trim();
-                oldModel.ImgUrl = model.ImgUrl;
-                oldModel.MImgUrl = model.MImgUrl;
-                oldModel.Href = model.Href;
-                oldModel.MHref = model.MHref;
-                oldModel.Sort = model.Sort;
-                oldModel.ValidStartTime = model.ValidStartTime;
-                oldModel.ValidEndTime = model.ValidEndTime;
-                oldModel.DoBeforeUpdate();
-                int result = await db.SaveChangesAsync();
-                if (result > 0) {
-                    return JsonResultSuccess("更新成功！");
-                }
-                else {
-                    return JsonResultError("更新失败！");
-                }
-            }
-            catch (Exception e) {
-                return JsonResultError(e);
-            }
-        }
-
-        /// <summary>
         /// 删除
         /// </summary>
         /// <param name="model"></param>
@@ -119,20 +65,6 @@ namespace TengoDotNetCore.Service {
                 await db.SaveChangesAsync();
             }
             return JsonResultSuccess("删除成功！");
-        }
-
-        public async Task<PageList<Column>> PageList(PageInfo pageInfo, string keyword = null, int typeId = 0, bool includeType = false) {
-            var query = db.Column.AsQueryable();
-            if (includeType) {
-                query = query.Include(p => p.ColumnType);
-            }
-            if (!string.IsNullOrWhiteSpace(keyword)) {
-                query = query.Where(p => p.Title.Contains(keyword));
-            }
-            if (typeId > 0) {
-                query = query.Where(p => p.ColumnType_Id == typeId);
-            }
-            return await CreatePageAsync(query, pageInfo);
         }
 
         #region 栏目分类有关

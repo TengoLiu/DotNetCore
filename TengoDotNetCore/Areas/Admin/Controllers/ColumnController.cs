@@ -1,8 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.Service;
+using TengoDotNetCore.Service.Base;
+using TengoDotNetCore.Service.Data;
 
 namespace TengoDotNetCore.Areas.Admin.Controllers {
     [Area("Admin")]
@@ -13,10 +18,14 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
             this.service = service;
         }
 
-        #region 栏目内容列表
-        public async Task<IActionResult> Index(PageInfo pageInfo, string keyword = null, int typeId = 0) {
+        #region Index 栏目内容列表
+        public async Task<IActionResult> Index([FromServices]TengoDbContext db, PageInfo pageInfo, string keyword = null, int typeId = 0) {
             ViewBag.Types = await service.GetTypeList();
-            ViewData.Model = await service.PageList(pageInfo, keyword, typeId, true);
+            var query = db.Column.AsQueryable();
+            query = query.Where(p => string.IsNullOrWhiteSpace(keyword) || (!string.IsNullOrWhiteSpace(keyword) && p.Title.Contains(keyword)));
+            query = query.Where(p => typeId <= 0 || (p.ColumnType_Id == typeId && typeId > 0));
+
+            ViewData.Model = await BaseService.CreatePageAsync(query, pageInfo.Page, pageInfo.PageSize);
             return View();
         }
         #endregion
@@ -55,10 +64,18 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
 
         #region ApiEdit 编辑栏目接口
         public async Task<IActionResult> ApiEdit(Column model) {
-            if (ModelState.IsValid) {
-                return Json(await service.Update(model));
+            try {
+                model.DoBeforeUpdate();
+                if (await TryUpdateModelAsync(model)) {
+                    return MyJsonResultSuccess("更新成功！");
+                }
+                else {
+                    return MyJsonResultError("更新失败！");
+                }
             }
-            return MyJsonResultParamInvalid();
+            catch (Exception e) {
+                return MyJsonResultError(e.Message);
+            }
         }
         #endregion
 
