@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
-using TengoDotNetCore.Service;
-using TengoDotNetCore.Service.Data;
+using TengoDotNetCore.BLL;
+using TengoDotNetCore.BLL.Data;
 
 namespace TengoDotNetCore.Areas.Admin.Controllers {
 

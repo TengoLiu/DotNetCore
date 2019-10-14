@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models.Base;
-using TengoDotNetCore.Service;
-using TengoDotNetCore.Service.Data;
+using TengoDotNetCore.BLL;
+using TengoDotNetCore.BLL.Data;
 
 namespace TengoDotNetCore.Controllers {
     public class GoodsController : BaseController {

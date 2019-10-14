@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using TengoDotNetCore.Service;
+using TengoDotNetCore.BLL;
 
 namespace TengoDotNetCore.Controllers {
     public class SmsController : BaseController {

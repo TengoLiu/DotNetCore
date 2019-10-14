@@ -8,7 +8,7 @@ using TengoDotNetCore.Common;
 using TengoDotNetCore.Common.Sessions;
 using TengoDotNetCore.Filters;
 using TengoDotNetCore.Models;
-using TengoDotNetCore.Service;
+using TengoDotNetCore.BLL;
 
 namespace TengoDotNetCore.Controllers {
     public class UserController : BaseController {

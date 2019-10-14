@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models.Base;
-using TengoDotNetCore.Service;
+using TengoDotNetCore.BLL;
 
 namespace TengoDotNetCore.Areas.Admin.Controllers {
 

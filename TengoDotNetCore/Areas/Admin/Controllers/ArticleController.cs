@@ -5,9 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
-using TengoDotNetCore.Service;
-using TengoDotNetCore.Service.Base;
-using TengoDotNetCore.Service.Data;
+using TengoDotNetCore.BLL;
+using TengoDotNetCore.BLL.Base;
+using TengoDotNetCore.BLL.Data;
+using TengoDotNetCore.Data;
 
 namespace TengoDotNetCore.Areas.Admin.Controllers {
     [Area("Admin")]
@@ -27,7 +28,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
                 keyword = keyword.Trim();
                 query = query.Where(p => p.Title.Contains(keyword));
             }
-            ViewData.Model = await BaseService.CreatePageAsync(query, pageInfo.Page, pageInfo.PageSize);
+            ViewData.Model = await PageUtils.CreatePageAsync(query, pageInfo.Page, pageInfo.PageSize);
             ViewBag.Keyword = keyword;
             ViewBag.ArticleType_Id = articleType_Id;
             ViewBag.ArticleType_Ids = new SelectList(await service.ArticleTypeList(), "Id", "TypeName", articleType_Id);

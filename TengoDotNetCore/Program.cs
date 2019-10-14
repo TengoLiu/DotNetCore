@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using TengoDotNetCore.Service.Data;
+using TengoDotNetCore.BLL.Data;
 
 namespace TengoDotNetCore {
     public class Program {

@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TengoDotNetCore.Models.Base;
-using TengoDotNetCore.Service;
+using TengoDotNetCore.BLL;
+using TengoDotNetCore.BLL.Data;
+using TengoDotNetCore.Data;
 
 namespace TengoDotNetCore.Controllers {
     public class OrderController : BaseController {
@@ -16,8 +19,9 @@ namespace TengoDotNetCore.Controllers {
 
         #region List 获取订单列表接口 api/order/list
         [Route("api/order/list")]
-        public async Task<IActionResult> List([FromServices]OrderService service, PageInfo pageInfo) {
-            return MyJsonResult(await service.List(pageInfo, 1));
+        public async Task<IActionResult> List([FromServices]TengoDbContext db, PageInfo pageInfo) {
+            var list = await PageUtils.CreatePageAsync(db.Orders.Include(p => p.GoodsList).Where(p => p.UserID == 1), pageInfo);
+            return MyJsonResultSuccess("s", list);
         }
         #endregion
 
@@ -43,7 +47,7 @@ namespace TengoDotNetCore.Controllers {
         #region Save 保存订单接口 api/order/save
         [Route("api/order/save")]
         public async Task<IActionResult> Save([FromServices]OrderService service, int addrId, string message = "") {
-            return MyJsonResult(await service.Save(1,addrId, message));
+            return MyJsonResult(await service.Save(1, addrId, message));
         }
         #endregion
 

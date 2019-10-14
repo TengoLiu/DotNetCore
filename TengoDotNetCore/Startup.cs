@@ -11,8 +11,8 @@ using System;
 using TengoDotNetCore.Common.Utils.SMS;
 using TengoDotNetCore.Filters;
 using TengoDotNetCore.MiddleWares;
-using TengoDotNetCore.Service;
-using TengoDotNetCore.Service.Data;
+using TengoDotNetCore.BLL;
+using TengoDotNetCore.BLL.Data;
 using TengoDotNetCore.ViewsUtils;
 
 namespace TengoDotNetCore {

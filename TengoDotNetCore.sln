@@ -5,14 +5,6 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TengoDotNetCore", "TengoDotNetCore\TengoDotNetCore.csproj", "{CC572A62-898C-4AE1-8709-E5910CAABDAB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TengoDotNetCore.Service", "TengoDotNetCore.Service\TengoDotNetCore.Service.csproj", "{A3BC44EF-4C3B-425E-AB4F-AA845ADBF9F4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TengoDotNetCore.Models", "TengoDotNetCore.Models\TengoDotNetCore.Models.csproj", "{C6287B90-F50B-4CEF-BFFC-BEAA5470BE97}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TengoDotNetCore.Common", "TengoDotNetCore.Common\TengoDotNetCore.Common.csproj", "{3321D9BB-0139-4F48-9546-8CED14E975A1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TengoDotNetCore.API", "TengoDotNetCore.API\TengoDotNetCore.API.csproj", "{95D0AF5C-BB68-4702-A9E2-1340C80362EA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,22 +15,6 @@ Global
 		{CC572A62-898C-4AE1-8709-E5910CAABDAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC572A62-898C-4AE1-8709-E5910CAABDAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC572A62-898C-4AE1-8709-E5910CAABDAB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3BC44EF-4C3B-425E-AB4F-AA845ADBF9F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3BC44EF-4C3B-425E-AB4F-AA845ADBF9F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3BC44EF-4C3B-425E-AB4F-AA845ADBF9F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3BC44EF-4C3B-425E-AB4F-AA845ADBF9F4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C6287B90-F50B-4CEF-BFFC-BEAA5470BE97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6287B90-F50B-4CEF-BFFC-BEAA5470BE97}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6287B90-F50B-4CEF-BFFC-BEAA5470BE97}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6287B90-F50B-4CEF-BFFC-BEAA5470BE97}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3321D9BB-0139-4F48-9546-8CED14E975A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3321D9BB-0139-4F48-9546-8CED14E975A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3321D9BB-0139-4F48-9546-8CED14E975A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3321D9BB-0139-4F48-9546-8CED14E975A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{95D0AF5C-BB68-4702-A9E2-1340C80362EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95D0AF5C-BB68-4702-A9E2-1340C80362EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{95D0AF5C-BB68-4702-A9E2-1340C80362EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{95D0AF5C-BB68-4702-A9E2-1340C80362EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

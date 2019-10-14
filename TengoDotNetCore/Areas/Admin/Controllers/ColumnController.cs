@@ -5,9 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
-using TengoDotNetCore.Service;
-using TengoDotNetCore.Service.Base;
-using TengoDotNetCore.Service.Data;
+using TengoDotNetCore.BLL;
+using TengoDotNetCore.BLL.Base;
+using TengoDotNetCore.BLL.Data;
+using TengoDotNetCore.Data;
 
 namespace TengoDotNetCore.Areas.Admin.Controllers {
     [Area("Admin")]
@@ -25,7 +26,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
             query = query.Where(p => string.IsNullOrWhiteSpace(keyword) || (!string.IsNullOrWhiteSpace(keyword) && p.Title.Contains(keyword)));
             query = query.Where(p => typeId <= 0 || (p.ColumnType_Id == typeId && typeId > 0));
 
-            ViewData.Model = await BaseService.CreatePageAsync(query, pageInfo.Page, pageInfo.PageSize);
+            ViewData.Model = await PageUtils.CreatePageAsync(query, pageInfo.Page, pageInfo.PageSize);
             return View();
         }
         #endregion

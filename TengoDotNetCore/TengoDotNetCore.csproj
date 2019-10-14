@@ -7,16 +7,12 @@
 
   <ItemGroup>
     <Compile Remove="DAL\**" />
-    <Compile Remove="Models\**" />
     <Compile Remove="wwwroot\lib\H-ui\lib\ueditor\**" />
     <Content Remove="DAL\**" />
-    <Content Remove="Models\**" />
     <Content Remove="wwwroot\lib\H-ui\lib\ueditor\**" />
     <EmbeddedResource Remove="DAL\**" />
-    <EmbeddedResource Remove="Models\**" />
     <EmbeddedResource Remove="wwwroot\lib\H-ui\lib\ueditor\**" />
     <None Remove="DAL\**" />
-    <None Remove="Models\**" />
     <None Remove="wwwroot\lib\H-ui\lib\ueditor\**" />
   </ItemGroup>
 
@@ -26,6 +22,8 @@
 
 
   <ItemGroup>
+    <PackageReference Include="BouncyCastle.NetCore" Version="1.8.5" />
+    <PackageReference Include="LitJson" Version="0.14.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
@@ -223,14 +221,6 @@
     <None Include="wwwroot\lib\kindeditor\plugins\template\template.js" />
     <None Include="wwwroot\lib\kindeditor\plugins\wordpaste\wordpaste.js" />
     <None Include="wwwroot\lib\tengo-dialog\tengo-dialog.js" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <ProjectReference Include="..\TengoDotNetCore.API\TengoDotNetCore.API.csproj" />
-    <ProjectReference Include="..\TengoDotNetCore.Common\TengoDotNetCore.Common.csproj" />
-    <ProjectReference Include="..\TengoDotNetCore.Models\TengoDotNetCore.Models.csproj" />
-    <ProjectReference Include="..\TengoDotNetCore.Service\TengoDotNetCore.Service.csproj" />
   </ItemGroup>
 
 

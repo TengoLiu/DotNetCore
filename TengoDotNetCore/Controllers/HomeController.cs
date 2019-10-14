@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
-using TengoDotNetCore.Service.Data;
+using TengoDotNetCore.BLL.Data;
 
 namespace TengoDotNetCore.Controllers {
     public class HomeController : BaseController {

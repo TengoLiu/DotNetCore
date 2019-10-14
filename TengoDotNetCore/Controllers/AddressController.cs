@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using TengoDotNetCore.Service;
+using TengoDotNetCore.BLL;
 
 namespace TengoDotNetCore.Controllers {
     public class AddressController : Controller {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using TengoDotNetCore.API.WXPay;
-using TengoDotNetCore.Service;
+using TengoDotNetCore.BLL;
 
 namespace TengoDotNetCore.Controllers {
     public class PaymentController : BaseController {
