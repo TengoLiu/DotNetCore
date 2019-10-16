@@ -1,18 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using TengoDotNetCore.Models;
-using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.BLL.Base;
 using TengoDotNetCore.BLL.Data;
+using TengoDotNetCore.Models;
+using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.BLL {
-    public class ColumnService : BaseBLL {
-        public ColumnService(TengoDbContext db) : base(db) { }
+    public class ColumnBLL : BaseBLL {
+        public ColumnBLL(TengoDbContext db) : base(db) { }
 
         public async Task<Column> Get(int id, bool includeType = false) {
             var query = db.Column.AsQueryable();

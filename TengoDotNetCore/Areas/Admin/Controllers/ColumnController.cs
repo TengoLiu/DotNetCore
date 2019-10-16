@@ -13,9 +13,9 @@ using TengoDotNetCore.Data;
 namespace TengoDotNetCore.Areas.Admin.Controllers {
     [Area("Admin")]
     public class ColumnController : BaseController {
-        public ColumnService service;
+        public ColumnBLL service;
 
-        public ColumnController(ColumnService service) {
+        public ColumnController(ColumnBLL service) {
             this.service = service;
         }
 

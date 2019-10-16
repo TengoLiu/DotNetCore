@@ -1,18 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using TengoDotNetCore.Models;
-using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.BLL.Base;
 using TengoDotNetCore.BLL.Data;
+using TengoDotNetCore.Models;
+using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.BLL {
-    public class CartService : BaseBLL{
-        public CartService(TengoDbContext db) : base(db) { }
+    public class CartBLL : BaseBLL{
+        public CartBLL(TengoDbContext db) : base(db) { }
 
         /// <summary>
         /// 获取用户的购物车列表

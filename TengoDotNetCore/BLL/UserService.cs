@@ -7,9 +7,8 @@ using TengoDotNetCore.BLL.Base;
 using TengoDotNetCore.BLL.Data;
 
 namespace TengoDotNetCore.BLL {
-    public class UserService : BaseBLL {
-        public UserService(TengoDbContext db) : base(db) { }
-
+    public class UserBLL : BaseBLL {
+        public UserBLL(TengoDbContext db) : base(db) { }
 
         /// <summary>
         /// 插入

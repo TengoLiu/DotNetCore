@@ -8,7 +8,7 @@ namespace TengoDotNetCore.Controllers {
 
         #region SendSmsCode api/submit/sendSmsCode 获取短信验证码
         [Route("api/submit/sendSmsCode")]
-        public async Task<IActionResult> SendSmsCode([FromServices]SmsService service, string mobile = "", string sendFor = "") {
+        public async Task<IActionResult> SendSmsCode([FromServices]SmsBLL service, string mobile = "", string sendFor = "") {
             try {
                 return Json(await service.SendVerifyCode(mobile, sendFor));
             }

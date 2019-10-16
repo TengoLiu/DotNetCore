@@ -7,8 +7,8 @@ using TengoDotNetCore.Models;
 using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.BLL {
-    public class AddressService : BaseBLL {
-        public AddressService(TengoDbContext db) : base(db) { }
+    public class AddressBLL : BaseBLL {
+        public AddressBLL(TengoDbContext db) : base(db) { }
 
         /// <summary>
         /// 插入

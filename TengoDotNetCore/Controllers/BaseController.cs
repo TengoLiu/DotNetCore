@@ -1,7 +1,4 @@
-﻿using System;
-using TengoDotNetCore.Common.Controllers;
-using TengoDotNetCore.Common.Utils.SMS;
-using TengoDotNetCore.Models.Logs;
+﻿using TengoDotNetCore.Common.Controllers;
 
 namespace TengoDotNetCore.Controllers {
     public class BaseController : MyControllerBase {

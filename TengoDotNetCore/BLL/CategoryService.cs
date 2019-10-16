@@ -8,9 +8,9 @@ using TengoDotNetCore.BLL.Base;
 using TengoDotNetCore.BLL.Data;
 
 namespace TengoDotNetCore.BLL {
-    public class CategoryService : BaseBLL {
+    public class CategoryBLL : BaseBLL {
 
-        public CategoryService(TengoDbContext db) : base(db) {
+        public CategoryBLL(TengoDbContext db) : base(db) {
             SqlConnection conn = new SqlConnection("");
             SqlCommand comd = conn.CreateCommand();
         }

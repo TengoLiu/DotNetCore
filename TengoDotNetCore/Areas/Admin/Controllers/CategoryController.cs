@@ -22,7 +22,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromServices]CategoryService service, Category model) {
+        public async Task<IActionResult> Add([FromServices]CategoryBLL service, Category model) {
             if (ModelState.IsValid) {
                 return Json(await service.Insert(model));
             }
@@ -44,7 +44,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit([FromServices]CategoryService service, Category model) {
+        public async Task<IActionResult> Edit([FromServices]CategoryBLL service, Category model) {
             if (ModelState.IsValid) {
                 return Json(await service.Update(model));
             }
@@ -52,7 +52,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete([FromServices]CategoryService service, int id = 0) {
+        public async Task<IActionResult> Delete([FromServices]CategoryBLL service, int id = 0) {
             return Json(await service.Delete(id));
         }
     }

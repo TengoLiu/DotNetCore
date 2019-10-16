@@ -1,22 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using TengoDotNetCore.Models;
-using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.BLL.Base;
 using TengoDotNetCore.BLL.Data;
 using TengoDotNetCore.Data;
+using TengoDotNetCore.Models;
+using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.BLL {
-    public class GoodsService : BaseBLL {
+    public class GoodsBLL : BaseBLL {
 
-        public GoodsService(TengoDbContext db) : base(db) { }
+        public GoodsBLL(TengoDbContext db) : base(db) { }
 
         /// <summary>
         /// 更新

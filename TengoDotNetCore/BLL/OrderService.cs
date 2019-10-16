@@ -1,20 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
-using TengoDotNetCore.Models;
-using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.BLL.Base;
 using TengoDotNetCore.BLL.Data;
+using TengoDotNetCore.Models;
+using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.BLL {
-    public class OrderService : BaseBLL {
+    public class OrderBLL : BaseBLL {
 
-        public OrderService(TengoDbContext db) : base(db) { }
+        public OrderBLL(TengoDbContext db) : base(db) { }
 
         public async Task<Order> Get(int id, bool getGoods = false) {
             var query = db.Orders.AsQueryable();

@@ -11,7 +11,7 @@ namespace TengoDotNetCore.Controllers {
     public class PaymentController : BaseController {
 
         #region 微信JSAPI公众号支付
-        public async Task<ActionResult> WXPay([FromServices]OrderService orderService
+        public async Task<ActionResult> WXPay([FromServices]OrderBLL orderService
             , int outTradeNo = 0, string code = null, int orderId = 0, int isDelaySend = 0) {
 
             //如果outTradeNo参数为空，那么是第一次进来的情况

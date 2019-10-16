@@ -13,9 +13,9 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
 
     [Area("Admin")]
     public class GoodsController : BaseController {
-        public GoodsService service;
+        public GoodsBLL service;
 
-        public GoodsController(GoodsService service) {
+        public GoodsController(GoodsBLL service) {
             this.service = service;
         }
 

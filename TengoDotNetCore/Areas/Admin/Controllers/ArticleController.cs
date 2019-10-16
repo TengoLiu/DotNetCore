@@ -13,8 +13,8 @@ using TengoDotNetCore.Data;
 namespace TengoDotNetCore.Areas.Admin.Controllers {
     [Area("Admin")]
     public class ArticleController : BaseController {
-        private readonly ArticleService service;
-        public ArticleController(ArticleService service) {
+        private readonly ArticleBLL service;
+        public ArticleController(ArticleBLL service) {
             this.service = service;
         }
 

@@ -1,24 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using TengoDotNetCore.Common;
-using TengoDotNetCore.Common.Utils.SMS;
-using TengoDotNetCore.Models.Base;
-using TengoDotNetCore.Models.Logs;
 using TengoDotNetCore.BLL.Base;
 using TengoDotNetCore.BLL.Data;
+using TengoDotNetCore.Common;
+using TengoDotNetCore.Common.Utils.SMS;
 using TengoDotNetCore.Data;
+using TengoDotNetCore.Models.Base;
+using TengoDotNetCore.Models.Logs;
 
 namespace TengoDotNetCore.BLL {
-    public class SmsService : BaseBLL {
+    public class SmsBLL : BaseBLL {
         private ISMS smsSender;
 
-        public SmsService(TengoDbContext db, ISMS smsSender) : base(db) {
+        public SmsBLL(TengoDbContext db, ISMS smsSender) : base(db) {
             this.smsSender = smsSender;
         }
 

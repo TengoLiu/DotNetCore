@@ -8,7 +8,7 @@ using TengoDotNetCore.BLL;
 namespace TengoDotNetCore.Controllers {
     public class AddressController : Controller {
         public IActionResult Index() {
-            var service = HttpContext.RequestServices.GetService(typeof(AddressService));
+            var service = HttpContext.RequestServices.GetService(typeof(AddressBLL));
             return View();
         }
     }

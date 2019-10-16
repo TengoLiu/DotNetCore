@@ -1,20 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using TengoDotNetCore.Models;
-using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.BLL.Base;
 using TengoDotNetCore.BLL.Data;
 using TengoDotNetCore.Data;
+using TengoDotNetCore.Models;
+using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.BLL {
-    public class ArticleService : BaseBLL {
+    public class ArticleBLL : BaseBLL {
 
-        public ArticleService(TengoDbContext db) : base(db) { }
+        public ArticleBLL(TengoDbContext db) : base(db) { }
 
         /// <summary>
         /// 插入

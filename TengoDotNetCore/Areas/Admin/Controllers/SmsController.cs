@@ -9,8 +9,8 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
     [Area("Admin")]
     public class SmsController : BaseController {
 
-        private readonly SmsService service;
-        public SmsController(SmsService service) {
+        private readonly SmsBLL service;
+        public SmsController(SmsBLL service) {
             this.service = service;
         }
         #region Index 发送列表

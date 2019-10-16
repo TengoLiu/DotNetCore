@@ -28,7 +28,7 @@ namespace TengoDotNetCore.Controllers {
 
         #region ApiRegister 登录接口 ----- api/user/register
         [Route("api/user/login")]
-        public async Task<IActionResult> ApiLogin([FromServices]UserService service, string account, string password) {
+        public async Task<IActionResult> ApiLogin([FromServices]UserBLL service, string account, string password) {
             var res = await service.Login(account, password, HttpContext.Connection.RemoteIpAddress.ToString());
             if (res.code == 1000) {//如果登录成功，要设置Session之类的
                 HttpContext.Session.Set(Constant.SESSION_USER, res.data);
@@ -45,7 +45,7 @@ namespace TengoDotNetCore.Controllers {
 
         #region ApiRegister 注册接口 ----- api/user/register
         [Route("api/user/register")]
-        public async Task<IActionResult> ApiRegister([FromServices]UserService service, User model) {
+        public async Task<IActionResult> ApiRegister([FromServices]UserBLL service, User model) {
             if (ModelState.IsValid) {
                 model.RegisterIP = HttpContext.Connection.RemoteIpAddress.ToString();
                 var res = await service.Insert(model);
