@@ -8,11 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
-using TengoDotNetCore.Common.Utils.SMS;
+using TengoDotNetCore.BLL.Data;
+using TengoDotNetCore.DI;
 using TengoDotNetCore.Filters;
 using TengoDotNetCore.MiddleWares;
-using TengoDotNetCore.BLL;
-using TengoDotNetCore.BLL.Data;
 using TengoDotNetCore.ViewsUtils;
 
 namespace TengoDotNetCore {
@@ -97,29 +96,28 @@ namespace TengoDotNetCore {
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            #region 自己注册的依赖注入
+            //注册执行我自己编写的依赖注入方法
+            services.UseTengoDI();
+
+            #region 自己注册的依赖注入【大部分已废弃】，因为我编写了新的能够根据类名结尾来批量依赖注入的类
             //配置依赖注入的两种写法，后者代码简洁一些
             //services.AddScoped(typeof(IUserService), typeof(UserService));
             //services.AddScoped<IUserService, UserService>();
             //services.AddScoped<IArticleService, ArticleService>();
             //services.AddScoped<IGoodsService, GoodsService>();
-            services.AddScoped<ArticleService>();
-            services.AddScoped<GoodsService>();
-            services.AddScoped<ColumnService>();
-            services.AddScoped<SmsService>();
-            services.AddScoped<CartService>();
-            services.AddScoped<OrderService>();
-            services.AddScoped<AddressService>();
-            services.AddScoped<UserService>();
-
-            //短信发送者
-            services.AddScoped<ISMS, DuanXinWang>();
+            //services.AddScoped<ArticleBLL>();
+            //services.AddScoped<GoodsBLL>();
+            //services.AddScoped<ColumnBLL>();
+            //services.AddScoped<SmsBLL>();
+            //services.AddScoped<CartBLL>();
+            //services.AddScoped<OrderBLL>();
+            //services.AddScoped<AddressBLL>();
+            //services.AddScoped<UserBLL>();
             #endregion
 
             ///配置自定义视图查询器，让框架能够根据设备类型来适配不同的视图
             services.Configure<RazorViewEngineOptions>(o => {
                 o.ViewLocationExpanders.Add(new CustomViewLocationExpander());
-
             });
         }
 
