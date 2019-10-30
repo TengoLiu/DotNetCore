@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Models {
     /// <summary>
@@ -29,7 +28,14 @@ namespace TengoDotNetCore.Models {
         [ForeignKey("Goods_ID")]
         public virtual Goods Goods { get; set; }
 
+        /// <summary>
+        /// 商品数量
+        /// </summary>
         public int Qty { get; set; }
+
+        /// <summary>
+        /// 是否选中
+        /// </summary>
         public bool Selected { get; set; }
     }
 }
