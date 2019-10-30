@@ -1,11 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using TengoDotNetCore.BLL.Data;
 using TengoDotNetCore.Common.Utils.SMS;
 using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.Models.Logs;
-using TengoDotNetCore.BLL.Data;
 
 namespace TengoDotNetCore.BLL.Base {
     public class BaseBLL {
@@ -90,10 +87,6 @@ namespace TengoDotNetCore.BLL.Base {
                 msg = "您提交的参数缺失或者有误，请检查输入的信息是否完整。",
             };
         }
-        #endregion
-
-        #region 分页方法
-       
         #endregion
 
         #region SmsSend 发送短信

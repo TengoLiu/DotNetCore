@@ -28,7 +28,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
                 keyword = keyword.Trim();
                 query = query.Where(p => p.Title.Contains(keyword));
             }
-            ViewData.Model = await PageUtils.CreatePageAsync(query, pageInfo.Page, pageInfo.PageSize);
+            ViewData.Model = await db.GetPageListAsync(query, pageInfo.Page, pageInfo.PageSize);
             ViewBag.Keyword = keyword;
             ViewBag.ArticleType_Id = articleType_Id;
             ViewBag.ArticleType_Ids = new SelectList(await service.ArticleTypeList(), "Id", "TypeName", articleType_Id);

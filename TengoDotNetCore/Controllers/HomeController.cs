@@ -10,8 +10,15 @@ using TengoDotNetCore.BLL.Data;
 namespace TengoDotNetCore.Controllers {
     public class HomeController : BaseController {
         public async Task<IActionResult> Index([FromServices]TengoDbContext db) {
-            ViewBag.Banners = await db.Article.Where(p => p.ArticleType.TypeName == "首页轮播图").Take(10).OrderByDescending(p => p.Id).ToListAsync();
-            ViewBag.Goods = await db.Goods.Where(p => p.Status == 1).Take(10).OrderByDescending(p => p.Id).ToListAsync();
+            ViewBag.Banners = await db.Article
+                                      .Where(p => p.ArticleType.TypeName == "首页轮播图")
+                                      .OrderByDescending(p => p.Id)
+                                      .Take(10)
+                                      .ToListAsync();
+            ViewBag.Goods = await db.Goods.Where(p => p.Status == 1)
+                                    .OrderByDescending(p => p.Id)
+                                    .Take(10)
+                                    .ToListAsync();
             return View();
         }
 

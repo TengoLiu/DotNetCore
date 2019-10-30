@@ -27,7 +27,6 @@ namespace TengoDotNetCore.BLL {
                 if (string.IsNullOrWhiteSpace(model.Description)) {
                     model.Description = model.Keywords;
                 }
-                model.DoBeforeInsert();
                 db.Article.Add(model);
                 await db.SaveChangesAsync();
                 return JsonResultSuccess("添加成功！");
@@ -50,7 +49,6 @@ namespace TengoDotNetCore.BLL {
                 if (string.IsNullOrWhiteSpace(model.Description)) {
                     model.Description = model.Keywords;
                 }
-                model.DoBeforeUpdate();
                 //标明哪些字段变动了
                 db.Entry(model).Property(p => p.Title).IsModified = true;
                 db.Entry(model).Property(p => p.Author).IsModified = true;
@@ -150,7 +148,7 @@ namespace TengoDotNetCore.BLL {
             if (!string.IsNullOrWhiteSpace(keyword)) {
                 query = query.Where(p => p.TypeName.Contains(keyword.Trim(), StringComparison.OrdinalIgnoreCase));
             }
-            return await PageUtils.CreatePageAsync(query, pageInfo);
+            return await db.GetPageListAsync(query, pageInfo);
         }
         #endregion
     }

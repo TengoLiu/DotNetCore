@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using TengoDotNetCore.BLL;
 using TengoDotNetCore.Common;
 using TengoDotNetCore.Common.Sessions;
 using TengoDotNetCore.Filters;
 using TengoDotNetCore.Models;
-using TengoDotNetCore.BLL;
 
 namespace TengoDotNetCore.Controllers {
     public class UserController : BaseController {

@@ -7,7 +7,6 @@ using TengoDotNetCore.BLL.Base;
 using TengoDotNetCore.BLL.Data;
 using TengoDotNetCore.Common;
 using TengoDotNetCore.Common.Utils.SMS;
-using TengoDotNetCore.Data;
 using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.Models.Logs;
 
@@ -17,43 +16,6 @@ namespace TengoDotNetCore.BLL {
 
         public SmsBLL(TengoDbContext db, ISMS smsSender) : base(db) {
             this.smsSender = smsSender;
-        }
-
-        /// <summary>
-        /// 获取短信发送记录
-        /// </summary>
-        /// <param name="pageInfo"></param>
-        /// <param name="datemin"></param>
-        /// <param name="datemax"></param>
-        /// <param name="keyword"></param>
-        /// <returns></returns>
-        public async Task<PageList<SMSLog>> GetSmsLogs(PageInfo pageInfo, DateTime? datemin = null, DateTime? datemax = null, string keyword = null) {
-            var query = db.SMSLog.AsQueryable();
-            if (!string.IsNullOrWhiteSpace(keyword)) {
-                query = query.Where(p => p.Mobile.Contains(keyword)
-                                        || p.Content.Contains(keyword)
-                                        || p.SendFor.Contains(keyword)
-                                        || p.Platform.Contains(keyword));
-
-            }
-            if (datemin > new DateTime(1900, 1, 1)) {
-                query = query.Where(p => p.AddTime > datemin);
-            }
-            if (datemax > new DateTime(1900, 1, 1)) {
-                var end = ((DateTime)datemax).AddDays(1);
-                query = query.Where(p => p.AddTime < end);
-            }
-            return await PageUtils.CreatePageAsync(query.OrderByDescending(p => p.Id), pageInfo);
-        }
-
-        /// <summary>
-        /// 插入一条短信发送记录
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public async Task InsertSmsLog(SMSLog model) {
-            db.SMSLog.Add(model);
-            await db.SaveChangesAsync();
         }
 
         /// <summary>
@@ -95,7 +57,7 @@ namespace TengoDotNetCore.BLL {
             if (smsLog == null) {
                 var res = smsSender.Send(mobile, msg);
                 if (res.Success) {
-                    await InsertSmsLog(new SMSLog {
+                    db.SMSLog.Add(new SMSLog {
                         AddTime = DateTime.Now,
                         Code = smsCode.ToString(),
                         Content = msg,
@@ -106,6 +68,7 @@ namespace TengoDotNetCore.BLL {
                         Success = res.Success,
                         UpdateTime = DateTime.Now
                     });
+                    await db.SaveChangesAsync();
                     return JsonResultSuccess("验证码发送成功！", 90);
                 }
             }
@@ -118,7 +81,7 @@ namespace TengoDotNetCore.BLL {
                 else {
                     var res = smsSender.Send(mobile, msg);
                     if (res.Success) {
-                        await InsertSmsLog(new SMSLog {
+                        db.SMSLog.Add(new SMSLog {
                             AddTime = DateTime.Now,
                             Code = smsCode.ToString(),
                             Content = msg,
@@ -129,6 +92,7 @@ namespace TengoDotNetCore.BLL {
                             Success = res.Success,
                             UpdateTime = DateTime.Now
                         });
+                        await db.SaveChangesAsync();
                         return JsonResultSuccess("验证码发送成功！", 90);
                     }
                 }

@@ -29,7 +29,6 @@ namespace TengoDotNetCore.BLL {
                 }
                 model.Level = parent.Level + 1;
             }
-            model.DoBeforeInsert();
             db.Category.Add(model);
             await db.SaveChangesAsync();
             return JsonResultSuccess("添加成功！");
@@ -47,7 +46,6 @@ namespace TengoDotNetCore.BLL {
                     }
                     model.Level = parent.Level + 1;
                 }
-                model.DoBeforeUpdate();
                 //标明哪些字段变动了
                 db.Entry(model).Property(p => p.Name).IsModified = true;
                 db.Entry(model).Property(p => p.ParID).IsModified = true;

@@ -11,6 +11,7 @@ using TengoDotNetCore.Data;
 
 namespace TengoDotNetCore.Controllers {
     public class OrderController : BaseController {
+
         #region Index 用户订单列表
         public IActionResult Index() {
             return View();
@@ -20,7 +21,7 @@ namespace TengoDotNetCore.Controllers {
         #region List 获取订单列表接口 api/order/list
         [Route("api/order/list")]
         public async Task<IActionResult> List([FromServices]TengoDbContext db, PageInfo pageInfo) {
-            var list = await PageUtils.CreatePageAsync(db.Orders.Include(p => p.GoodsList).Where(p => p.UserID == 1), pageInfo);
+            var list = await db.GetPageListAsync(db.Orders.Include(p => p.GoodsList).Where(p => p.UserID == 1), pageInfo);
             return MyJsonResultSuccess("s", list);
         }
         #endregion
@@ -39,8 +40,25 @@ namespace TengoDotNetCore.Controllers {
 
         #region GetEditViewData 获取订单填写页面的数据 api/order/getEditData
         [Route("api/order/getEditData")]
-        public async Task<IActionResult> GetEditData([FromServices]OrderBLL service) {
-            return MyJsonResult(await service.GetEditData(1));
+        public async Task<IActionResult> GetEditData([FromServices]TengoDbContext db) {
+            var cartList = new List<object>();
+
+            foreach (var item in db.CartItem.Include(p => p.Goods)) {
+                cartList.Add(new {
+                    item.Goods.Id,
+                    item.Goods.Name,
+                    item.Goods.NameEn,
+                    item.Goods.Price,
+                    item.Goods.CoverImg,
+                    item.Qty
+                });
+            };
+
+            var addrList = await db.Address.Where(p => p.User_ID == 1).ToListAsync();
+            return MyJsonResultSuccess("success", new {
+                cartList,
+                addrList
+            });
         }
         #endregion
 

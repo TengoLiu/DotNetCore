@@ -57,7 +57,6 @@ namespace TengoDotNetCore.BLL {
                 }
                 model.CategoryIdStr = sbId != null ? sbId.ToString() : string.Empty;
                 model.CategoryStr = sbStr != null ? sbStr.ToString() : string.Empty;
-                model.DoBeforeInsert();
                 db.Goods.Add(model);
                 await db.SaveChangesAsync();
                 return JsonResultSuccess("添加成功！");
@@ -112,7 +111,6 @@ namespace TengoDotNetCore.BLL {
                 goods.Content = model.Content;
                 goods.MContent = model.MContent;
                 goods.Sort = model.Sort;
-                model.DoBeforeUpdate();
 
                 await db.SaveChangesAsync();
                 return JsonResultSuccess("修改成功！");
@@ -198,7 +196,7 @@ namespace TengoDotNetCore.BLL {
                         break;
                 }
             }
-            return await PageUtils.CreatePageAsync(query, pageInfo);
+            return await db.GetPageListAsync(query, pageInfo);
         }
 
         /// <summary>

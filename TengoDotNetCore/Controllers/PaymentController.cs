@@ -1,17 +1,18 @@
 ﻿using LitJson;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using TengoDotNetCore.API.WXPay;
-using TengoDotNetCore.BLL;
+using TengoDotNetCore.BLL.Data;
 
 namespace TengoDotNetCore.Controllers {
     public class PaymentController : BaseController {
 
         #region 微信JSAPI公众号支付
-        public async Task<ActionResult> WXPay([FromServices]OrderBLL orderService
+        public async Task<ActionResult> WXPay([FromServices]TengoDbContext db
             , int outTradeNo = 0, string code = null, int orderId = 0, int isDelaySend = 0) {
 
             //如果outTradeNo参数为空，那么是第一次进来的情况
@@ -21,7 +22,7 @@ namespace TengoDotNetCore.Controllers {
                 if (orderId <= 0) {
                     return Redirect("/error");
                 }
-                var order = await orderService.Get(orderId);
+                var order = await db.Orders.FirstOrDefaultAsync(p => p.Id == orderId);
                 if (order == null) {
                     return Redirect("/error");
                 }
@@ -91,7 +92,7 @@ namespace TengoDotNetCore.Controllers {
 
                 try {
                     //读取订单信息
-                    var order = await orderService.Get(outTradeNo);
+                    var order = await db.Orders.FirstOrDefaultAsync(p => p.Id == outTradeNo);
 
                     //注意这里的订单号就要设置为流水号了
                     model.out_trade_no = outTradeNo.ToString();
