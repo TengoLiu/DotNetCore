@@ -22,7 +22,7 @@ namespace TengoDotNetCore.Controllers {
                 if (orderId <= 0) {
                     return Redirect("/error");
                 }
-                var order = await db.Orders.FirstOrDefaultAsync(p => p.Id == orderId);
+                var order = await db.Order.FirstOrDefaultAsync(p => p.Id == orderId);
                 if (order == null) {
                     return Redirect("/error");
                 }
@@ -92,7 +92,7 @@ namespace TengoDotNetCore.Controllers {
 
                 try {
                     //读取订单信息
-                    var order = await db.Orders.FirstOrDefaultAsync(p => p.Id == outTradeNo);
+                    var order = await db.Order.FirstOrDefaultAsync(p => p.Id == outTradeNo);
 
                     //注意这里的订单号就要设置为流水号了
                     model.out_trade_no = outTradeNo.ToString();

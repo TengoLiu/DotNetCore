@@ -21,7 +21,7 @@ namespace TengoDotNetCore.Controllers {
         #region List 获取订单列表接口 api/order/list
         [Route("api/order/list")]
         public async Task<IActionResult> List([FromServices]TengoDbContext db, PageInfo pageInfo) {
-            var list = await db.GetPageListAsync(db.Orders.Include(p => p.GoodsList).Where(p => p.UserID == 1), pageInfo);
+            var list = await db.GetPageListAsync(db.Order.Include(p => p.GoodsList).Where(p => p.UserID == 1), pageInfo);
             return MyJsonResultSuccess("s", list);
         }
         #endregion
@@ -54,7 +54,7 @@ namespace TengoDotNetCore.Controllers {
                 });
             };
 
-            var addrList = await db.Address.Where(p => p.User_ID == 1).ToListAsync();
+            var addrList = await db.Address.Where(p => p.UserID == 1).ToListAsync();
             return MyJsonResultSuccess("success", new {
                 cartList,
                 addrList

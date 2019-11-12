@@ -19,10 +19,10 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index([FromServices]TengoDbContext db, PageInfo pageInfo, int articleType_Id = 0, string keyword = null, string sortBy = null) {
+        public async Task<IActionResult> Index([FromServices]TengoDbContext db, PageInfo pageInfo, int articleTypeId = 0, string keyword = null, string sortBy = null) {
             var query = db.Article.AsQueryable();
-            if (articleType_Id > 0) {
-                query = query.Where(p => p.ArticleType_Id == articleType_Id);
+            if (articleTypeId > 0) {
+                query = query.Where(p => p.ArticleTypeId == articleTypeId);
             }
             if (!string.IsNullOrWhiteSpace(keyword)) {
                 keyword = keyword.Trim();
@@ -30,8 +30,8 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
             }
             ViewData.Model = await db.GetPageListAsync(query, pageInfo.Page, pageInfo.PageSize);
             ViewBag.Keyword = keyword;
-            ViewBag.ArticleType_Id = articleType_Id;
-            ViewBag.ArticleType_Ids = new SelectList(await service.ArticleTypeList(), "Id", "TypeName", articleType_Id);
+            ViewBag.ArticleTypeId = articleTypeId;
+            ViewBag.ArticleTypeIds = new SelectList(await service.ArticleTypeList(), "Id", "TypeName", articleTypeId);
             return View();
         }
 
@@ -45,7 +45,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
             if (model == null) {
                 return new NotFoundResult();
             }
-            ViewBag.ArticleType_Id = new SelectList(await service.ArticleTypeList(), "Id", "TypeName", model.ArticleType_Id);
+            ViewBag.ArticleTypeId = new SelectList(await service.ArticleTypeList(), "Id", "TypeName", model.ArticleTypeId);
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Add() {
-            ViewBag.ArticleType_Id = new SelectList(await service.ArticleTypeList(), "Id", "TypeName", 0);
+            ViewBag.ArticleTypeId = new SelectList(await service.ArticleTypeList(), "Id", "TypeName", 0);
             return View();
         }
 

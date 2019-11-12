@@ -18,7 +18,6 @@ namespace TengoDotNetCore.Models.Base {
 
         /// <summary>
         /// 修改时间
-        /// 添加了这个属性，意味着当这一行数据在插入或修改时，都会自动变化，再也不用手动赋值了
         /// </summary>
         public DateTime UpdateTime { get; set; }
     }

@@ -9,23 +9,23 @@ namespace TengoDotNetCore.Models {
         /// <summary>
         /// User的外键
         /// </summary>
-        public int User_Id { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         /// 用户详情
         /// </summary>
-        [ForeignKey("User_Id")]
+        [ForeignKey("UserId")]
         public virtual User User { get; set; }
 
         /// <summary>
         /// Goods的外键
         /// </summary>
-        public int Goods_ID { get; set; }
+        public int GoodsID { get; set; }
 
         /// <summary>
         /// 商品详情
         /// </summary>
-        [ForeignKey("Goods_ID")]
+        [ForeignKey("GoodsID")]
         public virtual Goods Goods { get; set; }
 
         /// <summary>

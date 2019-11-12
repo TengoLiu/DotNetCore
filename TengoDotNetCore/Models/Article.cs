@@ -10,12 +10,12 @@ namespace TengoDotNetCore.Models {
         /// <summary>
         /// ArticleType外键
         /// </summary>
-        public int ArticleType_Id { get; set; }
+        public int ArticleTypeId { get; set; }
 
         /// <summary>
         /// 文章分类
         /// </summary>
-        [ForeignKey("ArticleType_Id")]
+        [ForeignKey("ArticleTypeId")]
         public virtual ArticleType ArticleType { get; set; }
 
         /// <summary>

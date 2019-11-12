@@ -9,12 +9,12 @@ namespace TengoDotNetCore.Models {
         /// <summary>
         /// 订单Id
         /// </summary>
-        public int Order_Id { get; set; }
+        public int OrderId { get; set; }
 
         /// <summary>
         /// 商品对应的订单实体
         /// </summary>
-        [ForeignKey("Order_Id")]
+        [ForeignKey("OrderId")]
         public Order Order { get; set; }
 
         /// <summary>

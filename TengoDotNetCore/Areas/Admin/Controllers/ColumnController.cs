@@ -12,7 +12,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
     [Area("Admin")]
     public class ColumnController : BaseController {
         private TengoDbContext db;
-
+ 
         public ColumnController(TengoDbContext db) {
             this.db = db;
         }
@@ -22,7 +22,7 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
             ViewBag.Types = await db.ColumnType.ToListAsync();
             var query = db.Column.AsQueryable();
             query = query.Where(p => string.IsNullOrWhiteSpace(keyword) || (!string.IsNullOrWhiteSpace(keyword) && p.Title.Contains(keyword)));
-            query = query.Where(p => typeId <= 0 || (p.ColumnType_Id == typeId && typeId > 0));
+            query = query.Where(p => typeId <= 0 || (p.ColumnTypeId == typeId && typeId > 0));
 
             ViewData.Model = await db.GetPageListAsync(query, pageInfo.Page, pageInfo.PageSize);
             return View();
@@ -68,7 +68,6 @@ namespace TengoDotNetCore.Areas.Admin.Controllers {
         #region ApiEdit 编辑栏目接口
         public async Task<IActionResult> ApiEdit(Column model) {
             try {
-                model.DoBeforeUpdate();
                 if (await TryUpdateModelAsync(model)) {
                     return MyJsonResultSuccess("更新成功！");
                 }

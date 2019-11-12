@@ -10,9 +10,9 @@ namespace TengoDotNetCore.Models {
         /// <summary>
         /// User外键
         /// </summary>
-        public int User_ID { get; set; }
+        public int UserID { get; set; }
 
-        [ForeignKey("User_ID")]
+        [ForeignKey("UserID")]
         public User User { get; set; }
 
         [Required]

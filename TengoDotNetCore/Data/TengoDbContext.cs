@@ -12,6 +12,7 @@ namespace TengoDotNetCore.BLL.Data {
 
         public TengoDbContext(DbContextOptions<TengoDbContext> options) : base(options) { }
 
+        #region 实体集定义
         public DbSet<User> User { get; set; }
 
         public DbSet<Goods> Goods { get; set; }
@@ -30,17 +31,18 @@ namespace TengoDotNetCore.BLL.Data {
 
         public DbSet<CartItem> CartItem { get; set; }
 
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<Order> Order { get; set; }
 
         /// <summary>
         /// 短信发送记录
         /// </summary>
         public DbSet<SMSLog> SMSLog { get; set; }
+        #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
             //创建购物车Item的联合主键
-            modelBuilder.Entity<CartItem>().HasKey(p => new { p.Goods_ID, p.User_Id });
+            modelBuilder.Entity<CartItem>().HasKey(p => new { p.GoodsID, p.UserId });
         }
 
         /// <summary>
@@ -53,14 +55,13 @@ namespace TengoDotNetCore.BLL.Data {
         }
 
         /// <summary>
-        /// 重写SaveChanges方法，主要是为了写入添加时间和更新时间
+        /// 重写SaveChangesAsync方法，主要是为了写入添加时间和更新时间
         /// </summary>
         /// <returns></returns>
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken)) {
             DoBeforeSaveChanges();
             return await base.SaveChangesAsync();
         }
-
 
         /// <summary>
         /// 在SaveChanges前调用，对新增或修改的实体做一些改动

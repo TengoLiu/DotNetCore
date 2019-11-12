@@ -14,13 +14,13 @@ namespace TengoDotNetCore.Models {
         /// <summary>
         /// ColumnType外键
         /// </summary>  
-        public int ColumnType_Id { get; set; }
+        public int ColumnTypeId { get; set; }
 
         /// <summary>
         /// 栏目类别
         /// </summary>
         [Display(Name = "栏目类别")]
-        [ForeignKey("ColumnType_Id")]
+        [ForeignKey("ColumnTypeId")]
         public virtual ColumnType ColumnType { get; set; }
 
         /// <summary>

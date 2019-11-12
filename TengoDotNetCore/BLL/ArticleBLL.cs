@@ -52,7 +52,7 @@ namespace TengoDotNetCore.BLL {
                 //标明哪些字段变动了
                 db.Entry(model).Property(p => p.Title).IsModified = true;
                 db.Entry(model).Property(p => p.Author).IsModified = true;
-                db.Entry(model).Property(p => p.ArticleType_Id).IsModified = true;
+                db.Entry(model).Property(p => p.ArticleTypeId).IsModified = true;
                 db.Entry(model).Property(p => p.CoverImg).IsModified = true;
                 db.Entry(model).Property(p => p.Status).IsModified = true;
                 db.Entry(model).Property(p => p.Keywords).IsModified = true;

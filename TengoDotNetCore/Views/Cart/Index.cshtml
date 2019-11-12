@@ -24,17 +24,17 @@
                 <div class="cart-td width-6 cart-checkbox">
                     <input class="cb-item" type="checkbox"
                            v-bind:checked="item.selected"
-                           v-bind:id="'cb_'+item.goods_ID"
+                           v-bind:id="'cb_'+item.goodsID"
                            v-on:click="clickCheck(item)" />
-                    <label v-bind:for="'cb_'+item.goods_ID">选择</label>
+                    <label v-bind:for="'cb_'+item.goodsID">选择</label>
                 </div>
                 <div class="cart-td width-8">
-                    <a v-bind:href="'/goods/detail/'+item.goods_ID" target="_blank">
+                    <a v-bind:href="'/goods/detail/'+item.goodsID" target="_blank">
                         <img class="goods-img" v-bind:src="item.goods.coverImg">
                     </a>
                 </div>
                 <div class="cart-td width-32">
-                    <a v-bind:href="'/goods/detail/'+item.goods_ID" target="_blank">
+                    <a v-bind:href="'/goods/detail/'+item.goodsID" target="_blank">
                         <p class="goods-name">{{item.goods.name}}</p>
                     </a>
                 </div>
@@ -154,21 +154,21 @@
                     else {
                         item.qty++;
                         item.selected = 1;
-                        this.setQty(item.goods_ID, item.qty);
+                        this.setQty(item.goodsID, item.qty);
                     }
                 },
                 clickReduce: function (item) {//商品数量减1
                     if (item.qty > 1) {
                         item.qty--;
                         item.selected = 1;
-                        this.setQty(item.goods_ID, item.qty);
+                        this.setQty(item.goodsID, item.qty);
                     }
                 },
                 clickRemove: function (item) {//移除商品事件
                     for (let i = 0; i < this.cartList.length; i++) {
-                        if (this.cartList[i].goods_ID == item.goods_ID) {
+                        if (this.cartList[i].goodsID == item.goodsID) {
                             this.cartList.splice(i, 1);
-                            this.setQty(item.goods_ID, 0);
+                            this.setQty(item.goodsID, 0);
                             break;
                         }
                     }
@@ -184,7 +184,7 @@
                     if (item.qty > item.goods.stock) {
                         alert("库存不足...")
                         item.qty = item.goods.stock
-                        this.setQty(item.goods_ID, item.qty);
+                        this.setQty(item.goodsID, item.qty);
                     }
                 },
                 clickCheck: function (item) {//点击选中单个商品

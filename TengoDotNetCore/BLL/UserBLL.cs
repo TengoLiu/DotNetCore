@@ -32,7 +32,6 @@ namespace TengoDotNetCore.BLL {
                         return JsonResultError("您填写的账号已被占用，请重新填写！");
                     }
                 }
-                model.DoBeforeInsert();
                 db.User.Add(model);
                 await db.SaveChangesAsync();
                 return JsonResultSuccess("注册成功！");
@@ -49,7 +48,6 @@ namespace TengoDotNetCore.BLL {
         /// <returns></returns>
         public async Task<JsonResultObj> Update(User model) {
             try {
-                model.DoBeforeUpdate();
                 //标明哪些字段变动了
                 db.Entry(model).Property(p => p.Phone).IsModified = true;
                 db.Entry(model).Property(p => p.UpdateTime).IsModified = true;

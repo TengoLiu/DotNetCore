@@ -8,7 +8,7 @@
         <div class="row cl">
             <label for="columnType" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>栏目类别：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <select id="ColumnType" name="ColumnType_Id" class="input-text">
+                <select id="ColumnType" name="ColumnTypeId" class="input-text">
                     @foreach (var item in ViewBag.Types) {
                         <option value="@item.Id">@item.TypeName</option>
                     }

@@ -22,7 +22,7 @@ namespace TengoDotNetCore.BLL {
             if (includeGoods) {
                 query = query.Include(p => p.Goods);
             }
-            var cartList = await query.Where(p => p.User_Id == userId).ToListAsync();
+            var cartList = await query.Where(p => p.UserId == userId).ToListAsync();
             return cartList;
         }
 
@@ -37,14 +37,14 @@ namespace TengoDotNetCore.BLL {
             if (goodsID <= 0 || userId <= 0) {
                 return JsonResultParamInvalid();
             }
-            var cartItem = db.CartItem.FirstOrDefault(p => p.Goods_ID == goodsID);
+            var cartItem = db.CartItem.FirstOrDefault(p => p.GoodsID == goodsID);
             if (qty > 0) {
                 if (cartItem == null) {
                     cartItem = new CartItem {
-                        Goods_ID = goodsID,
+                        GoodsID = goodsID,
                         Qty = qty,
                         Selected = true,
-                        User_Id = userId
+                        UserId = userId
                     };
                     db.CartItem.Add(cartItem);
                     await db.SaveChangesAsync();
@@ -75,7 +75,7 @@ namespace TengoDotNetCore.BLL {
             if (goodsID <= 0 || userId <= 0) {
                 return;
             }
-            var cartItem = db.CartItem.FirstOrDefault(p => p.User_Id == userId && p.Goods_ID == goodsID);
+            var cartItem = db.CartItem.FirstOrDefault(p => p.UserId == userId && p.GoodsID == goodsID);
             if (cartItem != null) {
                 cartItem.Selected = selected > 0;
                 await db.SaveChangesAsync();
@@ -93,7 +93,7 @@ namespace TengoDotNetCore.BLL {
             if (userId <= 0) {
                 return;
             }
-            var cartItems = db.CartItem.Where(p => p.User_Id == userId);
+            var cartItems = db.CartItem.Where(p => p.UserId == userId);
             foreach (var item in cartItems) {
                 item.Selected = selected > 0;
             }
@@ -106,7 +106,7 @@ namespace TengoDotNetCore.BLL {
         /// <param name="userId"></param>
         /// <returns></returns>
         public async Task RemoveAll(int userId) {
-            var cartItems = db.CartItem.Where(p => p.User_Id == userId);
+            var cartItems = db.CartItem.Where(p => p.UserId == userId);
             foreach (var item in cartItems) {
                 db.CartItem.Remove(item);
             }
