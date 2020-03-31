@@ -1,18 +1,16 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using System;
-using TengoDotNetCore.BLL.Data;
-using TengoDotNetCore.DI;
-using TengoDotNetCore.Filters;
-using TengoDotNetCore.MiddleWares;
+using Microsoft.Extensions.Hosting;
 using TengoDotNetCore.ViewsUtils;
+using TengoDotNetCore.DI;
+using TengoDotNetCore.MiddleWares;
+using TengoDotNetCore.BLL.Data;
+using IHostingEnvironment = Microsoft.Extensions.Hosting.IHostingEnvironment;
 
 namespace TengoDotNetCore {
     public class Startup {
@@ -20,12 +18,14 @@ namespace TengoDotNetCore {
             Configuration = configuration;
         }
 
-        //项目配置对象
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         //这个方法会被运行时调用。用这个方法来把服务注册到容器里面。其实就是在这个方法注册需要添加到IOC容器里面的服务。
         public void ConfigureServices(IServiceCollection services) {
+            //services.AddControllersWithViews();
+
+            services.AddMvc();
 
             //这个方法用于注入一个默认的Cookie策略配置，配置Cookie的共通属性
             services.Configure<CookiePolicyOptions>(options => {
@@ -58,48 +58,19 @@ namespace TengoDotNetCore {
                 options.IdleTimeout = TimeSpan.FromSeconds(120);
                 //指定SessionId的Cookie只能由服务端通过HTTP请求修改设置。
                 options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                //使Session以Cookie为基础
+                options.Cookie.IsEssential = true;
             });
 
-            //用于在Microsoft.Extensions.DependencyInjection.ISeviceCollection中设置MVC服务的扩展方法。
-            services.AddMvc(options => {
-                //注册我的全局过滤器
-                options.Filters.Add(typeof(TengoGlobalFilterAttribute));
-            })
-            .AddJsonOptions(options => {//添加JSON配置
-                /*
-                 * 忽略循环引用
-                 * 由于Model之间会互相引用做导航属性
-                 * 如Order的里面有OrderGoods，而OrderGoods里面也有Order属性
-                 * 如果序列化的话，就会无限循环，导致出问题
-                 * 设置这个属性就能避免这个问题
-                 */
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-
-                /*
-                 * 不更改元数据的key的大小写
-                 * 控制器序列化json给前台的时候会再把Model相关属性的首字母改成小写
-                 * 如在后台里面 User 的 Name 属性，到前台属性名称会变成 name
-                 * 如果设置了这里，则上面的设定不再生效
-                 */
-                //options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-            })
-            .SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             //初始化数据库配置
             var connection = Configuration.GetConnectionString("DefaultConnectionString");
-            //然后注册DbContext到容器中，后面如果哪个地方要使用的话，就能直接给其注入了
-            services.AddDbContext<TengoDbContext>(options => {
-                //官方说明：在查询中使用row_number（）而不是offset/fetch。此方法向后兼容到SQL Server 2005。
-                //第二个参数如果不写，那么如果是SQLSERVER2008的话，skip.take分页将无法使用，会有兼容问题
-                options.UseSqlServer(connection, a => a.UseRowNumberForPaging());
-            });
-
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            TengoDbContext.Init(services, connection);
 
             //注册执行我自己编写的依赖注入方法
             services.UseTengoDI();
-
-            #region 自己注册的依赖注入【大部分已废弃】，因为我编写了新的能够根据类名结尾来批量依赖注入的类
+            #region 自己注册的依赖注入【已废弃】，因为我编写了新的能够根据类名结尾来批量依赖注入的类
             //配置依赖注入的两种写法，后者代码简洁一些
             //services.AddScoped(typeof(IUserService), typeof(UserService));
             //services.AddScoped<IUserService, UserService>();
@@ -134,57 +105,61 @@ namespace TengoDotNetCore {
         /// env.IsDevelopment()：主要是用来判断当前项目是设置为什么环境的，比如开发环境Development、分阶段环境Staging、生产环境Production
         /// </param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
-            //判断是开发环境还是生产环境
             if (env.IsDevelopment()) {
-                //如果是生产环境的话，就使用报错信息详情页，直接把错误显示出来
                 app.UseDeveloperExceptionPage();
             }
             else {
-                //如果是生产环境，不能把报错信息给客户看，因此设置报错的时候重定向的地址
                 app.UseExceptionHandler("/Home/Error");
-
                 /*
-                 * The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                 * HTTP Strict Transport Security (通常简称为HSTS) 是一个安全功能，它告诉浏览器只能通过HTTPS访问当前资源, 禁止HTTP方式。
-                 * 告诉浏览器当接到这个header的时候，在一定时间内访问本网站的资源都必须使用https方式。这个默认值为30天。
-                 */
+                * The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                * HTTP Strict Transport Security (通常简称为HSTS) 是一个安全功能，它告诉浏览器只能通过HTTPS访问当前资源, 禁止HTTP方式。
+                * 告诉浏览器当接到这个header的时候，在一定时间内访问本网站的资源都必须使用https方式。这个默认值为30天。
+                */
                 app.UseHsts();
             }
 
             //添加HTTPS重定向，也就是如果不是HTTPS的话会自动跳转到HTTPS
             app.UseHttpsRedirection();
 
+            /*
+            * 为当前请求路径启用静态文件服务,即对外可以映射静态文件目录，默认是根目录下的wwwroot，这个可以在设置env.WebRootPath。
+            * 如果没有这一句的话，静态文件就不能通过url访问了，全部都是404。如果是api项目不需要静态文件映射的话，可以不写这一句。
+            */
+            app.UseStaticFiles();
+
             //可以使用简便的写法引入自定义的中间件啦！当然，我这个中间件啥也不做的。
             app.UseTengoMiddleware();
 
             /*
-             * 为当前请求路径启用静态文件服务,即对外可以映射静态文件目录，默认是根目录下的wwwroot，这个可以在设置env.WebRootPath。
-             * 如果没有这一句的话，静态文件就不能通过url访问了，全部都是404。如果是api项目不需要静态文件映射的话，可以不写这一句。
-             */
-            app.UseStaticFiles();
-
-            /*
-             * 摘要:
-             *  Adds the Microsoft.AspNetCore.CookiePolicy.CookiePolicyMiddleware handler to
-             *  the specified Microsoft.AspNetCore.Builder.IApplicationBuilder, which enables
-             *  cookie policy capabilities.
-             *  
-             *  大意：指定并启用微软的Cookie策略中间件Microsoft.AspNetCore.CookiePolicy，用于处理一切Cookie的问题
-             */
+            * 摘要:
+            *  Adds the Microsoft.AspNetCore.CookiePolicy.CookiePolicyMiddleware handler to
+            *  the specified Microsoft.AspNetCore.Builder.IApplicationBuilder, which enables
+            *  cookie policy capabilities.
+            *  
+            *  大意：指定并启用微软的Cookie策略中间件Microsoft.AspNetCore.CookiePolicy，用于处理一切Cookie的问题
+            */
             app.UseCookiePolicy();
 
             /*
-             * 启用Session，如果不配置这一句的话，在处理HTTP请求的时候，读写Session都会报错！
-             * 而且这一句必须在Cookie之后，因为没有Cookie就存不了SessionID,也就没有Session！
-             */
+           * 启用Session，如果不配置这一句的话，在处理HTTP请求的时候，读写Session都会报错！
+           * 而且这一句必须在Cookie之后，因为没有Cookie就存不了SessionID,也就没有Session！
+           */
             app.UseSession();
 
+
+            //app.UseEndpoints(endpoints => {
+            //    endpoints.MapControllerRoute(
+            //        name: "AdminArea",
+            //        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller=Home}/{action=Index}/{id?}");
+            //});
+
+            #region app.UseMvc 在3.0以上已废弃，改为使用app.UseEndpoints
             //因为web项目不仅仅是MVC！因此这里要配置使用MVC，并且添加一个默认的路由
             app.UseMvc(routes => {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-
                 /*
                  * 这里添加了区域Area的路由映射规则。
                  * 但是有个缺点就是，这里没法像老版本MVC一样指定路由规则对应的命名空间。
@@ -195,11 +170,15 @@ namespace TengoDotNetCore {
                  * 然后报错说请求的资源映射到的方法不唯一。
                  */
                 routes.MapRoute(
-                    name: "areas",
+                    name: "area_admin",
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
 
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
+            #endregion
         }
     }
 }

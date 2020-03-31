@@ -6,7 +6,6 @@ using TengoDotNetCore.BLL;
 using TengoDotNetCore.BLL.Data;
 
 namespace TengoDotNetCore.Areas.Admin.Controllers {
-
     [Area("Admin")]
     public class CategoryController : BaseController {
 

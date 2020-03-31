@@ -11,7 +11,7 @@
             <div class="formControls col-xs-8 col-sm-9">
                 <select class="input-text" id="ColumnType" name="ColumnTypeId">
                     @foreach (var item in ViewBag.Types) {
-                        <option value="@item.Id" @Html.Raw(Model.ColumnTypeId == item.Id ? "selected=\"selected\"" : "")>@item.TypeName</option>
+                        <option value="@item.Id" asp-selected="(Model.ColumnTypeId == item.Id ? "selected" :"")">@item.TypeName</option>
                     }
                 </select>
             </div>
@@ -20,8 +20,8 @@
             <label for="Status" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>是否显示：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <select class="input-text" id="Status" name="status">
-                    <option value="1" @Html.Raw(Model.Status == 1 ? "selected='selected'" : string.Empty)>显示</option>
-                    <option value="0" @Html.Raw(Model.Status == 0 ? "selected='selected'" : string.Empty)>不显示</option>
+                    <option value="1" asp-selected="(Model.Status==1 ? "selected":"")">显示</option>
+                    <option value="0" asp-selected="(Model.Status==0 ? "selected":"")">不显示</option>
                 </select>
             </div>
         </div>

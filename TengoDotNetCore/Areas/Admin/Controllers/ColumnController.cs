@@ -4,9 +4,9 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using TengoDotNetCore.BLL.Data;
+using TengoDotNetCore.Common.BaseModels;
 using TengoDotNetCore.Data;
 using TengoDotNetCore.Models;
-using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Areas.Admin.Controllers {
     [Area("Admin")]

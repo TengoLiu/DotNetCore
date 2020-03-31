@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Hosting;
 using System;
-using TengoDotNetCore.Models.Base;
+using TengoDotNetCore.Common.BaseModels;
+using IHostingEnvironment = Microsoft.Extensions.Hosting.IHostingEnvironment;
 
 namespace TengoDotNetCore.Filters {
     public class TengoGlobalFilterAttribute : ActionFilterAttribute {

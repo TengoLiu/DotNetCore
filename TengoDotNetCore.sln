@@ -1,9 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TengoDotNetCore", "TengoDotNetCore\TengoDotNetCore.csproj", "{CC572A62-898C-4AE1-8709-E5910CAABDAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TengoDotNetCore.Models", "TengoDotNetCore.Models\TengoDotNetCore.Models.csproj", "{D209068E-8C1B-45B4-9151-7A86E687F973}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TengoDotNetCore.Common", "TengoDotNetCore.Common\TengoDotNetCore.Common.csproj", "{46002CF8-9A1F-40DC-9ABA-7913379D9CC4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TengoDotNetCore.BLL", "TengoDotNetCore.BLL\TengoDotNetCore.BLL.csproj", "{C2586D5D-9E34-4EA8-8DD5-4774094DC39D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TengoDotNetCore.API", "TengoDotNetCore.API\TengoDotNetCore.API.csproj", "{EBF64813-7154-4873-84BE-61EF42C2B424}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TengoDotNetCore", "TengoDotNetCore\TengoDotNetCore.csproj", "{CCE5A8F8-E097-4ED2-A0AF-6E7A56672DFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +19,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CC572A62-898C-4AE1-8709-E5910CAABDAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC572A62-898C-4AE1-8709-E5910CAABDAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC572A62-898C-4AE1-8709-E5910CAABDAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC572A62-898C-4AE1-8709-E5910CAABDAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D209068E-8C1B-45B4-9151-7A86E687F973}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D209068E-8C1B-45B4-9151-7A86E687F973}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D209068E-8C1B-45B4-9151-7A86E687F973}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D209068E-8C1B-45B4-9151-7A86E687F973}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46002CF8-9A1F-40DC-9ABA-7913379D9CC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46002CF8-9A1F-40DC-9ABA-7913379D9CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46002CF8-9A1F-40DC-9ABA-7913379D9CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46002CF8-9A1F-40DC-9ABA-7913379D9CC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2586D5D-9E34-4EA8-8DD5-4774094DC39D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2586D5D-9E34-4EA8-8DD5-4774094DC39D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2586D5D-9E34-4EA8-8DD5-4774094DC39D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2586D5D-9E34-4EA8-8DD5-4774094DC39D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBF64813-7154-4873-84BE-61EF42C2B424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBF64813-7154-4873-84BE-61EF42C2B424}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBF64813-7154-4873-84BE-61EF42C2B424}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBF64813-7154-4873-84BE-61EF42C2B424}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCE5A8F8-E097-4ED2-A0AF-6E7A56672DFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCE5A8F8-E097-4ED2-A0AF-6E7A56672DFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCE5A8F8-E097-4ED2-A0AF-6E7A56672DFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCE5A8F8-E097-4ED2-A0AF-6E7A56672DFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

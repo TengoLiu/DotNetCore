@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using TengoDotNetCore.Models;
-using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.BLL;
-using TengoDotNetCore.BLL.Base;
 using TengoDotNetCore.BLL.Data;
+using TengoDotNetCore.Common.BaseModels;
 using TengoDotNetCore.Data;
+using TengoDotNetCore.Models;
 
 namespace TengoDotNetCore.Areas.Admin.Controllers {
+
     [Area("Admin")]
     public class ArticleController : BaseController {
         private readonly ArticleBLL service;

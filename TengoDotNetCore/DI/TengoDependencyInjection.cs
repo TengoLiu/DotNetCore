@@ -23,21 +23,22 @@ namespace TengoDotNetCore.DI {
         public static void Initialize(IServiceCollection services) {
             //短信发送者
             services.AddScoped<ISMS, DuanXinWang>();
-            RegisterByPostfix(services, "BLL", RegisterType.AddScoped);
+            RegisterByPostfix(services, "TengoDotNetCore.BLL", "BLL", RegisterType.AddScoped);
         }
 
         /// <summary>
-        /// 说明：通过后缀注册服务
+        /// 说明：在指定的命名空间通过后缀注册服务
         /// 原理：我会把解决方案中指定后缀的所有类拿出来，然后遍历。
         ///       我会先遍历一遍里面的接口和抽象类，在集合里面找到它的实现类，然后装载上去。
         ///       最后剩下来没有装载过的实现类，就一一装载上去。
         /// 注意：抽象类和实现类都必须以指定的这个后缀做结尾！
         /// <param name="services">IServiceCollection</param>
+        /// <param name="nameSpace">要注入的命名空间</param>
         /// <param name="postfix">要注册的服务后缀</param>
         /// <param name="registerType">注册方式</param>
-        public static void RegisterByPostfix(IServiceCollection services, string postfix, RegisterType registerType) {
+        public static void RegisterByPostfix(IServiceCollection services, string nameSpace, string postfix, RegisterType registerType) {
             //获取包含当前正在执行的代码的程序集中的所有Type类型,再筛选以指定后缀结尾的类型
-            var types = Assembly.GetExecutingAssembly().GetTypes().Where(p => p.Name.EndsWith(postfix));
+            var types = Assembly.Load(nameSpace).GetTypes().Where(p => p.Name.EndsWith(postfix));
 
             //用一个字典，来标记那些类或者接口已经装载过了
             var dic = new Dictionary<Type, object>();

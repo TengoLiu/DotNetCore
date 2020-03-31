@@ -7,8 +7,8 @@
 /TengoDotNetCore.Common/obj/
 /TengoDotNetCore.Models/bin/
 /TengoDotNetCore.Models/obj/
-/TengoDotNetCore.Service/bin/
-/TengoDotNetCore.Service/obj/
+/TengoDotNetCore.BLL/bin/
+/TengoDotNetCore.BLL/obj/
 /TengoDotNetCore/.vs/
 /TengoDotNetCore/wwwroot/upload/
 /TengoDotNetCore/TengoDotNetCore.csproj.user

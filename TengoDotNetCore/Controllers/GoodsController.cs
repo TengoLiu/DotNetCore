@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.BLL;
 using TengoDotNetCore.BLL.Data;
+using TengoDotNetCore.Common.BaseModels;
 
 namespace TengoDotNetCore.Controllers {
     public class GoodsController : BaseController {

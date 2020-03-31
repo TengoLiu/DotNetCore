@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.BLL;
 using TengoDotNetCore.BLL.Data;
+using TengoDotNetCore.Common.BaseModels;
 using TengoDotNetCore.Data;
 
 namespace TengoDotNetCore.Controllers {

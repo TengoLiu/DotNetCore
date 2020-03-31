@@ -3,16 +3,16 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using TengoDotNetCore.BLL.Data;
+using TengoDotNetCore.Common.BaseModels;
 using TengoDotNetCore.Data;
-using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Areas.Admin.Controllers {
-
     [Area("Admin")]
     public class SmsController : BaseController {
 
         #region Index 发送列表
         public async Task<IActionResult> Index([FromServices]TengoDbContext db, PageInfo pageInfo, DateTime? datemin = null, DateTime? datemax = null, string keyword = null) {
+           
             ViewBag.Keyword = keyword;
             ViewBag.datemin = ((DateTime)datemin).ToString("yyyy-MM-dd");
             ViewBag.datemax = ((DateTime)datemax).ToString("yyyy-MM-dd");

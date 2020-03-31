@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using TengoDotNetCore.BLL.Data;
+using TengoDotNetCore.Models;
 
 namespace TengoDotNetCore.Controllers {
-    public class TestController : Controller {
+    public class TestController : BaseController {
 
         public void TestCookie1() {
             HttpContext.Response.Cookies.Append("hello", "lkt");
@@ -22,6 +25,23 @@ namespace TengoDotNetCore.Controllers {
         /// <returns></returns>
         public string Path([FromServices]IHostingEnvironment hostingEnvironment) {
             return hostingEnvironment.WebRootPath;
+        }
+
+        /// <summary>
+        /// 测试联表并筛选自定义Model
+        /// </summary>
+        /// <param name="db"></param>
+        public void TestUnion([FromServices]TengoDbContext db) {
+            var query = from Address addr in db.Address.AsQueryable()
+                        join user in db.User.AsQueryable()
+                        on addr.UserID equals user.Id
+                        where 1 == 1
+                        select new {
+                            user.Id,
+                            user.NickName,
+                            addr.Province
+                        };
+            var data = query.ToList();
         }
     }
 }

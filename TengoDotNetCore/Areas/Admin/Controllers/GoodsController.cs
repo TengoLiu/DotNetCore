@@ -2,12 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TengoDotNetCore.Models;
-using TengoDotNetCore.Models.Base;
 using TengoDotNetCore.BLL;
 using TengoDotNetCore.BLL.Data;
+using TengoDotNetCore.Common.BaseModels;
 
 namespace TengoDotNetCore.Areas.Admin.Controllers {
 

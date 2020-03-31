@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using TengoDotNetCore.Common;
+using TengoDotNetCore.Common.BaseModels;
 using TengoDotNetCore.Common.Sessions;
 using TengoDotNetCore.Models;
-using TengoDotNetCore.Models.Base;
 
 namespace TengoDotNetCore.Filters {
     public class UserFilterAttribute : ActionFilterAttribute {
