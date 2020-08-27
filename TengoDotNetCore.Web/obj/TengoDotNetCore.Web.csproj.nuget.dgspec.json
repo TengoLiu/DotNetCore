@@ -1,0 +1,361 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Web\\TengoDotNetCore.Web.csproj": {}
+  },
+  "projects": {
+    "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.API\\TengoDotNetCore.API.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.API\\TengoDotNetCore.API.csproj",
+        "projectName": "TengoDotNetCore.API",
+        "projectPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.API\\TengoDotNetCore.API.csproj",
+        "packagesPath": "C:\\Users\\tengo_liu\\.nuget\\packages\\",
+        "outputPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.API\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\tengo_liu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://www.nuget.org/api/v2/": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Common\\TengoDotNetCore.Common.csproj": {
+                "projectPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Common\\TengoDotNetCore.Common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "BouncyCastle.NetCore": {
+              "target": "Package",
+              "version": "[1.8.6, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.BLL\\TengoDotNetCore.BLL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.BLL\\TengoDotNetCore.BLL.csproj",
+        "projectName": "TengoDotNetCore.BLL",
+        "projectPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.BLL\\TengoDotNetCore.BLL.csproj",
+        "packagesPath": "C:\\Users\\tengo_liu\\.nuget\\packages\\",
+        "outputPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.BLL\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\tengo_liu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://www.nuget.org/api/v2/": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.API\\TengoDotNetCore.API.csproj": {
+                "projectPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.API\\TengoDotNetCore.API.csproj"
+              },
+              "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Common\\TengoDotNetCore.Common.csproj": {
+                "projectPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Common\\TengoDotNetCore.Common.csproj"
+              },
+              "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Models\\TengoDotNetCore.Models.csproj": {
+                "projectPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Models\\TengoDotNetCore.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[2.2.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[2.2.6, )"
+            },
+            "mySqlSugarCore": {
+              "target": "Package",
+              "version": "[3.5.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Common\\TengoDotNetCore.Common.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Common\\TengoDotNetCore.Common.csproj",
+        "projectName": "TengoDotNetCore.Common",
+        "projectPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Common\\TengoDotNetCore.Common.csproj",
+        "packagesPath": "C:\\Users\\tengo_liu\\.nuget\\packages\\",
+        "outputPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Common\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\tengo_liu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://www.nuget.org/api/v2/": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "LitJson": {
+              "target": "Package",
+              "version": "[0.16.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            },
+            "mySqlSugarCore": {
+              "target": "Package",
+              "version": "[3.5.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Models\\TengoDotNetCore.Models.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Models\\TengoDotNetCore.Models.csproj",
+        "projectName": "TengoDotNetCore.Models",
+        "projectPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Models\\TengoDotNetCore.Models.csproj",
+        "packagesPath": "C:\\Users\\tengo_liu\\.nuget\\packages\\",
+        "outputPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Models\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\tengo_liu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://www.nuget.org/api/v2/": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Common\\TengoDotNetCore.Common.csproj": {
+                "projectPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Common\\TengoDotNetCore.Common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "mySqlSugarCore": {
+              "target": "Package",
+              "version": "[3.5.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Web\\TengoDotNetCore.Web.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Web\\TengoDotNetCore.Web.csproj",
+        "projectName": "TengoDotNetCore.Web",
+        "projectPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Web\\TengoDotNetCore.Web.csproj",
+        "packagesPath": "C:\\Users\\tengo_liu\\.nuget\\packages\\",
+        "outputPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Web\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\tengo_liu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://www.nuget.org/api/v2/": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.API\\TengoDotNetCore.API.csproj": {
+                "projectPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.API\\TengoDotNetCore.API.csproj"
+              },
+              "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.BLL\\TengoDotNetCore.BLL.csproj": {
+                "projectPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.BLL\\TengoDotNetCore.BLL.csproj"
+              },
+              "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Common\\TengoDotNetCore.Common.csproj": {
+                "projectPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Common\\TengoDotNetCore.Common.csproj"
+              },
+              "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Models\\TengoDotNetCore.Models.csproj": {
+                "projectPath": "D:\\VS2017Projects\\TengoDotNetCore\\TengoDotNetCore.Models\\TengoDotNetCore.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

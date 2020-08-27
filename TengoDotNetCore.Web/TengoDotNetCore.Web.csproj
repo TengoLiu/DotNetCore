@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TengoDotNetCore.API\TengoDotNetCore.API.csproj" />
+    <ProjectReference Include="..\TengoDotNetCore.BLL\TengoDotNetCore.BLL.csproj" />
+    <ProjectReference Include="..\TengoDotNetCore.Common\TengoDotNetCore.Common.csproj" />
+    <ProjectReference Include="..\TengoDotNetCore.Models\TengoDotNetCore.Models.csproj" />
+  </ItemGroup>
+
+</Project>

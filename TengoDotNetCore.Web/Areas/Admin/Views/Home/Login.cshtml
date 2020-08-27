@@ -1,0 +1,78 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <LINK rel="Bookmark" href="/favicon.ico">
+    <LINK rel="Shortcut Icon" href="/favicon.ico" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="lib/html5shiv.js"></script>
+    <script type="text/javascript" src="lib/respond.min.js"></script>
+
+    <![endif]-->
+    <link href="/lib/H-ui/static/h-ui/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="/lib/H-ui/static/h-ui.admin/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+    <link href="/lib/H-ui/lib/Hui-iconfont/1.0.8/iconfont.css" rel="stylesheet" type="text/css" />
+    <link href="/lib/H-ui/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css">
+
+    <link href="~/lib/kindeditor/themes/default/default.css" rel="stylesheet" />
+    <link href="~/lib/kindeditor/plugins/code/prettify.css" rel="stylesheet" />
+
+    <link href="~/lib/tengo-pager/tengo-pager.css" rel="stylesheet" />
+    <!--[if IE 6]>
+    <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+    <title>登录-管理员</title>
+</head>
+<body class="pos-r">
+    @RenderBody()
+    <environment include="Development">
+
+    </environment>
+    <environment exclude="Development">
+
+    </environment>
+
+    <script type="text/javascript" src="/lib/H-ui/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/lib/H-ui/lib/layer/2.4/layer.js"></script>
+    <script type="text/javascript" src="/lib/H-ui/static/h-ui/js/H-ui.min.js"></script>
+    <script type="text/javascript" src="/lib/H-ui/static/h-ui.admin/js/H-ui.admin.js"></script>
+
+    <script type="text/javascript" src="/lib/H-ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+    <script type="text/javascript" src="/lib/H-ui/lib/laypage/1.2/laypage.js"></script>
+    <script type="text/javascript" src="/lib/H-ui/lib/webuploader/0.1.5/webuploader.min.js"></script>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+    <script type="text/javascript" src="~/lib/H-ui/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script>
+
+    <script src="~/lib/kindeditor/kindeditor-min.js"></script>
+    <script src="~/lib/kindeditor/lang/zh_CN.js"></script>
+    <script src="~/lib/tengo-pager/tengo-pager.js"></script>
+    <script>
+        //触发一条toast信息
+        function toast(msg) {
+            $.Huimodalalert(msg, 2000);
+        }
+
+        //移除当前框架
+        function removeIframe() {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        }
+    </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+

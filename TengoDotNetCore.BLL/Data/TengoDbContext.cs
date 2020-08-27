@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TengoDotNetCore.Common.BaseModels;
 using TengoDotNetCore.Models;
+using TengoDotNetCore.Models.Admin;
 using TengoDotNetCore.Models.Logs;
 
 namespace TengoDotNetCore.BLL.Data {
@@ -53,12 +54,20 @@ namespace TengoDotNetCore.BLL.Data {
         /// 短信发送记录
         /// </summary>
         public DbSet<SMSLog> SMSLog { get; set; }
+
+        public DbSet<ManagerRole> ManagerRole { get; set; }
+
+        public DbSet<ManagerPermission> ManagerPermission { get; set; }
+
+        public DbSet<ManagerRole_ManagerPermission> ManagerRole_ManagerPermission { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
             //创建购物车Item的联合主键
             modelBuilder.Entity<CartItem>().HasKey(p => new { p.GoodsID, p.UserId });
+
+            modelBuilder.Entity<ManagerRole_ManagerPermission>().HasKey(p => new { p.ManagerRoleId, p.ManagerPermissionId });
         }
 
         /// <summary>

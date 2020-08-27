@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TengoDotNetCore.BLL", "Teng
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TengoDotNetCore.API", "TengoDotNetCore.API\TengoDotNetCore.API.csproj", "{EBF64813-7154-4873-84BE-61EF42C2B424}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TengoDotNetCore", "TengoDotNetCore\TengoDotNetCore.csproj", "{CCE5A8F8-E097-4ED2-A0AF-6E7A56672DFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TengoDotNetCore.Web", "TengoDotNetCore.Web\TengoDotNetCore.Web.csproj", "{50B54FD8-56CA-404C-9E8F-1AEDE714FC69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{EBF64813-7154-4873-84BE-61EF42C2B424}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBF64813-7154-4873-84BE-61EF42C2B424}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBF64813-7154-4873-84BE-61EF42C2B424}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CCE5A8F8-E097-4ED2-A0AF-6E7A56672DFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CCE5A8F8-E097-4ED2-A0AF-6E7A56672DFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CCE5A8F8-E097-4ED2-A0AF-6E7A56672DFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CCE5A8F8-E097-4ED2-A0AF-6E7A56672DFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50B54FD8-56CA-404C-9E8F-1AEDE714FC69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50B54FD8-56CA-404C-9E8F-1AEDE714FC69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50B54FD8-56CA-404C-9E8F-1AEDE714FC69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50B54FD8-56CA-404C-9E8F-1AEDE714FC69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
